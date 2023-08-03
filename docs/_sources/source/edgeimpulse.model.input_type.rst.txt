@@ -1,0 +1,7 @@
+edgeimpulse.model.input\_type module
+====================================
+
+.. automodule:: edgeimpulse.model.input_type
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+edgeimpulse.util module
+=======================
+
+.. automodule:: edgeimpulse.util
+   :members:
+   :undoc-members:
+   :show-inheritance:

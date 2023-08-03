@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edgeimpulse.exceptions &mdash; Edge Impulse Python SDK  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Edge Impulse Python SDK
+          </a>
+              <div class="version">
+                1.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.model.html">edgeimpulse.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.util.html">edgeimpulse.util module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Edge Impulse Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edgeimpulse.exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for edgeimpulse.exceptions</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+
+<div class="viewcode-block" id="EdgeImpulseException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.EdgeImpulseException">[docs]</a><span class="k">class</span> <span class="nc">EdgeImpulseException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">message</span>
+            <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">For more information see https://docs.edgeimpulse.com/reference/python-sdk&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; or ask a question at https://forum.edgeimpulse.com/&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvalidDeviceException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeviceException">[docs]</a><span class="k">class</span> <span class="nc">InvalidDeviceException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid device is passed.</span>
+
+<span class="sd">    Atrributes:</span>
+<span class="sd">        device (str): device type to profile</span>
+<span class="sd">        profile devices (List[str]): List of devices for a project as strings.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">profile_devices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile_devices</span> <span class="o">=</span> <span class="n">profile_devices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid device: [</span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">] valid types are: </span><span class="si">{</span><span class="n">profile_devices</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvalidTargetException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException">[docs]</a><span class="k">class</span> <span class="nc">InvalidTargetException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exception raised when an invalid target is passed.</span>
+<span class="sd">        For a list of valid targets use `edgeimpulse.model.list_deployment_targets()`.</span>
+
+<span class="sd">    Atrributes:</span>
+<span class="sd">        deploy_target (str): Target to deploy to.</span>
+<span class="sd">        target_names (List[str]): List of targets for a project as strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deploy_target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deploy_target</span> <span class="o">=</span> <span class="n">deploy_target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_names</span> <span class="o">=</span> <span class="n">target_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;deploy_target: [</span><span class="si">{</span><span class="n">deploy_target</span><span class="si">}</span><span class="s2">] not in </span><span class="si">{</span><span class="n">target_names</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvalidEngineException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException">[docs]</a><span class="k">class</span> <span class="nc">InvalidEngineException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised when an invalid engine is passed.</span>
+<span class="sd">    For a list of valid engines use `edgeimpulse.model.list_engines()`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation_error</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">validation_error</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="InvalidDeployParameterException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeployParameterException">[docs]</a><span class="k">class</span> <span class="nc">InvalidDeployParameterException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid parameter is passed.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvalidAuthTypeException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidAuthTypeException">[docs]</a><span class="k">class</span> <span class="nc">InvalidAuthTypeException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MissingApiKeyException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.MissingApiKeyException">[docs]</a><span class="k">class</span> <span class="nc">MissingApiKeyException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;API key was None, ensure you have set module level &quot;</span>
+                <span class="s2">&quot;variable `edgeimpulse.API_KEY` or the environment &quot;</span>
+                <span class="s2">&quot;variable `EI_API_KEY`. For help finding your &quot;</span>
+                <span class="s2">&quot;API keys see https://docs.edgeimpulse.com/reference/edge-impulse-api/edge-impulse-api#api-key.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InvalidModelException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidModelException">[docs]</a><span class="k">class</span> <span class="nc">InvalidModelException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="UnsuccessfulRequestException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.UnsuccessfulRequestException">[docs]</a><span class="k">class</span> <span class="nc">UnsuccessfulRequestException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;The Edge Impulse API responded with an error.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Error message: &#39;</span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="s2">&quot;There was no error message included.&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Edge Impulse Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

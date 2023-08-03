@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edgeimpulse.util module &mdash; Edge Impulse Python SDK  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="edgeimpulse.model.output_type module" href="edgeimpulse.model.output_type.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Impulse Python SDK
+          </a>
+              <div class="version">
+                1.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.model.html">edgeimpulse.model package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">edgeimpulse.util module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.check_response_errors"><code class="docutils literal notranslate"><span class="pre">check_response_errors()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.configure_generic_client"><code class="docutils literal notranslate"><span class="pre">configure_generic_client()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.default_project_id_for"><code class="docutils literal notranslate"><span class="pre">default_project_id_for()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.encode_file_as_base64"><code class="docutils literal notranslate"><span class="pre">encode_file_as_base64()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.get_profile_devices"><code class="docutils literal notranslate"><span class="pre">get_profile_devices()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.get_project_deploy_targets"><code class="docutils literal notranslate"><span class="pre">get_project_deploy_targets()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.inspect_model"><code class="docutils literal notranslate"><span class="pre">inspect_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.inspect_representative_data"><code class="docutils literal notranslate"><span class="pre">inspect_representative_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_keras_model"><code class="docutils literal notranslate"><span class="pre">is_keras_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_numpy_array"><code class="docutils literal notranslate"><span class="pre">is_numpy_array()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_onnx_model"><code class="docutils literal notranslate"><span class="pre">is_onnx_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_path_to_numpy_file"><code class="docutils literal notranslate"><span class="pre">is_path_to_numpy_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_path_to_onnx_model"><code class="docutils literal notranslate"><span class="pre">is_path_to_onnx_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_path_to_tf_saved_model_directory"><code class="docutils literal notranslate"><span class="pre">is_path_to_tf_saved_model_directory()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_path_to_tf_saved_model_zipped"><code class="docutils literal notranslate"><span class="pre">is_path_to_tf_saved_model_zipped()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.is_type_accepted_by_open"><code class="docutils literal notranslate"><span class="pre">is_type_accepted_by_open()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.make_zip_archive"><code class="docutils literal notranslate"><span class="pre">make_zip_archive()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.numpy_installed"><code class="docutils literal notranslate"><span class="pre">numpy_installed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.onnx_installed"><code class="docutils literal notranslate"><span class="pre">onnx_installed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.poll"><code class="docutils literal notranslate"><span class="pre">poll()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.save_model"><code class="docutils literal notranslate"><span class="pre">save_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.save_representative_data"><code class="docutils literal notranslate"><span class="pre">save_representative_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.tensorflow_installed"><code class="docutils literal notranslate"><span class="pre">tensorflow_installed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edgeimpulse.util.upload_pretrained_model_and_data"><code class="docutils literal notranslate"><span class="pre">upload_pretrained_model_and_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Impulse Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">edgeimpulse.util module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/edgeimpulse.util.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-edgeimpulse.util">
+<span id="edgeimpulse-util-module"></span><h1>edgeimpulse.util module<a class="headerlink" href="#module-edgeimpulse.util" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.check_response_errors">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">check_response_errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#check_response_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.check_response_errors" title="Permalink to this definition"></a></dt>
+<dd><p>Checks API responses for standard errors and raises an exception with the details if found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.configure_generic_client">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">configure_generic_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'api'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://studio.edgeimpulse.com/v1'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ApiClient</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#configure_generic_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.configure_generic_client" title="Permalink to this definition"></a></dt>
+<dd><p>Helper funtion to configure generic api client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>) – api, jwt or jwt_http key.</p></li>
+<li><p><strong>key_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of key. Defaults to ‘api’.</p></li>
+<li><p><strong>host</strong> (<em>str</em>) – API host url. Defaults to “<a class="reference external" href="https://studio.edgeimpulse.com/v1">https://studio.edgeimpulse.com/v1</a>”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – Unrecognized key_type</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Generic API client used in other generated APIs</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ApiClient</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.default_project_id_for">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">default_project_id_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ApiClient</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#default_project_id_for"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.default_project_id_for" title="Permalink to this definition"></a></dt>
+<dd><p>Derive project id from api_key used to configure generic client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Project id</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.encode_file_as_base64">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">encode_file_as_base64</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#encode_file_as_base64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.encode_file_as_base64" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.get_profile_devices">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">get_profile_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ApiClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#get_profile_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.get_profile_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Pull a list of profile devices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of profile targets for project</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.get_project_deploy_targets">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">get_project_deploy_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ApiClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#get_project_deploy_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.get_project_deploy_targets" title="Permalink to this definition"></a></dt>
+<dd><p>Pull a list of deploy targets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of deploy targets for project</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.inspect_model">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">inspect_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#inspect_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.inspect_model" title="Permalink to this definition"></a></dt>
+<dd><p>Helper function to load tflite model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – Supports a number of ways of representing a model including
+1) A Path / str filename of an onnx file, a Keras
+saved_model.zip, a TensorFlow saved_model directory or saved
+tflite model. 2) a Keras model instance. 3) an ONNX model
+instance</p></li>
+<li><p><strong>tempdir</strong> – temp dir used to write saved form of any in memory
+model passed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(model type suitable for API,</dt><dd><p>path to model saved suitable for API)</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.inspect_representative_data">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">inspect_representative_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#inspect_representative_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.inspect_representative_data" title="Permalink to this definition"></a></dt>
+<dd><p>Ensure representative data is saved to disk for upload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – either a str/Path to a numpy array or a np.ndarray</p></li>
+<li><p><strong>directory</strong> – a str with a directory path that the data should be saved to if necessary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>string path to the saved file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_keras_model">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_keras_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_keras_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_keras_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_numpy_array">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_numpy_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_numpy_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_numpy_array" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_onnx_model">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_onnx_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_onnx_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_onnx_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_path_to_numpy_file">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_path_to_numpy_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_path_to_numpy_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_path_to_numpy_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_path_to_onnx_model">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_path_to_onnx_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_path_to_onnx_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_path_to_onnx_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_path_to_tf_saved_model_directory">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_path_to_tf_saved_model_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_path_to_tf_saved_model_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_path_to_tf_saved_model_directory" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_path_to_tf_saved_model_zipped">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_path_to_tf_saved_model_zipped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_path_to_tf_saved_model_zipped"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_path_to_tf_saved_model_zipped" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.is_type_accepted_by_open">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">is_type_accepted_by_open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#is_type_accepted_by_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.is_type_accepted_by_open" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.make_zip_archive">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">make_zip_archive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">saved_model_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#make_zip_archive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.make_zip_archive" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.numpy_installed">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">numpy_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#numpy_installed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.numpy_installed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.onnx_installed">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">onnx_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#onnx_installed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.onnx_installed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.poll">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">poll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">jobs_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JobsApi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GetJobResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#poll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.poll" title="Permalink to this definition"></a></dt>
+<dd><p>Helper function to syncronously poll a specific job within a project</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>jobs_client</strong> (<em>JobsApi</em>) – JobsApi client</p></li>
+<li><p><strong>project_id</strong> (<em>int</em>) – Project id number</p></li>
+<li><p><strong>job_id</strong> (<em>int</em>) – Job id to poll</p></li>
+<li><p><strong>timeout_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Optional timeout for polling.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>e</strong> – Unhandled exception from api</p></li>
+<li><p><strong>Exception</strong> – Timeout waiting for result</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure containing job information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>GetJobResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.save_model">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">save_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#save_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.save_model" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.save_representative_data">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">save_representative_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#save_representative_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.save_representative_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.tensorflow_installed">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">tensorflow_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#tensorflow_installed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.tensorflow_installed" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.upload_pretrained_model_and_data">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">upload_pretrained_model_and_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tempdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ApiClient</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representative_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#upload_pretrained_model_and_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.upload_pretrained_model_and_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="edgeimpulse.model.output_type.html" class="btn btn-neutral float-left" title="edgeimpulse.model.output_type module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Edge Impulse Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

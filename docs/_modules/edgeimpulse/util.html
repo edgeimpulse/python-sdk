@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edgeimpulse.util &mdash; Edge Impulse Python SDK  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Edge Impulse Python SDK
+          </a>
+              <div class="version">
+                1.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.model.html">edgeimpulse.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.util.html">edgeimpulse.util module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Edge Impulse Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edgeimpulse.util</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for edgeimpulse.util</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+
+<span class="kn">import</span> <span class="nn">edgeimpulse</span> <span class="k">as</span> <span class="nn">ei</span>
+
+<span class="kn">from</span> <span class="nn">edgeimpulse.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InvalidAuthTypeException</span><span class="p">,</span>
+    <span class="n">MissingApiKeyException</span><span class="p">,</span>
+    <span class="n">InvalidModelException</span><span class="p">,</span>
+    <span class="n">UnsuccessfulRequestException</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">edgeimpulse_api</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ApiClient</span><span class="p">,</span>
+    <span class="n">JobsApi</span><span class="p">,</span>
+    <span class="n">DeploymentApi</span><span class="p">,</span>
+    <span class="n">Configuration</span><span class="p">,</span>
+    <span class="n">ProjectsApi</span><span class="p">,</span>
+    <span class="n">GetJobResponse</span><span class="p">,</span>
+    <span class="n">LearnApi</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="configure_generic_client"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.configure_generic_client">[docs]</a><span class="k">def</span> <span class="nf">configure_generic_client</span><span class="p">(</span>
+    <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">key_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;api&quot;</span><span class="p">,</span>
+    <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;https://studio.edgeimpulse.com/v1&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ApiClient</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper funtion to configure generic api client</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): api, jwt or jwt_http key.</span>
+<span class="sd">        key_type (str, optional): Type of key. Defaults to &#39;api&#39;.</span>
+<span class="sd">        host (str): API host url. Defaults to &quot;https://studio.edgeimpulse.com/v1&quot;.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: Unrecognized key_type</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ApiClient: Generic API client used in other generated APIs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">MissingApiKeyException</span><span class="p">()</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using API host [</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">Configuration</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s2">&quot;api&quot;</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">api_key</span><span class="p">[</span><span class="s2">&quot;ApiKeyAuthentication&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+    <span class="k">elif</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s2">&quot;jwt&quot;</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">api_key</span><span class="p">[</span><span class="s2">&quot;JWTAuthentication&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+    <span class="k">elif</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s2">&quot;jwt_http&quot;</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">api_key</span><span class="p">[</span><span class="s2">&quot;JWTHttpHeaderAuthentication&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unrecognized key_type: </span><span class="si">{</span><span class="n">key_type</span><span class="si">}</span><span class="s2">,</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s1">&#39;Valid key_types: &quot;api&quot;, &quot;jwt&quot;, &quot;jwt_http&quot;&#39;</span>
+        <span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">InvalidAuthTypeException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">ApiClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="c1"># So we know which calls come from the SDK vs the client</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; edgeimpulse-sdk/</span><span class="si">{</span><span class="n">ei</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">return</span> <span class="n">client</span></div>
+
+
+<div class="viewcode-block" id="poll"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.poll">[docs]</a><span class="k">def</span> <span class="nf">poll</span><span class="p">(</span>
+    <span class="n">jobs_client</span><span class="p">:</span> <span class="n">JobsApi</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">job_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GetJobResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to syncronously poll a specific job within a project</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        jobs_client (JobsApi): JobsApi client</span>
+<span class="sd">        project_id (int): Project id number</span>
+<span class="sd">        job_id (int): Job id to poll</span>
+<span class="sd">        timeout_sec (int, optional): Optional timeout for polling.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        e: Unhandled exception from api</span>
+<span class="sd">        Exception: Timeout waiting for result</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        GetJobResponse: Structure containing job information</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout_sec</span><span class="p">)</span> <span class="k">if</span> <span class="n">timeout_sec</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">job_response</span> <span class="o">=</span> <span class="n">jobs_client</span><span class="o">.</span><span class="n">get_job_status</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+            <span class="n">check_response_errors</span><span class="p">(</span><span class="n">job_response</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waiting for job </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2"> to finish...&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">job_response</span><span class="o">.</span><span class="n">job</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;job_response = </span><span class="si">{</span><span class="n">job_response</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logs</span> <span class="o">=</span> <span class="n">jobs_client</span><span class="o">.</span><span class="n">get_jobs_logs</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">job_id</span><span class="p">)</span>
+                <span class="c1"># TODO: parse logs so each stdout entry appears on new line</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Logs for project: </span><span class="si">{</span><span class="n">project_id</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="sa">f</span><span class="s2">&quot;Job: </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">logs</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">job_response</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># What are the set of exceptions we are willing to handle,</span>
+            <span class="c1"># e.g. polling for job not finished</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Job is still running&quot;</span><span class="p">:</span>
+                <span class="c1"># Wait and continue</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Job did not finish successfully&quot;</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Profile response is not available&quot;</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="c1"># Everything else is propagated up</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unhandled exception [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Timeout waiting for result for job_id </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="numpy_installed"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.numpy_installed">[docs]</a><span class="k">def</span> <span class="nf">numpy_installed</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="tensorflow_installed"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.tensorflow_installed">[docs]</a><span class="k">def</span> <span class="nf">tensorflow_installed</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="onnx_installed"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.onnx_installed">[docs]</a><span class="k">def</span> <span class="nf">onnx_installed</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">onnx</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="is_path_to_numpy_file"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_path_to_numpy_file">[docs]</a><span class="k">def</span> <span class="nf">is_path_to_numpy_file</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">is_type_accepted_by_open</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_path_to_onnx_model"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_path_to_onnx_model">[docs]</a><span class="k">def</span> <span class="nf">is_path_to_onnx_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">is_type_accepted_by_open</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.onnx&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_type_accepted_by_open"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_type_accepted_by_open">[docs]</a><span class="k">def</span> <span class="nf">is_type_accepted_by_open</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">Path</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="is_path_to_tf_saved_model_zipped"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_path_to_tf_saved_model_zipped">[docs]</a><span class="k">def</span> <span class="nf">is_path_to_tf_saved_model_zipped</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_type_accepted_by_open</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">zip_file</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;saved_model/saved_model.pb&quot;</span> <span class="ow">in</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">zipfile</span><span class="o">.</span><span class="n">BadZipFile</span><span class="p">,</span> <span class="ne">IsADirectoryError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_path_to_tf_saved_model_directory"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_path_to_tf_saved_model_directory">[docs]</a><span class="k">def</span> <span class="nf">is_path_to_tf_saved_model_directory</span><span class="p">(</span><span class="n">model_dir</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/saved_model.pb&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="encode_file_as_base64"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.encode_file_as_base64">[docs]</a><span class="k">def</span> <span class="nf">encode_file_as_base64</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="is_keras_model"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_keras_model">[docs]</a><span class="k">def</span> <span class="nf">is_keras_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">tensorflow_installed</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+    <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="is_onnx_model"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_onnx_model">[docs]</a><span class="k">def</span> <span class="nf">is_onnx_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">onnx_installed</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span> <span class="nn">onnx</span>
+
+    <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">),</span> <span class="n">onnx</span><span class="o">.</span><span class="n">ModelProto</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="is_numpy_array"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.is_numpy_array">[docs]</a><span class="k">def</span> <span class="nf">is_numpy_array</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy_installed</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span></div>
+
+
+<div class="viewcode-block" id="make_zip_archive"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.make_zip_archive">[docs]</a><span class="k">def</span> <span class="nf">make_zip_archive</span><span class="p">(</span><span class="n">saved_model_path</span><span class="p">):</span>
+    <span class="n">zip_path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span>
+        <span class="n">saved_model_path</span><span class="p">,</span>
+        <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
+        <span class="n">root_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">saved_model_path</span><span class="p">),</span>
+        <span class="n">base_dir</span><span class="o">=</span><span class="s2">&quot;saved_model&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">zip_path</span></div>
+
+
+<div class="viewcode-block" id="save_model"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.save_model">[docs]</a><span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model is already located at path </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">tensorflow_installed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">is_keras_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+        <span class="c1"># Note: this needs to exactly match the format studio</span>
+        <span class="c1"># expects for unpacking</span>
+        <span class="n">saved_model_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">saved_model_path</span><span class="p">,</span> <span class="n">save_format</span><span class="o">=</span><span class="s2">&quot;tf&quot;</span><span class="p">)</span>
+        <span class="n">zip_path</span> <span class="o">=</span> <span class="n">make_zip_archive</span><span class="p">(</span><span class="n">saved_model_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">zip_path</span>
+    <span class="k">if</span> <span class="n">onnx_installed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">is_onnx_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">onnx</span>
+        <span class="n">onnx_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;model.onnx&quot;</span><span class="p">)</span>
+        <span class="n">onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">onnx_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">onnx_path</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="p">:</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;model&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filepath</span>
+
+    <span class="k">raise</span> <span class="n">InvalidModelException</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Model was unexpected type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="si">}</span><span class="s2"> and could not be processed&quot;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="inspect_model"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.inspect_model">[docs]</a><span class="k">def</span> <span class="nf">inspect_model</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">tempdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to load tflite model</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model: Supports a number of ways of representing a model including</span>
+<span class="sd">               1) A Path / str filename of an onnx file, a Keras</span>
+<span class="sd">               saved_model.zip, a TensorFlow saved_model directory or saved</span>
+<span class="sd">               tflite model. 2) a Keras model instance. 3) an ONNX model</span>
+<span class="sd">               instance</span>
+<span class="sd">        tempdir: temp dir used to write saved form of any in memory</span>
+<span class="sd">                 model passed</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple(str): (model type suitable for API,</span>
+<span class="sd">                     path to model saved suitable for API)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_path_to_onnx_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as ONNX (by path) [</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;onnx&quot;</span><span class="p">,</span> <span class="n">model</span>
+
+        <span class="k">elif</span> <span class="n">is_path_to_tf_saved_model_zipped</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Model parsed as SavedModel (by zip filename) [</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">,</span> <span class="n">model</span>
+
+        <span class="k">elif</span> <span class="n">is_path_to_tf_saved_model_directory</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as SavedModel (by directory) [</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+
+            <span class="n">root_dir</span><span class="p">,</span> <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">root_dir</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="c1"># Make_archive wants an explicit .</span>
+                <span class="n">root_dir</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+
+            <span class="k">if</span> <span class="n">basename</span> <span class="o">!=</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">:</span>
+                <span class="c1"># Upload wants a zip that has &#39;saved_model/&#39; as the root</span>
+                <span class="c1"># so, if this is not the case, work off a tmp copy so it will</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tempdir</span><span class="si">}</span><span class="s2">/saved_model&quot;</span><span class="p">)</span>
+                <span class="n">root_dir</span> <span class="o">=</span> <span class="n">tempdir</span>
+                <span class="n">basename</span> <span class="o">=</span> <span class="s2">&quot;saved_model&quot;</span>
+
+            <span class="n">zip_base_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tempdir</span><span class="si">}</span><span class="s2">/saved_model&quot;</span>
+
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Zipping; zip_base_filename=[</span><span class="si">{</span><span class="n">zip_base_filename</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; root_dir=[</span><span class="si">{</span><span class="n">root_dir</span><span class="si">}</span><span class="s2">] base_dir=[saved_model]&quot;</span>
+            <span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span>
+                <span class="n">zip_base_filename</span><span class="p">,</span>
+                <span class="s2">&quot;zip&quot;</span><span class="p">,</span>
+                <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">,</span>
+                <span class="n">base_dir</span><span class="o">=</span><span class="s2">&quot;saved_model&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">zip_base_filename</span><span class="si">}</span><span class="s2">.zip&quot;</span>
+
+        <span class="k">elif</span> <span class="n">tensorflow_installed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">is_keras_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as keras model (in memory)&quot;</span><span class="p">)</span>
+            <span class="n">saved_model_path</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tempdir</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;saved_model&quot;</span><span class="p">,</span> <span class="n">saved_model_path</span>
+        
+        <span class="k">elif</span> <span class="n">onnx_installed</span><span class="p">()</span> <span class="ow">and</span> <span class="n">is_onnx_model</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as ONNX model (in memory)&quot;</span><span class="p">)</span>
+            <span class="n">onnx_path</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tempdir</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;onnx&quot;</span><span class="p">,</span> <span class="n">onnx_path</span>
+
+        <span class="k">elif</span> <span class="n">is_type_accepted_by_open</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as assumed tflite file (on disk) [</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;tflite&quot;</span><span class="p">,</span> <span class="n">model</span>
+
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model parsed as assumed tflite file (in memory)&quot;</span><span class="p">)</span>
+            <span class="n">saved_model_path</span> <span class="o">=</span> <span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tempdir</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;tflite&quot;</span><span class="p">,</span> <span class="n">saved_model_path</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unexpected model type&quot;</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidModelException</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Was unable to load_model of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; with exception </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="inspect_representative_data"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.inspect_representative_data">[docs]</a><span class="k">def</span> <span class="nf">inspect_representative_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ensure representative data is saved to disk for upload.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: either a str/Path to a numpy array or a np.ndarray</span>
+<span class="sd">        directory: a str with a directory path that the data should be saved to if necessary</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        string path to the saved file</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">is_path_to_numpy_file</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown representative data file </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">. Expecting file ending in .npy.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">numpy_installed</span><span class="p">():</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Can&#39;t parse representative data. Expecting file ending in .npy but received </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="save_representative_data"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.save_representative_data">[docs]</a><span class="k">def</span> <span class="nf">save_representative_data</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">numpy_installed</span><span class="p">():</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;Directory must be specified if a numpy array is provided&quot;</span>
+                <span class="p">)</span>
+            <span class="n">tmp_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2">/data.npy&quot;</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">tmp_filename</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tmp_filename</span>
+
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Can&#39;t parse representative data. Unknown type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="default_project_id_for"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.default_project_id_for">[docs]</a><span class="k">def</span> <span class="nf">default_project_id_for</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Derive project id from api_key used to configure generic client</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (ApiClient): Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Project id</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">projects</span> <span class="o">=</span> <span class="n">ProjectsApi</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s2">&quot;JWT&quot;</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">api_key</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;This helper function is for use with project api_key only</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Use get_project_id_list() for api clients configured jwt or jwt_http key&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">InvalidAuthTypeException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">projects</span><span class="o">.</span><span class="n">list_projects</span><span class="p">()</span>
+        <span class="n">check_response_errors</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">projects</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception trying to fetch project ID [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Derived project_id=</span><span class="si">{</span><span class="n">project_id</span><span class="si">}</span><span class="s2"> based on api key&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">project_id</span></div>
+
+
+<div class="viewcode-block" id="get_project_deploy_targets"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.get_project_deploy_targets">[docs]</a><span class="k">def</span> <span class="nf">get_project_deploy_targets</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">,</span> <span class="n">project_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pull a list of deploy targets</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (ApiClient): Generic api client configured with a project api key</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[str]: List of deploy targets for project</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">project_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="n">default_project_id_for</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">deploy</span> <span class="o">=</span> <span class="n">DeploymentApi</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">deploy</span><span class="o">.</span><span class="n">list_deployment_targets_for_project_data_sources</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+        <span class="n">check_response_errors</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">targets</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception trying to fetch project ID [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">&quot;format&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_profile_devices"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.get_profile_devices">[docs]</a><span class="k">def</span> <span class="nf">get_profile_devices</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">,</span> <span class="n">project_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pull a list of profile devices</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        client (ApiClient): Generic api client configured with a project api key</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List[str]: List of profile targets for project</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">project_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">project_id</span> <span class="o">=</span> <span class="n">default_project_id_for</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">projects</span> <span class="o">=</span> <span class="n">ProjectsApi</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">projects</span><span class="o">.</span><span class="n">get_project_info</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
+        <span class="n">check_response_errors</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">latency_devices</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">latency_devices</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception trying to fetch project ID [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">mcu</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">latency_devices</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="upload_pretrained_model_and_data"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.upload_pretrained_model_and_data">[docs]</a><span class="k">def</span> <span class="nf">upload_pretrained_model_and_data</span><span class="p">(</span>
+    <span class="n">tempdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">ApiClient</span><span class="p">,</span>
+    <span class="n">project_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">representative_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="c1"># Determine the type of model we have and make sure it is present on disk</span>
+    <span class="n">model_file_type</span><span class="p">,</span> <span class="n">model_path</span> <span class="o">=</span> <span class="n">inspect_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tempdir</span><span class="p">)</span>
+
+    <span class="c1"># Determine the type of representative features we have and make sure they are</span>
+    <span class="c1"># present on disk</span>
+    <span class="n">representative_features_path</span> <span class="o">=</span> <span class="n">inspect_representative_data</span><span class="p">(</span><span class="n">representative_data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">representative_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">representative_features_path</span><span class="p">:</span>
+        <span class="n">representative_features_path</span> <span class="o">=</span> <span class="n">save_representative_data</span><span class="p">(</span>
+            <span class="n">representative_data</span><span class="p">,</span> <span class="n">tempdir</span>
+        <span class="p">)</span>
+
+    <span class="n">learn</span> <span class="o">=</span> <span class="n">LearnApi</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+    <span class="n">jobs</span> <span class="o">=</span> <span class="n">JobsApi</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">upload_pretrained_model</span><span class="p">(</span>
+            <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+            <span class="n">model_file</span><span class="o">=</span><span class="n">model_path</span><span class="p">,</span>
+            <span class="n">model_file_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">model_path</span><span class="p">),</span>
+            <span class="n">model_file_type</span><span class="o">=</span><span class="n">model_file_type</span><span class="p">,</span>
+            <span class="n">representative_features</span><span class="o">=</span><span class="n">representative_features_path</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">check_response_errors</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">job_id</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">id</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidModelException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception starting upload job [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="n">job_response</span> <span class="o">=</span> <span class="n">poll</span><span class="p">(</span>
+        <span class="n">jobs_client</span><span class="o">=</span><span class="n">jobs</span><span class="p">,</span>
+        <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+        <span class="n">job_id</span><span class="o">=</span><span class="n">job_id</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">job_response</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">job_response</span></div>
+
+
+<div class="viewcode-block" id="check_response_errors"><a class="viewcode-back" href="../../source/edgeimpulse.util.html#edgeimpulse.util.check_response_errors">[docs]</a><span class="k">def</span> <span class="nf">check_response_errors</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks API responses for standard errors and raises an exception with the details if found.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;success&quot;</span><span class="p">):</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">success</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">):</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">if</span> <span class="n">success</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnsuccessfulRequestException</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Edge Impulse Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

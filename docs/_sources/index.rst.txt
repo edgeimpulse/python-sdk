@@ -1,0 +1,19 @@
+Edge Impulse Python SDK API Reference
+=====================================
+
+Welcome to the Edge Impulse Python SDK! To get started, please see our `guides here <https://docs.edgeimpulse.com/docs/edge-impulse-python-sdk/overview>`_.
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents:
+   
+   source/edgeimpulse.exceptions
+   source/edgeimpulse.model
+   source/edgeimpulse.util
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

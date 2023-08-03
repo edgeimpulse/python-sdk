@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edgeimpulse.methods.deploy module &mdash; Edge Impulse Python SDK  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Edge Impulse Python SDK
+          </a>
+              <div class="version">
+                1.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.model.html">edgeimpulse.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">edgeimpulse.util module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Edge Impulse Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">edgeimpulse.methods.deploy module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/edgeimpulse.methods.deploy.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-edgeimpulse.methods.deploy">
+<span id="edgeimpulse-methods-deploy-module"></span><h1>edgeimpulse.methods.deploy module<a class="headerlink" href="#module-edgeimpulse.methods.deploy" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.methods.deploy.deploy">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.methods.deploy.</span></span><span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification" title="edgeimpulse.model.output_type.Classification"><span class="pre">Classification</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression" title="edgeimpulse.model.output_type.Regression"><span class="pre">Regression</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection" title="edgeimpulse.model.output_type.ObjectDetection"><span class="pre">ObjectDetection</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput" title="edgeimpulse.model.input_type.ImageInput"><span class="pre">ImageInput</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput" title="edgeimpulse.model.input_type.AudioInput"><span class="pre">AudioInput</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput" title="edgeimpulse.model.input_type.TimeSeriesInput"><span class="pre">TimeSeriesInput</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput" title="edgeimpulse.model.input_type.OtherInput"><span class="pre">OtherInput</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representative_data_for_quantization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deploy_model_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'tflite'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deploy_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zip'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BytesIO</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.methods.deploy.deploy" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms a machine learning model into a library for an edge device</p>
+<p>Transforms a trained model into a library, package, or firmware ready to deploy on an embedded device. Can optionally
+apply post-training quantization if a representative data sample is uploaded.</p>
+<p>Supported model formats:
+* [Keras Model instance](<a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">https://www.tensorflow.org/api_docs/python/tf/keras/Model</a>)
+* [TensorFlow SavedModel](<a class="reference external" href="https://www.tensorflow.org/guide/saved_model">https://www.tensorflow.org/guide/saved_model</a>) (as path to directory or <cite>.zip</cite> file)
+* [ONNX model file](<a class="reference external" href="https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model">https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model</a>) (as path to <cite>.onnx</cite> file)
+* [TensorFlow Lite file](<a class="reference external" href="https://www.tensorflow.org/lite/guide">https://www.tensorflow.org/lite/guide</a>) (as bytes, or path to any file that is not <cite>.zip</cite> or <cite>.onnx</cite>)</p>
+<p>Representative data for quantization:
+* Must be a numpy array or <cite>.npy</cite> file.
+* Each element must have the same shape as your model’s input.
+* Must be representative of the range (maximum and minimum) of values in your training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em>) – A machine learning model, or similarly represented computational graph.
+Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite> containing a model, or a Keras model instance.</p></li>
+<li><p><strong>model_output_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification" title="edgeimpulse.model.output_type.Classification"><em>Classification</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression" title="edgeimpulse.model.output_type.Regression"><em>Regression</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection" title="edgeimpulse.model.output_type.ObjectDetection"><em>ObjectDetection</em></a><em>]</em>) – Describe your model’s type:
+Classification, Regression, or ObjectDetection. The types are available in the module <cite>edgeimpulse.model.output_type</cite>.</p></li>
+<li><p><strong>model_input_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput" title="edgeimpulse.model.input_type.ImageInput"><em>ImageInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput" title="edgeimpulse.model.input_type.AudioInput"><em>AudioInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput" title="edgeimpulse.model.input_type.TimeSeriesInput"><em>TimeSeriesInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput" title="edgeimpulse.model.input_type.OtherInput"><em>OtherInput</em></a><em>]</em><em>, </em><em>optional</em>) – Determines any input preprocessing
+(windowing, downsampling) that should be performed by the resulting library. The types are available
+in <cite>edgeimpulse.model.input_type</cite>. The default is no preprocessing.</p></li>
+<li><p><strong>representative_data_for_quantization</strong> – A numpy representative input dataset. Accepts either an in memory numpy
+array or the Path/str filename of a np.save .npy file.</p></li>
+<li><p><strong>deploy_model_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Use <cite>int8</cite> to receive an 8-bit quantized model, <cite>float32</cite> for
+non-quantized. Defaults to None, in which case it will become <cite>int8</cite> if representative_data_for_quantization if provided and <cite>float32</cite> otherwise. For other values see <cite>edgeimpulse.model.list_model_types()</cite>.</p></li>
+<li><p><strong>engine</strong> (<em>str</em><em>, </em><em>optional</em>) – Inference engine. Either <cite>tflite</cite> (for TensorFlow Lite for Microcontrollers)
+or <cite>tflite-eon</cite> (for EON Compiler) to output a portable C++ library. For all engines, call <cite>edgeimpulse.deploy.list_engines()</cite>. Defaults to <cite>tflite</cite>.</p></li>
+<li><p><strong>deploy_target</strong> (<em>str</em><em>, </em><em>optional</em>) – Target to deploy to, defaulting to a portable C++ library suitable for
+most devices. See <cite>edgeimpulse.model.list_deployment_targets()</cite> for a list.</p></li>
+<li><p><strong>output_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to write deployment artifact to. File name may vary depending
+on deployment type. Defaults to None in which case model will not be written to file.</p></li>
+<li><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via the module-level
+variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A stream containing a binary representation of the deployment output.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>BytesIO</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidAuthTypeException" title="edgeimpulse.exceptions.InvalidAuthTypeException"><strong>InvalidAuthTypeException</strong></a> – Incorrect authentication type was provided.</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeployParameterException" title="edgeimpulse.exceptions.InvalidDeployParameterException"><strong>InvalidDeployParameterException</strong></a> – Unacceptable parameter given to deploy function.</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException" title="edgeimpulse.exceptions.InvalidEngineException"><strong>InvalidEngineException</strong></a> – Unacceptable engine for this target.</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException" title="edgeimpulse.exceptions.InvalidTargetException"><strong>InvalidTargetException</strong></a> – Unacceptable deploy_target for this project.</p></li>
+<li><p><strong>FileNotFoundError</strong> – Model file could not be loaded.</p></li>
+<li><p><strong>Exception</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Turn a Keras model into a C++ library and write to disk</span>
+<span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">keras_model</span><span class="p">,</span>
+                <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Classification</span><span class="p">(),</span>
+                <span class="n">output_directory</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert various types of serialized models:</span>
+<span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.onnx&quot;</span><span class="p">,</span> <span class="c1"># ONNX</span>
+                <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Regression</span><span class="p">())</span>
+<span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate&quot;</span><span class="p">,</span> <span class="c1"># TensorFlow SavedModel (can also be a zip)</span>
+                <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Regression</span><span class="p">())</span>
+<span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.lite&quot;</span><span class="p">,</span> <span class="c1"># TensorFlow Lite</span>
+                <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Regression</span><span class="p">())</span>
+
+<span class="c1"># Quantize a model to int8 during deployment by passing a numpy array of data</span>
+<span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">keras_model</span><span class="p">,</span>
+                <span class="n">representative_data_for_quantization</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span>
+                <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Classification</span><span class="p">(),</span>
+                <span class="n">output_directory</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+<span class="c1"># The function returns a BytesIO which can be written as desired</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">keras_model</span><span class="p">,</span>
+                         <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Classification</span><span class="p">())</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;destination.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.methods.deploy.list_deployment_targets">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.methods.deploy.</span></span><span class="sig-name descname"><span class="pre">list_deployment_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_deployment_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.methods.deploy.list_deployment_targets" title="Permalink to this definition"></a></dt>
+<dd><p>Lists suitable deployment targets for the project associated with configured or provided api key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project.
+This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of deploy targets for project</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.methods.deploy.list_engines">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.methods.deploy.</span></span><span class="sig-name descname"><span class="pre">list_engines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_engines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.methods.deploy.list_engines" title="Permalink to this definition"></a></dt>
+<dd><p>Lists all the engines that can be passed to <cite>deploy()</cite>’s <cite>engine</cite> parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of engines</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.methods.deploy.list_model_types">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.methods.deploy.</span></span><span class="sig-name descname"><span class="pre">list_model_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_model_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.methods.deploy.list_model_types" title="Permalink to this definition"></a></dt>
+<dd><p>Lists all the model types that can passed to <cite>deploy()</cite>’s <cite>deploy_model_type</cite> parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of model types</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Edge Impulse Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

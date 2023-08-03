@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edgeimpulse.model.output_type &mdash; Edge Impulse Python SDK  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Edge Impulse Python SDK
+          </a>
+              <div class="version">
+                1.0.5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.model.html">edgeimpulse.model package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">edgeimpulse.util module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Edge Impulse Python SDK</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">edgeimpulse.model.output_type</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for edgeimpulse.model.output_type</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
+
+<div class="viewcode-block" id="Classification"><a class="viewcode-back" href="../../../source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification">[docs]</a><span class="k">class</span> <span class="nc">Classification</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a classifier output with an optional list of label names.</span>
+
+<span class="sd">        If no list is provided then numeric labels will be assigned according to the</span>
+<span class="sd">        order of outputs.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            labels (Optional[List[str]]): A list of label names, one per index in the</span>
+<span class="sd">                output tensor. If no list is provided then numeric labels will be</span>
+<span class="sd">                assigned according to the order of outputs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;modelType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;classification&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="Regression"><a class="viewcode-back" href="../../../source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression">[docs]</a><span class="k">class</span> <span class="nc">Regression</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a regression output with a single value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;modelType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;regression&quot;</span></div>
+
+
+<div class="viewcode-block" id="ObjectDetection"><a class="viewcode-back" href="../../../source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection">[docs]</a><span class="k">class</span> <span class="nc">ObjectDetection</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">last_layer</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+            <span class="n">Literal</span><span class="p">[</span>
+                <span class="s2">&quot;mobilenet-ssd&quot;</span><span class="p">,</span> <span class="s2">&quot;fomo&quot;</span><span class="p">,</span> <span class="s2">&quot;yolov5&quot;</span><span class="p">,</span> <span class="s2">&quot;yolo5v5-drpai&quot;</span><span class="p">,</span> <span class="s2">&quot;yolox&quot;</span><span class="p">,</span> <span class="s2">&quot;yolov7&quot;</span>
+            <span class="p">],</span>
+            <span class="nb">str</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">minimum_confidence</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an object detection output with a specific format and labels.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            labels (Optional[List[str]]): A list of label names, one per index in the</span>
+<span class="sd">                output tensor. If no list is provided then numeric labels will be</span>
+<span class="sd">                assigned according to the order of outputs.</span>
+<span class="sd">            last_layer (Union[Literal, str]): The output type of the model, depending on</span>
+<span class="sd">                the type of object detection model this is. Many common formats are</span>
+<span class="sd">                supported. A full list can be found at https://docs.edgeimpulse.com/reference/edgeimpulse_apimodelsobject_detection_last_layer#edgeimpulse_apimodelsobject_detection_last_layer-module.</span>
+<span class="sd">            minimum_confidence (float): The minimum confidence value, from 0 to 1.</span>
+<span class="sd">                Detected objects with confidence scores below this value will be</span>
+<span class="sd">                ignored. Set to 0 if you wish the model to return all detected objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;modelType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;object-detection&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;lastLayer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_layer</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;minimumConfidence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">minimum_confidence</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Edge Impulse Inc..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
