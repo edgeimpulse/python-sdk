@@ -1,7 +1,0 @@
-edgeimpulse
-===========
-
-.. toctree::
-   :maxdepth: 1
-
-   edgeimpulse
