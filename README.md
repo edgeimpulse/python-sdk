@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://www.edgeimpulse.com/"><img src="https://events.edgeimpulse.com/hs-fs/hubfs/Edge%20Impulse%20Full%20Logo_RGB.png?width=1817&name=Edge%20Impulse%20Full%20Logo_RGB.png?raw=true" alt="Edge Impulse logo"/></a>
+    <a href="https://www.edgeimpulse.com/"><img src="sphinx/assets/Edge Impulse primary logo - black text - white bg.png" alt="Edge Impulse logo"/></a>
 </p>
 
 # Edge Impulse SDK

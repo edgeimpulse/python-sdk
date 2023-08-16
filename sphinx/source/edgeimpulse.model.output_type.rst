@@ -1,0 +1,7 @@
+edgeimpulse.model.output\_type module
+=====================================
+
+.. automodule:: edgeimpulse.model.output_type
+   :members:
+   :undoc-members:
+   :show-inheritance:

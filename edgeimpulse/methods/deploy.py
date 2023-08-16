@@ -62,12 +62,14 @@ def deploy(
     apply post-training quantization if a representative data sample is uploaded.
 
     Supported model formats:
-    * [Keras Model instance](https://www.tensorflow.org/api_docs/python/tf/keras/Model)
-    * [TensorFlow SavedModel](https://www.tensorflow.org/guide/saved_model) (as path to directory or `.zip` file)
-    * [ONNX model file](https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model) (as path to `.onnx` file)
-    * [TensorFlow Lite file](https://www.tensorflow.org/lite/guide) (as bytes, or path to any file that is not `.zip` or `.onnx`)
+
+    * `Keras Model instance <https://www.tensorflow.org/api_docs/python/tf/keras/Model>`_
+    * `TensorFlow SavedModel <https://www.tensorflow.org/guide/saved_model>`_ (as path to directory or `.zip` file)
+    * `ONNX model file <https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model>`_ (as path to `.onnx` file)
+    * `TensorFlow Lite file <https://www.tensorflow.org/lite/guide>`_ (as bytes, or path to any file that is not `.zip` or `.onnx`)
 
     Representative data for quantization:
+
     * Must be a numpy array or `.npy` file.
     * Each element must have the same shape as your model's input.
     * Must be representative of the range (maximum and minimum) of values in your training data.
