@@ -1,5 +1,5 @@
-edgeimpulse.exceptions module
-=============================
+exceptions module
+=================
 
 .. automodule:: edgeimpulse.exceptions
    :members:

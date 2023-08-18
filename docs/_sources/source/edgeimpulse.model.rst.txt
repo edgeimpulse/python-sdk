@@ -1,5 +1,5 @@
-edgeimpulse.model package
-=========================
+model package
+=============
 
 Submodules
 ----------

@@ -235,14 +235,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">edgeimpulse.exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">edgeimpulse.model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of edgeimpulse.model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.input_type.html">edgeimpulse.model.input_type module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.model_info.html">edgeimpulse.model.model_info module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">edgeimpulse.model.output_type module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">edgeimpulse.util module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
 </div>
@@ -300,8 +300,8 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="ProfileResponse"><a class="viewcode-back" href="../../../source/edgeimpulse.methods.profile.html#edgeimpulse.methods.profile.ProfileResponse">[docs]</a><span class="k">class</span> <span class="nc">ProfileResponse</span><span class="p">(</span><span class="n">GetPretrainedModelResponse</span><span class="p">):</span>
-<div class="viewcode-block" id="ProfileResponse.summary"><a class="viewcode-back" href="../../../source/edgeimpulse.methods.profile.html#edgeimpulse.methods.profile.ProfileResponse.summary">[docs]</a>    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">ProfileResponse</span><span class="p">(</span><span class="n">GetPretrainedModelResponse</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a summary of the profiling results&quot;&quot;&quot;</span>
         <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">specific_device_selected</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile_info</span><span class="p">:</span>
@@ -335,15 +335,15 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">))</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
 
-<div class="viewcode-block" id="ProfileResponse.from_dict"><a class="viewcode-back" href="../../../source/edgeimpulse.methods.profile.html#edgeimpulse.methods.profile.ProfileResponse.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an instance of ProfileResponse from a dict&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">obj</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">obj</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="profile"><a class="viewcode-back" href="../../../source/edgeimpulse.model.html#edgeimpulse.methods.profile.profile">[docs]</a><span class="k">def</span> <span class="nf">profile</span><span class="p">(</span>
+<div class="viewcode-block" id="profile"><a class="viewcode-back" href="../../../source/edgeimpulse.model.html#edgeimpulse.model.profile">[docs]</a><span class="k">def</span> <span class="nf">profile</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -452,7 +452,7 @@
     <span class="k">return</span> <span class="n">profile_response</span></div>
 
 
-<div class="viewcode-block" id="list_profile_devices"><a class="viewcode-back" href="../../../source/edgeimpulse.model.html#edgeimpulse.methods.profile.list_profile_devices">[docs]</a><span class="k">def</span> <span class="nf">list_profile_devices</span><span class="p">(</span><span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;List[str]&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="list_profile_devices"><a class="viewcode-back" href="../../../source/edgeimpulse.model.html#edgeimpulse.model.list_profile_devices">[docs]</a><span class="k">def</span> <span class="nf">list_profile_devices</span><span class="p">(</span><span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;List[str]&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Lists possible values for the `device` field when calling `edgeimpulse.model.profile()`.</span>
 
 <span class="sd">    Args:</span>

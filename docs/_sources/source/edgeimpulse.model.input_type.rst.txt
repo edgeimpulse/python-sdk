@@ -1,5 +1,5 @@
-edgeimpulse.model.input\_type module
-====================================
+input\_type module
+==================
 
 .. automodule:: edgeimpulse.model.input_type
    :members:
