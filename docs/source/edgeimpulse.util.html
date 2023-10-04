@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="output_type module" href="edgeimpulse.model.output_type.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>util module - Python SDK1.0.5</title>
+        <title>util module - Python SDK1.0.6</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.5</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -222,11 +222,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/Edge Impulse primary logo - black text - 1400px.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/Edge Impulse primary logo - white text - 1400px.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/edge-impulse-primary-logo-black-text-transparent-bg.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.5</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -510,7 +510,7 @@ model passed</p></li>
 <dd><em class="sig-param"><span class="n"><span class="pre">jobs_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">JobsApi</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">job_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GetJobResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#poll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.poll" title="Permalink to this definition">#</a></dt>
@@ -521,13 +521,13 @@ model passed</p></li>
 <li><p><strong>jobs_client</strong> (<em>JobsApi</em>) – JobsApi client</p></li>
 <li><p><strong>project_id</strong> (<em>int</em>) – Project id number</p></li>
 <li><p><strong>job_id</strong> (<em>int</em>) – Job id to poll</p></li>
-<li><p><strong>timeout_sec</strong> (<em>int</em><em>, </em><em>optional</em>) – Optional timeout for polling.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>float</em><em>, </em><em>optional</em>) – Optional timeout for polling.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>e</strong> – Unhandled exception from api</p></li>
-<li><p><strong>Exception</strong> – Timeout waiting for result</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException" title="edgeimpulse.exceptions.TimeoutException"><strong>TimeoutException</strong></a> – Timeout waiting for result</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -572,10 +572,41 @@ model passed</p></li>
 <dd><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">representative_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#upload_pretrained_model_and_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.upload_pretrained_model_and_data" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GetJobResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/util.html#upload_pretrained_model_and_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.upload_pretrained_model_and_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Upload a model and data to Edge Impulse servers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tempdir</strong> (<em>str</em>) – Temporary directory to hold saved form of any model passed in</p></li>
+<li><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().</p></li>
+<li><p><strong>project_id</strong> (<em>int</em>) – Project id number</p></li>
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>op</em>) – A machine learning model, or similarly represented computational graph.
+Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite> containing a model, or a Keras model instance.</p></li>
+<li><p><strong>representative_data</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – A numpy representative input dataset. Accepts either an in memory numpy
+array or the Path/str filename of a np.save .npy file.</p></li>
+<li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – An embedded processor for which to profile the model.
+A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_devices()</cite>.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout for polling.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>e</strong> – Unhandled exception from api</p></li>
+<li><p><strong>FileNotFoundError</strong> – File or directory not found</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException" title="edgeimpulse.exceptions.TimeoutException"><strong>TimeoutException</strong></a> – Timeout waiting for result from server</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure containing job information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>GetJobResponse</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

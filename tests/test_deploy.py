@@ -21,6 +21,8 @@ import logging
 
 logging.getLogger().setLevel(logging.INFO)
 
+# How long to wait (seconds) for jobs to complete
+JOB_TIMEOUT = 1200.0    # 20 min
 
 def sample_model_path(model_fname):
     current_dir = pathlib.Path(__file__).parent.resolve()
@@ -189,6 +191,20 @@ class TestDeploy(unittest.TestCase):
     # def test_incorrect_api_key(self):
     # def test_invalid_path_for_tflite_file(self):
 
+    def test_timeout(self):
+        #Test deploy polling timeout
+        with tempfile.TemporaryDirectory() as dirname:
+            with self.assertRaises(ei.exceptions.TimeoutException):
+                _ = edgeimpulse.model.deploy(
+                    model=sample_model_path("fan-v3.f32.lite"),
+                    model_output_type=Classification(
+                        labels=["class0", "class1", "class2", "class3"]
+                    ),
+                    output_directory=dirname,
+                    deploy_model_type="float32",
+                    timeout_sec=5.0,
+                )
+
     def test_f32_classification_model(self):
         # TODO: add URL to fan-v3 public project if there is one
         with tempfile.TemporaryDirectory() as dirname:
@@ -199,6 +215,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -210,6 +227,7 @@ class TestDeploy(unittest.TestCase):
                 model_output_type=Classification(),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -222,6 +240,7 @@ class TestDeploy(unittest.TestCase):
                     model_output_type=Classification(labels=["notenough"]),
                     output_directory=dirname,
                     deploy_model_type="float32",
+                    timeout_sec=JOB_TIMEOUT,
                 )
 
     def test_f32_classification_model_using_eon(self):
@@ -235,6 +254,7 @@ class TestDeploy(unittest.TestCase):
                 output_directory=dirname,
                 deploy_model_type="float32",
                 engine="tflite-eon",
+                timeout_sec=JOB_TIMEOUT,
             )
             filename = self.get_only_file(dirname)
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
@@ -254,6 +274,7 @@ class TestDeploy(unittest.TestCase):
                 model_output_type=Regression(),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -266,6 +287,7 @@ class TestDeploy(unittest.TestCase):
                 model_input_type=TimeSeriesInput(frequency_hz=4, windowlength_ms=2000),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -277,6 +299,7 @@ class TestDeploy(unittest.TestCase):
                 model_output_type=Regression(),
                 output_directory=dirname,
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -289,6 +312,7 @@ class TestDeploy(unittest.TestCase):
                     model_output_type=Regression(),
                     output_directory=dirname,
                     deploy_model_type="float32",
+                    timeout_sec=JOB_TIMEOUT,
                 )
 
     def test_i8_classification_model(self):
@@ -301,6 +325,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 output_directory=dirname,
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -314,6 +339,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -328,6 +354,7 @@ class TestDeploy(unittest.TestCase):
                 output_directory=dirname,
                 deploy_model_type="float32",
                 engine="tflite",
+                timeout_sec=JOB_TIMEOUT,
             )
             filename = self.get_only_file(dirname)
             self.verify_valid_zip_file(filename, model)
@@ -352,6 +379,7 @@ class TestDeploy(unittest.TestCase):
                 output_directory=dirname,
                 deploy_model_type="float32",
                 engine="tflite",
+                timeout_sec=JOB_TIMEOUT,
             )
             filename = self.get_only_file(dirname)
             self.verify_valid_zip_file(filename, model)
@@ -373,6 +401,7 @@ class TestDeploy(unittest.TestCase):
             ),
             model_input_type=ImageInput(),
             deploy_model_type="int8",
+            timeout_sec=JOB_TIMEOUT,
         )
         self.verify_valid_zip_file(None, model)
 
@@ -387,6 +416,7 @@ class TestDeploy(unittest.TestCase):
             ),
             model_input_type=ImageInput(),
             deploy_model_type="float32",
+            timeout_sec=JOB_TIMEOUT,
         )
         self.verify_valid_zip_file(None, model)
 
@@ -401,6 +431,7 @@ class TestDeploy(unittest.TestCase):
                 model_input_type=ImageInput(),
                 output_directory=dirname,
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -415,6 +446,7 @@ class TestDeploy(unittest.TestCase):
                 model_input_type=ImageInput(scaling_range='0..255'),
                 output_directory=dirname,
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -429,6 +461,7 @@ class TestDeploy(unittest.TestCase):
                 model_input_type=ImageInput(scaling_range='torch'),
                 output_directory=dirname,
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
 
@@ -453,6 +486,7 @@ class TestDeploy(unittest.TestCase):
             ),
             model_input_type=AudioInput(frequency_hz=16000),
             deploy_model_type="float32",
+            timeout_sec=JOB_TIMEOUT,
         )
         self.verify_valid_zip_file(None, model)
 
@@ -464,7 +498,8 @@ class TestDeploy(unittest.TestCase):
         ):
             edgeimpulse.model.deploy(
                 model=sample_model_path("random_zip_file.zip"),
-                model_output_type=Regression()
+                model_output_type=Regression(),
+                timeout_sec=JOB_TIMEOUT,
             )
 
     def test_invalid_deploy_target(self):
@@ -476,6 +511,7 @@ class TestDeploy(unittest.TestCase):
                 model=sample_model_path("temperature-regression.f32.lite"),
                 model_output_type=Regression(),
                 deploy_target="some_invalid_deploy_target",
+                timeout_sec=JOB_TIMEOUT,
             )
 
     def test_invalid_engine(self):
@@ -484,6 +520,7 @@ class TestDeploy(unittest.TestCase):
                 model=sample_model_path("temperature-regression.f32.lite"),
                 model_output_type=Regression(),
                 engine="sdfsdf",
+                timeout_sec=JOB_TIMEOUT,
             )
 
     def test_call_with_api_key(self):
@@ -495,6 +532,7 @@ class TestDeploy(unittest.TestCase):
                 model=sample_model_path("temperature-regression.f32.lite"),
                 model_output_type=Regression(),
                 api_key=original_key,
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(None, model)
         finally:
@@ -529,6 +567,7 @@ class TestDeploy(unittest.TestCase):
                         labels=["class0", "class1", "class2", "class3"]
                     ),
                     output_directory=dirname,
+                    timeout_sec=JOB_TIMEOUT,
                 )
                 self.verify_valid_zip_file(self.get_only_file(dirname), model)
                 # TODO: what else can we validate here?
@@ -546,6 +585,7 @@ class TestDeploy(unittest.TestCase):
                         labels=["class0", "class1", "class2", "class3"]
                     ),
                     output_directory=dirname,
+                    timeout_sec=JOB_TIMEOUT,
                 )
                 self.verify_valid_zip_file(self.get_only_file(dirname), model)
                 # TODO: what else can we validate here?
@@ -566,6 +606,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 representative_data_for_quantization=path_to_representative_data_on_disk,
                 output_directory=dirname,
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: what else can we validate here?
@@ -591,6 +632,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 representative_data_for_quantization=representative_data_in_memory,
                 output_directory=dirname,
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: what else can we validate here?
@@ -609,6 +651,7 @@ class TestDeploy(unittest.TestCase):
                 representative_data_for_quantization=sample_model_path(
                     "saved_model-representative.wrong_shape.npy"
                 ),
+                timeout_sec=JOB_TIMEOUT,
             )
 
     def test_onnx_model_f32(self):
@@ -622,6 +665,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: what else can we validate here?
@@ -634,6 +678,7 @@ class TestDeploy(unittest.TestCase):
                     labels=["idle", "snake", "updown", "wave"]
                 ),
                 deploy_model_type="int8",
+                timeout_sec=JOB_TIMEOUT,
             )
             # TODO: Check error message was propagated through exception
 
@@ -650,6 +695,7 @@ class TestDeploy(unittest.TestCase):
                     "accelerometer-representative.npy"
                 ),
                 output_directory=dirname,
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: validate was int8ified?
@@ -673,6 +719,7 @@ class TestDeploy(unittest.TestCase):
                 ),
                 output_directory=dirname,
                 deploy_model_type="float32",
+                timeout_sec=JOB_TIMEOUT,
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: what else can we validate here?

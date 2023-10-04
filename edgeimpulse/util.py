@@ -14,6 +14,7 @@ from edgeimpulse.exceptions import (
     MissingApiKeyException,
     InvalidModelException,
     UnsuccessfulRequestException,
+    TimeoutException
 )
 
 from edgeimpulse_api import (
@@ -77,7 +78,7 @@ def poll(
     jobs_client: JobsApi,
     project_id: int,
     job_id: int,
-    timeout_sec: Optional[int] = None,
+    timeout_sec: Optional[float] = None,
 ) -> GetJobResponse:
     """Helper function to syncronously poll a specific job within a project
 
@@ -85,11 +86,11 @@ def poll(
         jobs_client (JobsApi): JobsApi client
         project_id (int): Project id number
         job_id (int): Job id to poll
-        timeout_sec (int, optional): Optional timeout for polling.
+        timeout_sec (float, optional): Optional timeout for polling.
 
     Raises:
         e: Unhandled exception from api
-        Exception: Timeout waiting for result
+        TimeoutException: Timeout waiting for result
 
     Returns:
         GetJobResponse: Structure containing job information
@@ -129,10 +130,33 @@ def poll(
                 logging.debug(f"Unhandled exception [{str(e)}]")
                 raise e
 
+        # See if polling timed out
         if timeout is not None and time.time() > timeout:
+
+            # Log message
             err_msg = f"Timeout waiting for result for job_id {job_id}"
-            logging.debug(err_msg)
-            raise Exception(err_msg)
+            logging.info(err_msg)
+
+            # Cancel job
+            try:
+                logging.info(f"Canceling job {job_id}")
+                cancel_response = jobs_client.cancel_job(project_id, job_id, force_cancel="true")
+                check_response_errors(cancel_response)
+
+            # Catch errors if the cancel request fails
+            except Exception as e:
+
+                # If unknown job ID, then the job is likely no longer running
+                if "Unknown job ID " in str(e):
+                    logging.error(e)
+                    break
+                    
+                # Everything else is propagated up
+                else:
+                    logging.debug(f"Unhandled exception [{str(e)}]")
+                    raise e
+
+            raise TimeoutException(err_msg)
 
 
 def numpy_installed():
@@ -469,7 +493,32 @@ def upload_pretrained_model_and_data(
     model: Union[Path, str, bytes, Any],
     representative_data: Optional[Union[Path, str, bytes, Any]] = None,
     device: Optional[str] = None,
-):
+    timeout_sec: Optional[float] = None,
+) -> GetJobResponse:
+    """
+    Upload a model and data to Edge Impulse servers.
+
+    Args:
+        tempdir (str): Temporary directory to hold saved form of any model passed in
+        client (ApiClient): Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().
+        project_id (int): Project id number
+        model (Union[Path, str, bytes, Any], op): A machine learning model, or similarly represented computational graph.
+            Can be `Path` or `str` denoting file path, Python `bytes` containing a model, or a Keras model instance.
+        representative_data (Optional[Union[Path, str, bytes, Any]], optional): A numpy representative input dataset. Accepts either an in memory numpy
+            array or the Path/str filename of a np.save .npy file.
+        device (Optional[str], optional): An embedded processor for which to profile the model.
+            A comprehensive list can be obtained via `edgeimpulse.model.list_profile_devices()`.
+        timeout_sec (Optional[float], optional): Optional timeout for polling.
+
+    Raises:
+        e: Unhandled exception from api
+        FileNotFoundError: File or directory not found
+        TimeoutException: Timeout waiting for result from server
+
+    Returns:
+        GetJobResponse: Structure containing job information
+    """
+
     # Determine the type of model we have and make sure it is present on disk
     model_file_type, model_path = inspect_model(model, tempdir)
 
@@ -501,11 +550,20 @@ def upload_pretrained_model_and_data(
         logging.debug(f"Exception starting upload job [{str(e)}]")
         raise e
 
-    job_response = poll(
-        jobs_client=jobs,
-        project_id=project_id,
-        job_id=job_id,
-    )
+    # Wait for upload job to complete
+    try:
+        job_response = poll(
+            jobs_client=jobs,
+            project_id=project_id,
+            job_id=job_id,
+            timeout_sec=timeout_sec
+        )
+    except TimeoutException as te:
+        raise te
+    except Exception as e:
+        raise e
+
+    # Write out response
     logging.info(job_response)
 
     return job_response

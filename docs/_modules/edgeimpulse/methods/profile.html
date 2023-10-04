@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>edgeimpulse.methods.profile - Python SDK1.0.5</title>
+        <title>edgeimpulse.methods.profile - Python SDK1.0.6</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -198,7 +198,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.5</font></div></a>
+      <a href="../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -221,11 +221,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../../../_static/Edge Impulse primary logo - black text - 1400px.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../../../_static/Edge Impulse primary logo - white text - 1400px.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../../../_static/edge-impulse-primary-logo-black-text-transparent-bg.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.5</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -283,7 +283,10 @@
 <span class="kn">import</span> <span class="nn">tempfile</span>
 
 <span class="kn">import</span> <span class="nn">edgeimpulse</span>
-<span class="kn">from</span> <span class="nn">edgeimpulse.exceptions</span> <span class="kn">import</span> <span class="n">InvalidDeviceException</span>
+<span class="kn">from</span> <span class="nn">edgeimpulse.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InvalidDeviceException</span><span class="p">,</span>
+    <span class="n">TimeoutException</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">edgeimpulse.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">configure_generic_client</span><span class="p">,</span>
@@ -347,6 +350,7 @@
     <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProfileResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Profiles the performance of a trained model on a range of embedded targets, or a specific device.</span>
@@ -369,7 +373,9 @@
 <span class="sd">            A comprehensive list can be obtained via `edgeimpulse.model.list_profile_devices()`.</span>
 <span class="sd">        api_key (Optional[str], optional): The API key for an Edge Impulse project.</span>
 <span class="sd">            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.</span>
-
+<span class="sd">        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to complete on the server.</span>
+<span class="sd">            None is considered &quot;infinite timeout&quot; and will wait forever.</span>
+<span class="sd">            </span>
 <span class="sd">    Returns:</span>
 <span class="sd">        ProfileResponse: Structure containing profile information.</span>
 <span class="sd">        A subclass of `edgeimpulse_api.models.get_pretrained_model_response`.</span>
@@ -377,8 +383,10 @@
 <span class="sd">        most relevant information.</span>
 
 <span class="sd">    Raises:</span>
+<span class="sd">        Exception: Unhandled exception from API</span>
 <span class="sd">        InvalidAuthTypeException: Incorrect authentication type was provided.</span>
 <span class="sd">        InvalidDeviceException: Device is not valid.</span>
+<span class="sd">        TimeoutException: Timeout waiting for result</span>
 
 <span class="sd">    Examples:</span>
 
@@ -415,15 +423,23 @@
     <span class="c1"># The API bindings currently require files to be on disk.</span>
     <span class="c1"># We will write files to this temporary dir if necessary.</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tempdir</span><span class="p">:</span>
-        <span class="n">upload_pretrained_model_and_data</span><span class="p">(</span>
-            <span class="n">tempdir</span><span class="o">=</span><span class="n">tempdir</span><span class="p">,</span>
-            <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
-            <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
-            <span class="n">representative_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">upload_pretrained_model_and_data</span><span class="p">(</span>
+                <span class="n">tempdir</span><span class="o">=</span><span class="n">tempdir</span><span class="p">,</span>
+                <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+                <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+                <span class="n">representative_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">timeout_sec</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">TimeoutException</span> <span class="k">as</span> <span class="n">te</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">te</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception uploading model [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
 
+    <span class="c1"># Start profiling job</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">profile_response</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">profile_pretrained_model</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>
         <span class="n">check_response_errors</span><span class="p">(</span><span class="n">profile_response</span><span class="p">)</span>
@@ -432,11 +448,18 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception starting profile job [</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">e</span>
 
-    <span class="n">_</span> <span class="o">=</span> <span class="n">poll</span><span class="p">(</span>
-        <span class="n">jobs_client</span><span class="o">=</span><span class="n">jobs</span><span class="p">,</span>
-        <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
-        <span class="n">job_id</span><span class="o">=</span><span class="n">job_id</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="c1"># Wait for profile job to complete</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">poll</span><span class="p">(</span>
+            <span class="n">jobs_client</span><span class="o">=</span><span class="n">jobs</span><span class="p">,</span>
+            <span class="n">project_id</span><span class="o">=</span><span class="n">project_id</span><span class="p">,</span>
+            <span class="n">job_id</span><span class="o">=</span><span class="n">job_id</span><span class="p">,</span>
+            <span class="n">timeout_sec</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">TimeoutException</span> <span class="k">as</span> <span class="n">te</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">te</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">e</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">get_pretrained_model_response</span> <span class="o">=</span> <span class="n">learn</span><span class="o">.</span><span class="n">get_pretrained_model_info</span><span class="p">(</span><span class="n">project_id</span><span class="p">)</span>

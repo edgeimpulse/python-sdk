@@ -93,3 +93,11 @@ class UnsuccessfulRequestException(EdgeImpulseException):
                 else "There was no error message included."
             )
         )
+
+class TimeoutException(EdgeImpulseException):
+    """
+    Exception raised when a timeout has been reached.
+    """
+
+    def __init__(self, msg: str):
+        super().__init__(msg)

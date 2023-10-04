@@ -4,7 +4,10 @@ from typing import Union, Optional, Any, List
 import tempfile
 
 import edgeimpulse
-from edgeimpulse.exceptions import InvalidDeviceException
+from edgeimpulse.exceptions import (
+    InvalidDeviceException,
+    TimeoutException,
+)
 
 from edgeimpulse.util import (
     configure_generic_client,
@@ -68,6 +71,7 @@ def profile(
     model: Union[Path, str, bytes, Any],
     device: Optional[str] = None,
     api_key: Optional[str] = None,
+    timeout_sec: Optional[float] = None,
 ) -> ProfileResponse:
     """
     Profiles the performance of a trained model on a range of embedded targets, or a specific device.
@@ -90,7 +94,9 @@ def profile(
             A comprehensive list can be obtained via `edgeimpulse.model.list_profile_devices()`.
         api_key (Optional[str], optional): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
-
+        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to complete on the server.
+            None is considered "infinite timeout" and will wait forever.
+            
     Returns:
         ProfileResponse: Structure containing profile information.
         A subclass of `edgeimpulse_api.models.get_pretrained_model_response`.
@@ -98,8 +104,10 @@ def profile(
         most relevant information.
 
     Raises:
+        Exception: Unhandled exception from API
         InvalidAuthTypeException: Incorrect authentication type was provided.
         InvalidDeviceException: Device is not valid.
+        TimeoutException: Timeout waiting for result
 
     Examples:
 
@@ -136,15 +144,23 @@ def profile(
     # The API bindings currently require files to be on disk.
     # We will write files to this temporary dir if necessary.
     with tempfile.TemporaryDirectory() as tempdir:
-        upload_pretrained_model_and_data(
-            tempdir=tempdir,
-            client=client,
-            project_id=project_id,
-            model=model,
-            device=device,
-            representative_data=None,
-        )
+        try:
+            upload_pretrained_model_and_data(
+                tempdir=tempdir,
+                client=client,
+                project_id=project_id,
+                model=model,
+                device=device,
+                representative_data=None,
+                timeout_sec=timeout_sec,
+            )
+        except TimeoutException as te:
+            raise te
+        except Exception as e:
+            logging.debug(f"Exception uploading model [{str(e)}]")
+            raise e
 
+    # Start profiling job
     try:
         profile_response = learn.profile_pretrained_model(project_id)
         check_response_errors(profile_response)
@@ -153,11 +169,18 @@ def profile(
         logging.debug(f"Exception starting profile job [{str(e)}]")
         raise e
 
-    _ = poll(
-        jobs_client=jobs,
-        project_id=project_id,
-        job_id=job_id,
-    )
+    # Wait for profile job to complete
+    try:
+        _ = poll(
+            jobs_client=jobs,
+            project_id=project_id,
+            job_id=job_id,
+            timeout_sec=timeout_sec,
+        )
+    except TimeoutException as te:
+        raise te
+    except Exception as e:
+        raise e
 
     try:
         get_pretrained_model_response = learn.get_pretrained_model_info(project_id)

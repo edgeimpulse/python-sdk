@@ -10,6 +10,8 @@ from edgeimpulse import util
 # just have logging enabled for dev
 logging.getLogger().setLevel(logging.INFO)
 
+# How long to wait (seconds) for jobs to complete
+JOB_TIMEOUT = 1200.0    # 20 min
 
 def sample_model_path(model_fname):
     current_dir = pathlib.Path(__file__).parent.resolve()
@@ -44,7 +46,9 @@ class TestProfile(unittest.TestCase):
         ei.API_KEY = "some_invalid_key"
         try:
             profile_response = ei.model.profile(
-                model=sample_model_path("gestures-i8.lite"), api_key=original_key
+                model=sample_model_path("gestures-i8.lite"), 
+                api_key=original_key,
+                timeout_sec=JOB_TIMEOUT,
             )
             self.assertTrue(profile_response.success)
         finally:
@@ -76,6 +80,15 @@ class TestProfile(unittest.TestCase):
                 device="mortex-c4",
             )
 
+    def test_timeout(self):
+        # Test profile polling timeout
+        with self.assertRaises(ei.exceptions.TimeoutException):
+            _ = ei.model.profile(
+                model=sample_model_path("gestures-i8.lite"),
+                device="cortex-m4f-80mhz",
+                timeout_sec=5.0,
+            )
+    
     def test_i8_model_profile(self):
         model_list = [
             "gestures-i8.lite",
@@ -88,6 +101,7 @@ class TestProfile(unittest.TestCase):
                 profile_response = ei.model.profile(
                     model=sample_model_path(i),
                     device="cortex-m4f-80mhz",
+                    timeout_sec=JOB_TIMEOUT,
                 )
 
                 # check call was successful
@@ -141,6 +155,7 @@ class TestProfile(unittest.TestCase):
                     model=sample_model_path(i),
                     # had to change this as these models all have None for time_per_inference_ms
                     device="cortex-m7-216mhz",
+                    timeout_sec=JOB_TIMEOUT,
                 )
 
                 # check call was successful
@@ -190,6 +205,7 @@ class TestProfile(unittest.TestCase):
                 profile_response = ei.model.profile(
                     model=sample_model_path(i),
                     device="raspberry-pi-4",
+                    timeout_sec=JOB_TIMEOUT,
                 )
                 self.assertTrue(profile_response.success)
                 if ".i8." in i:
@@ -208,7 +224,10 @@ class TestProfile(unittest.TestCase):
                     )
 
     def test_profile_multiple(self):
-        profile_response = ei.model.profile(model=sample_model_path("gestures-i8.lite"))
+        profile_response = ei.model.profile(
+            model=sample_model_path("gestures-i8.lite"),
+            timeout_sec=JOB_TIMEOUT,
+        )
         self.assertTrue(profile_response.success)
         self.assertTrue(profile_response.model.profile_info.table)
 
@@ -216,7 +235,10 @@ class TestProfile(unittest.TestCase):
         """Should be able to pass model bytes, not just a path"""
         model_path = sample_model_path("gestures-i8.lite")
         with open(model_path, "rb") as model_file:
-            profile_response = ei.model.profile(model=model_file.read())
+            profile_response = ei.model.profile(
+                model=model_file.read(),
+                timeout_sec=JOB_TIMEOUT,
+            )
         self.assertTrue(profile_response.success)
         self.assertTrue(profile_response.model.profile_info.table)
 
@@ -232,7 +254,10 @@ class TestProfile(unittest.TestCase):
         outputs = tf.keras.layers.Dense(4)(inputs)
         keras_model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
-        profile_response = ei.model.profile(model=keras_model)
+        profile_response = ei.model.profile(
+            model=keras_model,
+            timeout_sec=JOB_TIMEOUT,
+        )
         # check call was successful
         self.assertTrue(profile_response.success)
 

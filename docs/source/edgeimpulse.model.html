@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="input_type module" href="edgeimpulse.model.input_type.html" /><link rel="prev" title="exceptions module" href="edgeimpulse.exceptions.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>model package - Python SDK1.0.5</title>
+        <title>model package - Python SDK1.0.6</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.5</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -222,11 +222,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/Edge Impulse primary logo - black text - 1400px.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/Edge Impulse primary logo - white text - 1400px.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/edge-impulse-primary-logo-black-text-transparent-bg.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.5</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -306,6 +306,7 @@
 <dd><em class="sig-param"><span class="n"><span class="pre">deploy_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zip'</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BytesIO</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.deploy" title="Permalink to this definition">#</a></dt>
@@ -347,6 +348,8 @@ most devices. See <cite>edgeimpulse.model.list_deployment_targets()</cite> for a
 on deployment type. Defaults to None in which case model will not be written to file.</p></li>
 <li><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via the module-level
 variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to complete on the server.
+None is considered “infinite timeout” and will wait forever.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -362,7 +365,8 @@ variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite
 <li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException" title="edgeimpulse.exceptions.InvalidEngineException"><strong>InvalidEngineException</strong></a> – Unacceptable engine for this target.</p></li>
 <li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException" title="edgeimpulse.exceptions.InvalidTargetException"><strong>InvalidTargetException</strong></a> – Unacceptable deploy_target for this project.</p></li>
 <li><p><strong>FileNotFoundError</strong> – Model file could not be loaded.</p></li>
-<li><p><strong>Exception</strong> – </p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException" title="edgeimpulse.exceptions.TimeoutException"><strong>TimeoutException</strong></a> – Timeout waiting for result</p></li>
+<li><p><strong>Exception</strong> – Unhandled exception from API</p></li>
 </ul>
 </dd>
 </dl>
@@ -466,6 +470,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 <dd><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Any</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ProfileResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/profile.html#profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.profile" title="Permalink to this definition">#</a></dt>
@@ -487,6 +492,8 @@ Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>by
 A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_devices()</cite>.</p></li>
 <li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project.
 This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to complete on the server.
+None is considered “infinite timeout” and will wait forever.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -500,8 +507,10 @@ most relevant information.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><strong>Exception</strong> – Unhandled exception from API</p></li>
 <li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidAuthTypeException" title="edgeimpulse.exceptions.InvalidAuthTypeException"><strong>InvalidAuthTypeException</strong></a> – Incorrect authentication type was provided.</p></li>
 <li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeviceException" title="edgeimpulse.exceptions.InvalidDeviceException"><strong>InvalidDeviceException</strong></a> – Device is not valid.</p></li>
+<li><p><a class="reference internal" href="edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException" title="edgeimpulse.exceptions.TimeoutException"><strong>TimeoutException</strong></a> – Timeout waiting for result</p></li>
 </ul>
 </dd>
 </dl>

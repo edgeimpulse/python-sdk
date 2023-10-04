@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="model package" href="edgeimpulse.model.html" /><link rel="prev" title="Edge Impulse SDK" href="../index.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>exceptions module - Python SDK1.0.5</title>
+        <title>exceptions module - Python SDK1.0.6</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.5</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -222,11 +222,11 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="../_static/Edge Impulse primary logo - black text - 1400px.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="../_static/Edge Impulse primary logo - white text - 1400px.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="../_static/edge-impulse-primary-logo-black-text-transparent-bg.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.5</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -347,6 +347,13 @@ target_names (List[str]): List of targets for a project as strings.</p>
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="edgeimpulse.exceptions.TimeoutException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">TimeoutException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#TimeoutException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.TimeoutException" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
+<p>Exception raised when a timeout has been reached.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="edgeimpulse.exceptions.UnsuccessfulRequestException">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnsuccessfulRequestException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#UnsuccessfulRequestException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.UnsuccessfulRequestException" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
@@ -418,6 +425,7 @@ target_names (List[str]): List of targets for a project as strings.</p>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidModelException"><code class="docutils literal notranslate"><span class="pre">InvalidModelException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidTargetException"><code class="docutils literal notranslate"><span class="pre">InvalidTargetException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.MissingApiKeyException"><code class="docutils literal notranslate"><span class="pre">MissingApiKeyException</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.TimeoutException"><code class="docutils literal notranslate"><span class="pre">TimeoutException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.UnsuccessfulRequestException"><code class="docutils literal notranslate"><span class="pre">UnsuccessfulRequestException</span></code></a></li>
 </ul>
 </li>

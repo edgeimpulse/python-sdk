@@ -23,6 +23,7 @@ from edgeimpulse.exceptions import (
     InvalidDeployParameterException,
     EdgeImpulseException,
     InvalidModelException,
+    TimeoutException
 )
 
 from edgeimpulse.util import (
@@ -55,6 +56,7 @@ def deploy(
     deploy_target: str = "zip",
     output_directory: Optional[str] = None,
     api_key: Optional[str] = None,
+    timeout_sec: Optional[float] = None,
 ) -> io.BytesIO:
     """Transforms a machine learning model into a library for an edge device
 
@@ -94,6 +96,8 @@ def deploy(
             on deployment type. Defaults to None in which case model will not be written to file.
         api_key (str, optional): The API key for an Edge Impulse project. This can also be set via the module-level
             variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
+        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to complete on the server.
+            None is considered "infinite timeout" and will wait forever.
 
     Returns:
         BytesIO: A stream containing a binary representation of the deployment output.
@@ -104,7 +108,8 @@ def deploy(
         InvalidEngineException: Unacceptable engine for this target.
         InvalidTargetException: Unacceptable deploy_target for this project.
         FileNotFoundError: Model file could not be loaded.
-        Exception
+        TimeoutException: Timeout waiting for result
+        Exception: Unhandled exception from API
 
     Examples:
 
@@ -165,18 +170,26 @@ def deploy(
     # The API bindings currently require files to be on disk.
     # We will write files to this temporary dir if necessary.
     with tempfile.TemporaryDirectory() as tempdir:
-        upload_pretrained_model_and_data(
-            tempdir=tempdir,
-            client=client,
-            project_id=project_id,
-            model=model,
-            representative_data=representative_data_for_quantization,
-        )
+        try:
+            upload_pretrained_model_and_data(
+                tempdir=tempdir,
+                client=client,
+                project_id=project_id,
+                model=model,
+                representative_data=representative_data_for_quantization,
+                timeout_sec=timeout_sec,
+            )
+        except TimeoutException as te:
+            raise te
+        except Exception as e:
+            logging.debug(f"Exception uploading model [{str(e)}]")
+            raise e
 
     learn = LearnApi(client)
     jobs = JobsApi(client)
     deploy = DeploymentApi(client)
 
+    # Start fetching model job
     try:
         response = learn.get_pretrained_model_info(project_id=project_id)
         check_response_errors(response)
@@ -225,6 +238,7 @@ def deploy(
             raise InvalidEngineException(e)
         raise e
 
+    # Start deployment job
     try:
         response = jobs.build_on_device_model_job(
             project_id=project_id,
@@ -237,11 +251,18 @@ def deploy(
         logging.debug(f"Exception starting build job [{str(e)}]")
         raise e
 
-    job_response = poll(
-        jobs_client=jobs,
-        project_id=project_id,
-        job_id=job_id,
-    )
+    # Wait for deploy job to complete
+    try:
+        job_response = poll(
+            jobs_client=jobs,
+            project_id=project_id,
+            job_id=job_id,
+            timeout_sec=timeout_sec,
+        )
+    except TimeoutException as te:
+        raise te
+    except Exception as e:
+        raise e
     logging.info(job_response)
 
     try:

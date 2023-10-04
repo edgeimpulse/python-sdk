@@ -6,7 +6,7 @@
 .. raw:: html
 
    <p align="center">
-       <a href="https://www.edgeimpulse.com/"><img src="https://landing.edgeimpulse.com/assets/Edge_Impulse_primary_logo_black_text_white_bg_ca129b0453.png" alt="Edge Impulse logo"/></a>
+       <a href="https://edgeimpulse.com/"><img src="https://cdn.edgeimpulse.com/images/edge-impulse-primary-logo-black-text-white-bg.png" alt="Edge Impulse logo"/></a>
    </p>
 
 

@@ -19,6 +19,13 @@ toc:
   min_level: 2
   max_level: 2
   show_on_index: false
+  show_parents: "hide"
+
+# True to show parents.module_name in title, false to just show module_name
+show_title_parents: false
+
+# Add module names to functions/classes in signatures
+add_module_names: true
 
 # Modules to be excluded from the documentation
 exclude_modules:
