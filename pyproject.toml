@@ -15,7 +15,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.8"
 #edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
-edgeimpulse-api = "1.29.20"
+edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
 
 [tool.poetry.dev-dependencies]
 numpy = "^1.22"

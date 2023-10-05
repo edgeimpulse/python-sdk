@@ -1,0 +1,368 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
+
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
+        <title>edgeimpulse.model.input_type - Python SDK1.0.6</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --font-stack: Arial, sans-serif;
+  --font-stack--monospace: Menlo, monospace;
+  --color-foreground-primary: #333333;
+  --color-foreground-secondary: #333333;
+  --color-brand-primary: #333333;
+  --color-brand-content: #f6562c;
+  --color-announcement-background: #00000000;
+  --color-announcement-text: #f6562c;
+  --color-sidebar-background: #00000000;
+  --color-sidebar-search-background: #00000000;
+  --color-api-background: #f8f9fb;
+  --color-api-pre-name: #333333;
+  --color-api-name: #935f00;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-foreground-primary: #ffffffcc;
+  --color-foreground-secondary: #ffffffcc;
+  --color-brand-primary: #ffffffcc;
+  --color-brand-content: #f6562c;
+  --color-announcement-background: #00000000;
+  --color-announcement-text: #f6562c;
+  --color-sidebar-background: #00000000;
+  --color-sidebar-search-background: #00000000;
+  --color-api-background: #202020;
+  --color-api-pre-name: #ffffffcc;
+  --color-api-name: #e99600;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-foreground-primary: #ffffffcc;
+  --color-foreground-secondary: #ffffffcc;
+  --color-brand-primary: #ffffffcc;
+  --color-brand-content: #f6562c;
+  --color-announcement-background: #00000000;
+  --color-announcement-text: #f6562c;
+  --color-sidebar-background: #00000000;
+  --color-sidebar-search-background: #00000000;
+  --color-api-background: #202020;
+  --color-api-pre-name: #ffffffcc;
+  --color-api-name: #e99600;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     <div style="margin: 0 auto;
+           align-items: center;
+           border-bottom: solid;
+           border-bottom-width: thin;
+           border-bottom-color: #eeebee;">
+    <div style="display: flex;
+               justify-content: space-between;
+               margin: 0 auto; 
+               max-width: 500px; 
+               align-items: center; 
+               font-weight: bold;">
+        <a href="https://edgeimpulse.com/">
+            <span style="display: inline-block;">
+                Home
+            </span>
+        </a>
+        <a href="https://docs.edgeimpulse.com/docs/">
+            <span style="display: inline-block;">
+                Docs
+            </span>
+        </a>
+        <a href="https://docs.edgeimpulse.com/reference">
+            <span style="display: inline-block;">
+                API
+            </span>
+        </a>
+        <a href="https://edgeimpulse.com/case-studies">
+            <span style="display: inline-block;">
+                Projects
+            </span>
+        </a>
+        <a href="https://forum.edgeimpulse.com/">
+            <span style="display: inline-block;">
+                Forum
+            </span>
+        </a>
+    </div>
+</div> 
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../../_static/edge-impulse-primary-logo-black-text-transparent-bg.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">util module</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for edgeimpulse.model.input_type</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+
+
+<div class="viewcode-block" id="ImageInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput">[docs]</a><span class="k">class</span> <span class="nc">ImageInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaling_range</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;0..1&quot;</span><span class="p">,</span> <span class="s2">&quot;0..255&quot;</span><span class="p">,</span> <span class="s2">&quot;torch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0..1&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an image input, and specifies how it should be processed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            scaling_range (Literal[&#39;0..1&#39;, &#39;0..255&#39;, &#39;torch&#39;]): Describes any scaling or normalization that is applied</span>
+<span class="sd">                to images. If no value is set then &quot;0..1&quot; is used. &quot;0..1&quot; gives you non-normalized pixels between</span>
+<span class="sd">                0 and 1. &quot;0..255&quot; gives you non-normalized pixels between 0 and 255.</span>
+<span class="sd">                &quot;torch&quot; first scales pixels between 0 and 1, then applies normalization using the ImageNet dataset</span>
+<span class="sd">                as a reference (same as `torchvision.transforms.Normalize()`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputScaling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaling_range</span></div>
+
+
+<div class="viewcode-block" id="AudioInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput">[docs]</a><span class="k">class</span> <span class="nc">AudioInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_hz</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an audio input, and specifies how it should be processed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frequency_hz (float): The frequency of the audio signal in Hz (samples per second).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;audio&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;frequencyHz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frequency_hz</span></div>
+
+
+<div class="viewcode-block" id="TimeSeriesInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput">[docs]</a><span class="k">class</span> <span class="nc">TimeSeriesInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_hz</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">windowlength_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a time series input, and specifies how it should be processed.</span>
+
+<span class="sd">        A stream of time series data is windowed into chunks of `windowlength_ms` according to the</span>
+<span class="sd">        signal&#39;s frequency (`frequency_hz`). The window length represents how much data</span>
+<span class="sd">        is fed into the model per inference.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frequency_hz (float): The frequency of the signal in Hz (samples per second).</span>
+<span class="sd">            windowlength_ms (int): The length of the window of data that is fed into the model each inference.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;time-series&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;frequencyHz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frequency_hz</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;windowLengthMs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">windowlength_ms</span></div>
+
+
+<div class="viewcode-block" id="OtherInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput">[docs]</a><span class="k">class</span> <span class="nc">OtherInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an input that is passed into the model without any changes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Edge Impulse Inc.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>
