@@ -12,6 +12,8 @@ The official Python SDK for Edge Impulse is designed to help machine learning pr
 
 [Sign up for a free account →](https://studio.edgeimpulse.com/signup)
 
+List of versions and changes can be found [in this changelog](https://github.com/edgeimpulse/python-sdk/blob/main/CHANGELOG.md).
+
 ## Getting Started
 
 Install the Edge Impulse Python SDK:
