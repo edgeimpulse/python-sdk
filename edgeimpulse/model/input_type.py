@@ -6,11 +6,12 @@ class ImageInput(dict):
         """Describes an image input, and specifies how it should be processed.
 
         Args:
-            scaling_range (Literal['0..1', '0..255', 'torch']): Describes any scaling or normalization that is applied
-                to images. If no value is set then "0..1" is used. "0..1" gives you non-normalized pixels between
-                0 and 1. "0..255" gives you non-normalized pixels between 0 and 255.
-                "torch" first scales pixels between 0 and 1, then applies normalization using the ImageNet dataset
-                as a reference (same as `torchvision.transforms.Normalize()`).
+            scaling_range (Literal['0..1', '0..255', 'torch']): Describes any scaling or
+                normalization that is applied to images. If no value is set then "0..1" is used.
+                "0..1" gives you non-normalized pixels between 0 and 1. "0..255" gives you
+                non-normalized pixels between 0 and 255. "torch" first scales pixels between 0 and
+                1, then applies normalization using the ImageNet dataset as a reference (same as
+                `torchvision.transforms.Normalize()`).
         """
         self["inputType"] = "image"
         self["inputScaling"] = scaling_range
@@ -37,7 +38,8 @@ class TimeSeriesInput(dict):
 
         Args:
             frequency_hz (float): The frequency of the signal in Hz (samples per second).
-            windowlength_ms (int): The length of the window of data that is fed into the model each inference.
+            windowlength_ms (int): The length of the window of data that is fed into the model each
+            inference.
         """
         self["inputType"] = "time-series"
         self["frequencyHz"] = frequency_hz
@@ -46,6 +48,5 @@ class TimeSeriesInput(dict):
 
 class OtherInput(dict):
     def __init__(self):
-        """Describes an input that is passed into the model without any changes.
-        """
+        """Describes an input that is passed into the model without any changes."""
         self["inputType"] = "other"

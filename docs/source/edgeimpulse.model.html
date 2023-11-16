@@ -236,8 +236,12 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">model package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">model package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -309,16 +313,29 @@
 <dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BytesIO</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.deploy" title="Permalink to this definition">#</a></dt>
+<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BytesIO</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.deploy" title="Permalink to this definition">#</a></dt>
 <dd><p>Transforms a machine learning model into a library for an edge device</p>
-<p>Transforms a trained model into a library, package, or firmware ready to deploy on an embedded device. Can optionally
-apply post-training quantization if a representative data sample is uploaded.</p>
+<p>Transforms a trained model into a library, package, or firmware ready to deploy on an embedded
+device. Can optionally apply post-training quantization if a representative data sample is
+uploaded.</p>
 <p>Supported model formats:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model">Keras Model instance</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/guide/saved_model">TensorFlow SavedModel</a> (as path to directory or <cite>.zip</cite> file)</p></li>
-<li><p><a class="reference external" href="https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model">ONNX model file</a> (as path to <cite>.onnx</cite> file)</p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/lite/guide">TensorFlow Lite file</a> (as bytes, or path to any file that is not <cite>.zip</cite> or <cite>.onnx</cite>)</p></li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://www.tensorflow.org/guide/saved_model">TensorFlow SavedModel</a> (as path to directory</dt><dd><p>or <cite>.zip</cite> file)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model">ONNX model file</a></dt><dd><p>(as path to <cite>.onnx</cite> file)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><a class="reference external" href="https://www.tensorflow.org/lite/guide">TensorFlow Lite file</a> (as bytes, or path to any file</dt><dd><p>that is not <cite>.zip</cite> or <cite>.onnx</cite>)</p>
+</dd>
+</dl>
+</li>
 </ul>
 <p>Representative data for quantization:</p>
 <ul class="simple">
@@ -326,30 +343,41 @@ apply post-training quantization if a representative data sample is uploaded.</p
 <li><p>Each element must have the same shape as your model’s input.</p></li>
 <li><p>Must be representative of the range (maximum and minimum) of values in your training data.</p></li>
 </ul>
+<p>Note: the available deployment options will change depending on the values given
+for <cite>model</cite>, <cite>model_output_type</cite>, and <cite>model_input_type</cite>. For example, the <cite>openmv</cite>
+deployment option is only available if <cite>model_input_type</cite> is set to <cite>ImageInput</cite>. If
+you attempt to deploy to an unavailable target, you will receive the error <cite>Could
+not deploy: deploy_target: …</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em>) – A machine learning model, or similarly represented computational graph.
-Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite> containing a model, or a Keras model instance.</p></li>
-<li><p><strong>model_output_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification" title="edgeimpulse.model.output_type.Classification"><em>Classification</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression" title="edgeimpulse.model.output_type.Regression"><em>Regression</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection" title="edgeimpulse.model.output_type.ObjectDetection"><em>ObjectDetection</em></a><em>]</em>) – Describe your model’s type:
-Classification, Regression, or ObjectDetection. The types are available in the module <cite>edgeimpulse.model.output_type</cite>.</p></li>
-<li><p><strong>model_input_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput" title="edgeimpulse.model.input_type.ImageInput"><em>ImageInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput" title="edgeimpulse.model.input_type.AudioInput"><em>AudioInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput" title="edgeimpulse.model.input_type.TimeSeriesInput"><em>TimeSeriesInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput" title="edgeimpulse.model.input_type.OtherInput"><em>OtherInput</em></a><em>]</em><em>, </em><em>optional</em>) – Determines any input preprocessing
-(windowing, downsampling) that should be performed by the resulting library. The types are available
-in <cite>edgeimpulse.model.input_type</cite>. The default is no preprocessing.</p></li>
-<li><p><strong>representative_data_for_quantization</strong> – A numpy representative input dataset. Accepts either an in memory numpy
-array or the Path/str filename of a np.save .npy file.</p></li>
-<li><p><strong>deploy_model_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Use <cite>int8</cite> to receive an 8-bit quantized model, <cite>float32</cite> for
-non-quantized. Defaults to None, in which case it will become <cite>int8</cite> if representative_data_for_quantization if provided and <cite>float32</cite> otherwise. For other values see <cite>edgeimpulse.model.list_model_types()</cite>.</p></li>
-<li><p><strong>engine</strong> (<em>str</em><em>, </em><em>optional</em>) – Inference engine. Either <cite>tflite</cite> (for TensorFlow Lite for Microcontrollers)
-or <cite>tflite-eon</cite> (for EON Compiler) to output a portable C++ library. For all engines, call <cite>edgeimpulse.deploy.list_engines()</cite>. Defaults to <cite>tflite</cite>.</p></li>
-<li><p><strong>deploy_target</strong> (<em>str</em><em>, </em><em>optional</em>) – Target to deploy to, defaulting to a portable C++ library suitable for
-most devices. See <cite>edgeimpulse.model.list_deployment_targets()</cite> for a list.</p></li>
-<li><p><strong>output_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to write deployment artifact to. File name may vary depending
-on deployment type. Defaults to None in which case model will not be written to file.</p></li>
-<li><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via the module-level
-variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to complete on the server.
-None is considered “infinite timeout” and will wait forever.</p></li>
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em>) – A machine learning model, or similarly represented
+computational graph. Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite>
+containing a model, or a Keras model instance.</p></li>
+<li><p><strong>model_output_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification" title="edgeimpulse.model.output_type.Classification"><em>Classification</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression" title="edgeimpulse.model.output_type.Regression"><em>Regression</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection" title="edgeimpulse.model.output_type.ObjectDetection"><em>ObjectDetection</em></a><em>]</em>) – Describe your
+model’s type:Classification, Regression, or ObjectDetection. The types are available in
+the module <cite>edgeimpulse.model.output_type</cite>.</p></li>
+<li><p><strong>model_input_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput" title="edgeimpulse.model.input_type.ImageInput"><em>ImageInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput" title="edgeimpulse.model.input_type.AudioInput"><em>AudioInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput" title="edgeimpulse.model.input_type.TimeSeriesInput"><em>TimeSeriesInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput" title="edgeimpulse.model.input_type.OtherInput"><em>OtherInput</em></a><em>]</em><em>, </em><em>optional</em>) – Determines any input preprocessing (windowing, downsampling) that should be performed by
+the resulting library. The types are available in <cite>edgeimpulse.model.input_type</cite>. The
+default is <cite>OtherInput</cite> (no preprocessing).</p></li>
+<li><p><strong>representative_data_for_quantization</strong> – A numpy representative input dataset. Accepts either
+an in memory numpy array or the Path/str filename of a np.save .npy file.</p></li>
+<li><p><strong>deploy_model_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Use <cite>int8</cite> to receive an 8-bit quantized model, <cite>float32</cite>
+for non-quantized. Defaults to None, in which case it will become <cite>int8</cite> if
+representative_data_for_quantization if provided and <cite>float32</cite> otherwise. For other
+values see <cite>edgeimpulse.model.list_model_types()</cite>.</p></li>
+<li><p><strong>engine</strong> (<em>str</em><em>, </em><em>optional</em>) – Inference engine. Either <cite>tflite</cite> (for TensorFlow Lite for
+Microcontrollers) or <cite>tflite-eon</cite> (for EON Compiler) to output a portable C++ library.
+For all engines, call <cite>edgeimpulse.deploy.list_engines()</cite>. Defaults to <cite>tflite</cite>.</p></li>
+<li><p><strong>deploy_target</strong> (<em>str</em><em>, </em><em>optional</em>) – Target to deploy to, defaulting to a portable C++ library
+suitable for most devices. See <cite>edgeimpulse.model.list_deployment_targets()</cite> for a list.</p></li>
+<li><p><strong>output_directory</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to write deployment artifact to. File name may
+vary depending on deployment type. Defaults to None in which case model will not be
+written to file.</p></li>
+<li><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via
+the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to
+complete on the server. <cite>None</cite> is considered “infinite timeout” and will wait forever.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -374,6 +402,7 @@ None is considered “infinite timeout” and will wait forever.</p></li>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Turn a Keras model into a C++ library and write to disk</span>
 <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">deploy</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">keras_model</span><span class="p">,</span>
                 <span class="n">model_output_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">output_type</span><span class="o">.</span><span class="n">Classification</span><span class="p">(),</span>
+                <span class="n">model_input_type</span><span class="o">=</span><span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">input_type</span><span class="o">.</span><span class="n">OtherInput</span><span class="p">(),</span>
                 <span class="n">output_directory</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
 
 <span class="c1"># Convert various types of serialized models:</span>
@@ -401,12 +430,14 @@ None is considered “infinite timeout” and will wait forever.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_deployment_targets">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_deployment_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_deployment_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_deployment_targets" title="Permalink to this definition">#</a></dt>
-<dd><p>Lists suitable deployment targets for the project associated with configured or provided api key.</p>
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_deployment_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_deployment_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_deployment_targets" title="Permalink to this definition">#</a></dt>
+<dd><p>Lists suitable deployment targets for the project associated with configured or provided api
+key.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p>
+This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var
+<cite>EI_API_KEY</cite>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of deploy targets for project</p>
@@ -419,7 +450,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_engines">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_engines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_engines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_engines" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_engines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_engines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_engines" title="Permalink to this definition">#</a></dt>
 <dd><p>Lists all the engines that can be passed to <cite>deploy()</cite>’s <cite>engine</cite> parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -433,7 +464,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_model_types">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_model_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/deploy.html#list_model_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_model_types" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_model_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_model_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_model_types" title="Permalink to this definition">#</a></dt>
 <dd><p>Lists all the model types that can passed to <cite>deploy()</cite>’s <cite>deploy_model_type</cite> parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -447,11 +478,15 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_profile_devices">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_profile_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/profile.html#list_profile_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_profile_devices" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_profile_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/profile.html#list_profile_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_profile_devices" title="Permalink to this definition">#</a></dt>
 <dd><p>Lists possible values for the <cite>device</cite> field when calling <cite>edgeimpulse.model.profile()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project. This can also be set via</p></li>
+<li><p><strong>edgeimpulse.API_KEY</strong> (<em>the module-level variable</em>) – </p></li>
+<li><p><strong>EI_API_KEY.</strong> (<em>or the env var</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of profile targets for project</p>
@@ -473,27 +508,30 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 <dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ProfileResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/methods/profile.html#profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.profile" title="Permalink to this definition">#</a></dt>
-<dd><p>Profiles the performance of a trained model on a range of embedded targets, or a specific device.</p>
-<p>The response includes estimates of memory usage and latency for the model across a range of targets,
-including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit (MPU),
-and a GPU or neural network accelerator. It will also include details of any conditions that preclude
-operation on a given type of device.</p>
-<p>If you request a specific <cite>device</cite>, the results will also include estimates for that specific device.
-A list of devices can be obtained from <cite>edgeimpulse.model.list_profile_devices()</cite>.</p>
+<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ProfileResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/profile.html#profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.profile" title="Permalink to this definition">#</a></dt>
+<dd><p>Profiles the performance of a trained model on a range of embedded targets, or a specific
+device.</p>
+<p>The response includes estimates of memory usage and latency for the model across a range of
+targets, including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit
+(MPU), and a GPU or neural network accelerator. It will also include details of any conditions
+that preclude operation on a given type of device.</p>
+<p>If you request a specific <cite>device</cite>, the results will also include estimates for that specific
+device. A list of devices can be obtained from <cite>edgeimpulse.model.list_profile_devices()</cite>.</p>
 <p>You can call <cite>.summary()</cite> on the response to obtain a more readable version of the most relevant
 information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em>) – A machine learning model, or similarly represented computational graph.
-Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite> containing a model, or a Keras model instance.</p></li>
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em>) – A machine learning model, or similarly represented
+computational graph. Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite>
+containing a model, or a Keras model instance.</p></li>
 <li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – An embedded processor for which to profile the model.
 A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_devices()</cite>.</p></li>
 <li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to complete on the server.
-None is considered “infinite timeout” and will wait forever.</p></li>
+This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env var
+<cite>EI_API_KEY</cite>.</p></li>
+<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to
+complete on the server. <cite>None</cite> is considered “infinite timeout” and will wait forever.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -520,12 +558,18 @@ most relevant information.</p>
 <span class="n">result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 
 <span class="c1"># Profile different types of models on specific devices</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.onnx&quot;</span><span class="p">,</span>  <span class="c1"># ONNX</span>
-                            <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cortex-m4f-80mhz&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow SavedModel (can also be a zip)</span>
-                            <span class="n">device</span><span class="o">=</span><span class="s2">&quot;nordic-nrf9160-dk&quot;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.lite&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow Lite (float32 or int8)</span>
-                            <span class="n">device</span><span class="o">=</span><span class="s2">&quot;synaptics-ka10000&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.onnx&quot;</span><span class="p">,</span>  <span class="c1"># ONNX</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cortex-m4f-80mhz&quot;</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow SavedModel (can also be a zip)</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;nordic-nrf9160-dk&quot;</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.lite&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow Lite (float32 or int8)</span>
+    <span class="n">device</span><span class="o">=</span><span class="s2">&quot;synaptics-ka10000&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

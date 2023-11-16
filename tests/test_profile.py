@@ -3,7 +3,10 @@ import edgeimpulse as ei
 
 import unittest
 
-import logging, pathlib, os, warnings
+import logging
+import pathlib
+import os
+import warnings
 
 from edgeimpulse import util
 
@@ -11,7 +14,8 @@ from edgeimpulse import util
 logging.getLogger().setLevel(logging.INFO)
 
 # How long to wait (seconds) for jobs to complete
-JOB_TIMEOUT = 1200.0    # 20 min
+JOB_TIMEOUT = 1200.0  # 20 min
+
 
 def sample_model_path(model_fname):
     current_dir = pathlib.Path(__file__).parent.resolve()
@@ -46,7 +50,7 @@ class TestProfile(unittest.TestCase):
         ei.API_KEY = "some_invalid_key"
         try:
             profile_response = ei.model.profile(
-                model=sample_model_path("gestures-i8.lite"), 
+                model=sample_model_path("gestures-i8.lite"),
                 api_key=original_key,
                 timeout_sec=JOB_TIMEOUT,
             )
@@ -88,7 +92,7 @@ class TestProfile(unittest.TestCase):
                 device="cortex-m4f-80mhz",
                 timeout_sec=5.0,
             )
-    
+
     def test_i8_model_profile(self):
         model_list = [
             "gestures-i8.lite",
@@ -147,7 +151,7 @@ class TestProfile(unittest.TestCase):
             "a_zipped_keras_saved_model.zip",
             "saved_model.zip",
             "a_keras_saved_model",
-            "saved_model",  # we include this explicitly since there is special handling for this dir name
+            "saved_model",  # we include this since there is special handling for this dir name
         ]
         for i in model_list:
             with self.subTest(i=i):

@@ -235,8 +235,12 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -279,6 +283,7 @@
           <h1>Source code for edgeimpulse.model.output_type</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Literal</span>
 
+
 <div class="viewcode-block" id="Classification"><a class="viewcode-back" href="../../../source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification">[docs]</a><span class="k">class</span> <span class="nc">Classification</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a classifier output with an optional list of label names.</span>
@@ -297,8 +302,7 @@
 
 <div class="viewcode-block" id="Regression"><a class="viewcode-back" href="../../../source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression">[docs]</a><span class="k">class</span> <span class="nc">Regression</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a regression output with a single value.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a regression output with a single value.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;modelType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;regression&quot;</span></div>
 
 

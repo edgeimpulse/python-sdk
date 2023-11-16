@@ -1,0 +1,18 @@
+data package
+============
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   edgeimpulse.data.sample_type
+
+Module contents
+---------------
+
+.. automodule:: edgeimpulse.data
+   :members:
+   :undoc-members:
+   :show-inheritance:

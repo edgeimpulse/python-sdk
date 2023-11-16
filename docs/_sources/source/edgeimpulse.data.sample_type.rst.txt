@@ -1,0 +1,7 @@
+sample\_type module
+===================
+
+.. automodule:: edgeimpulse.data.sample_type
+   :members:
+   :undoc-members:
+   :show-inheritance:

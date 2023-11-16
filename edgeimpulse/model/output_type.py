@@ -1,5 +1,6 @@
 from typing import Optional, List, Union, Literal
 
+
 class Classification(dict):
     def __init__(self, labels: Optional[List[str]] = None):
         """Describes a classifier output with an optional list of label names.
@@ -18,8 +19,7 @@ class Classification(dict):
 
 class Regression(dict):
     def __init__(self):
-        """Describes a regression output with a single value.
-        """
+        """Describes a regression output with a single value."""
         self["modelType"] = "regression"
 
 

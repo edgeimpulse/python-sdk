@@ -1,4 +1,6 @@
-import pathlib, os, warnings, io
+import pathlib
+import os
+import warnings
 
 # TODO: switch to import edgeimpulse as ei
 import edgeimpulse
@@ -11,8 +13,16 @@ import re
 from edgeimpulse import util
 from edgeimpulse.model.input_type import ImageInput, AudioInput, TimeSeriesInput
 from edgeimpulse.model.output_type import Classification, Regression, ObjectDetection
-from edgeimpulse.methods.deploy import _determine_deploy_type, _determine_output_type
-from edgeimpulse.exceptions import InvalidEngineException, InvalidDeployParameterException, InvalidModelException
+from edgeimpulse.model._functions.deploy import (
+    _determine_deploy_type,
+    _determine_output_type,
+)
+from edgeimpulse.exceptions import (
+    InvalidEngineException,
+    InvalidDeployParameterException,
+    InvalidModelException,
+    EdgeImpulseException,
+)
 
 from edgeimpulse_api.models.pretrained_model_tensor import PretrainedModelTensor
 
@@ -22,7 +32,8 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 # How long to wait (seconds) for jobs to complete
-JOB_TIMEOUT = 1200.0    # 20 min
+JOB_TIMEOUT = 1200.0  # 20 min
+
 
 def sample_model_path(model_fname):
     current_dir = pathlib.Path(__file__).parent.resolve()
@@ -41,7 +52,7 @@ def temp_filename():
 class TestDetermineDeployType(unittest.TestCase):
     def test_unavailable_types(self):
         with self.assertRaises(InvalidDeployParameterException):
-            deploy_type = _determine_deploy_type(
+            _ = _determine_deploy_type(
                 deploy_model_type="int8",
                 representative_data_for_quantization=None,
                 available_model_types=["float32"],
@@ -122,25 +133,25 @@ class DetermineOutputType(unittest.TestCase):
     def test_invalid_output_numbers(self):
         # Too many outputs
         with self.assertRaises(InvalidModelException):
-            output_type = _determine_output_type(
+            _ = _determine_output_type(
                 model_output_type=Classification(labels=["1", "2", "3"]),
                 outputs=[self.classifier_output, self.regression_output],
             )
         # Too many output dimensions
         with self.assertRaises(InvalidModelException):
-            output_type = _determine_output_type(
+            _ = _determine_output_type(
                 model_output_type=Classification(labels=["1", "2", "3"]),
                 outputs=[self.extradimensional_output],
             )
         # Too many output neurons
         with self.assertRaises(InvalidDeployParameterException):
-            output_type = _determine_output_type(
+            _ = _determine_output_type(
                 model_output_type=Classification(labels=["1", "2", "3"]),
                 outputs=[self.big_classifier_output],
             )
         # Non scalar regression output
         with self.assertRaises(InvalidModelException):
-            output_type = _determine_output_type(
+            _ = _determine_output_type(
                 model_output_type=Regression(),
                 outputs=[self.classifier_output],
             )
@@ -165,11 +176,11 @@ class TestDeploy(unittest.TestCase):
         # verify zip; will throw exception on ZipFile creation
         # and return None if zip has valid checksums etc
         if fname:
-            if zipfile.ZipFile(fname).testzip() != None:
+            if zipfile.ZipFile(fname).testzip() is not None:
                 raise Exception("Bad zipfile created by deploy")
 
         if data:
-            if zipfile.ZipFile(data).testzip() != None:
+            if zipfile.ZipFile(data).testzip() is not None:
                 raise Exception("Bad zip data created by deploy")
 
         if fname and data:
@@ -192,7 +203,7 @@ class TestDeploy(unittest.TestCase):
     # def test_invalid_path_for_tflite_file(self):
 
     def test_timeout(self):
-        #Test deploy polling timeout
+        # Test deploy polling timeout
         with tempfile.TemporaryDirectory() as dirname:
             with self.assertRaises(ei.exceptions.TimeoutException):
                 _ = edgeimpulse.model.deploy(
@@ -235,7 +246,7 @@ class TestDeploy(unittest.TestCase):
         # TODO: add URL to fan-v3 public project if there is one
         with self.assertRaises(InvalidDeployParameterException):
             with tempfile.TemporaryDirectory() as dirname:
-                model = edgeimpulse.model.deploy(
+                _ = edgeimpulse.model.deploy(
                     model=sample_model_path("fan-v3.f32.lite"),
                     model_output_type=Classification(labels=["notenough"]),
                     output_directory=dirname,
@@ -262,7 +273,9 @@ class TestDeploy(unittest.TestCase):
             zip_filelist = zipfile.ZipFile(filename).namelist()
             model_files = 0
             for filename in zip_filelist:
-                if re.search('tflite_learn_[0-9]+_compiled.(h|c(pp)?)$', filename) or filename.endswith('ops_define.h'):
+                if re.search(
+                    "tflite_learn_[0-9]+_compiled.(h|c(pp)?)$", filename
+                ) or filename.endswith("ops_define.h"):
                     model_files += 1
             self.assertTrue(model_files == 3)
 
@@ -307,7 +320,7 @@ class TestDeploy(unittest.TestCase):
         # temperature-regression.i8.lite is from https://studio.edgeimpulse.com/public/17972/latest
         with self.assertRaises(InvalidDeployParameterException):
             with tempfile.TemporaryDirectory() as dirname:
-                model = edgeimpulse.model.deploy(
+                _ = edgeimpulse.model.deploy(
                     model=sample_model_path("temperature-regression.i8.lite"),
                     model_output_type=Regression(),
                     output_directory=dirname,
@@ -361,7 +374,9 @@ class TestDeploy(unittest.TestCase):
             zip_filelist = zipfile.ZipFile(filename).namelist()
             model_files = 0
             for filename in zip_filelist:
-                if re.search('tflite_learn_[0-9]+.(h|c(pp)?)$', filename) or filename.endswith('tflite-resolver.h'):
+                if re.search(
+                    "tflite_learn_[0-9]+.(h|c(pp)?)$", filename
+                ) or filename.endswith("tflite-resolver.h"):
                     print(filename)
                     model_files += 1
             self.assertTrue(model_files == 3)
@@ -386,7 +401,9 @@ class TestDeploy(unittest.TestCase):
             zip_filelist = zipfile.ZipFile(filename).namelist()
             model_files = 0
             for filename in zip_filelist:
-                if re.search('tflite_learn_[0-9]+.(h|c(pp)?)$', filename) or filename.endswith('tflite-resolver.h'):
+                if re.search(
+                    "tflite_learn_[0-9]+.(h|c(pp)?)$", filename
+                ) or filename.endswith("tflite-resolver.h"):
                     model_files += 1
             self.assertTrue(model_files == 3)
 
@@ -443,7 +460,7 @@ class TestDeploy(unittest.TestCase):
                 model_output_type=ObjectDetection(
                     labels=["beer", "can"], last_layer="fomo", minimum_confidence=0.3
                 ),
-                model_input_type=ImageInput(scaling_range='0..255'),
+                model_input_type=ImageInput(scaling_range="0..255"),
                 output_directory=dirname,
                 deploy_model_type="int8",
                 timeout_sec=JOB_TIMEOUT,
@@ -458,7 +475,7 @@ class TestDeploy(unittest.TestCase):
                 model_output_type=ObjectDetection(
                     labels=["beer", "can"], last_layer="fomo", minimum_confidence=0.3
                 ),
-                model_input_type=ImageInput(scaling_range='torch'),
+                model_input_type=ImageInput(scaling_range="torch"),
                 output_directory=dirname,
                 deploy_model_type="int8",
                 timeout_sec=JOB_TIMEOUT,
@@ -505,7 +522,7 @@ class TestDeploy(unittest.TestCase):
     def test_invalid_deploy_target(self):
         with self.assertRaisesRegex(
             ei.exceptions.InvalidTargetException,
-            "deploy_target: \[some_invalid_deploy_target\] not in",
+            r"deploy_target: \[some_invalid_deploy_target\] not in",
         ):
             edgeimpulse.model.deploy(
                 model=sample_model_path("temperature-regression.f32.lite"),
@@ -638,11 +655,11 @@ class TestDeploy(unittest.TestCase):
             # TODO: what else can we validate here?
 
     @unittest.skip("Representative data shape validation is currently not working")
-    def test_incorrect_shaped_representative_data_for_quantisation(self):
+    def test_incorrect_shaped_representative_data_for_quantization(self):
         # model is float32 and representative_data_for_quantization
         # provided => we get back a int8 model
         # TODO: Re-enable once validation is added https://github.com/edgeimpulse/edgeimpulse/issues/6626
-        with self.assertRaises(Exception):
+        with self.assertRaises(EdgeImpulseException):
             edgeimpulse.model.deploy(
                 model=sample_model_path("saved_model.zip"),
                 model_output_type=Classification(
@@ -670,8 +687,8 @@ class TestDeploy(unittest.TestCase):
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: what else can we validate here?
 
-    def test_onnx_model_i8_without_representative_data_for_quantisation(self):
-        with self.assertRaises(Exception):
+    def test_onnx_model_i8_without_representative_data_for_quantization(self):
+        with self.assertRaises(InvalidDeployParameterException):
             edgeimpulse.model.deploy(
                 model=sample_model_path("accelerometer.onnx"),
                 model_output_type=Classification(
@@ -682,7 +699,7 @@ class TestDeploy(unittest.TestCase):
             )
             # TODO: Check error message was propagated through exception
 
-    def test_onnx_model_i8_with_representative_data_for_quantisation(self):
+    def test_onnx_model_i8_with_representative_data_for_quantization(self):
         # model is float32 and representative_data_for_quantization
         # provided => we get back a int8 model
         with tempfile.TemporaryDirectory() as dirname:
@@ -699,7 +716,7 @@ class TestDeploy(unittest.TestCase):
             )
             self.verify_valid_zip_file(self.get_only_file(dirname), model)
             # TODO: validate was int8ified?
-    
+
     def test_onnx_modelproto_f32(
         self,
     ):
@@ -713,7 +730,7 @@ class TestDeploy(unittest.TestCase):
         # provided => we get back a float32 model
         with tempfile.TemporaryDirectory() as dirname:
             model = edgeimpulse.model.deploy(
-                model = onnx_model,
+                model=onnx_model,
                 model_output_type=Classification(
                     labels=["idle", "snake", "updown", "wave"]
                 ),

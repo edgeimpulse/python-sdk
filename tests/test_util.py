@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import edgeimpulse as ei
 from edgeimpulse import util
-import zipfile, io
+import zipfile
 import tempfile
 
 
@@ -13,7 +13,7 @@ def sample_model_path(model_fname):
 
 def valid_saved_model_zip(fname):
     zip_file = zipfile.ZipFile(fname)
-    if zip_file.testzip() != None:
+    if zip_file.testzip() is not None:
         return False
     file_in_expected_location = "saved_model/saved_model.pb" in zip_file.namelist()
     return file_in_expected_location
@@ -22,9 +22,11 @@ def valid_saved_model_zip(fname):
 class TestDefaultProjectIdFor(unittest.TestCase):
     def test_invalid_auth_type(self):
         with self.assertRaises(util.InvalidAuthTypeException):
-            util.default_project_id_for(
-                util.configure_generic_client("jwt_key_string", "jwt")
-            ),
+            (
+                util.default_project_id_for(
+                    util.configure_generic_client("jwt_key_string", "jwt")
+                ),
+            )
 
 
 class TestConfigureGenericClient(unittest.TestCase):
@@ -77,11 +79,12 @@ class TestInspectModel(unittest.TestCase):
             model_type, path = util.inspect_model(b"666", tempdir)
             self.assertEqual(model_type, "tflite")
             self.assertEqual(path, f"{tempdir}/model")
-            with self.assertRaises(Exception):
+            with self.assertRaises(ei.exceptions.InvalidModelException):
                 util.inspect_model(666, tempdir)
 
     @unittest.skipUnless(
-        util.tensorflow_installed(), "Test requires TensorFlow, but it was not available"
+        util.tensorflow_installed(),
+        "Test requires TensorFlow, but it was not available",
     )
     def test_can_recognize_keras_model(self):
         # build minimal keras model
@@ -97,7 +100,7 @@ class TestInspectModel(unittest.TestCase):
 
             self.assertEqual(model_type, "saved_model")
             self.assertEqual(path, f"{tempdir}/saved_model.zip")
-    
+
     def test_can_recognize_onnx_model(self):
         import onnx
 
@@ -111,19 +114,23 @@ class TestInspectModel(unittest.TestCase):
             self.assertEqual(model_type, "onnx")
             self.assertEqual(path, f"{tempdir}/model.onnx")
 
+
 class TestInspectRepresentativeData(unittest.TestCase):
     def test_can_recognize_paths(self):
         # No path provided
         path = util.inspect_representative_data(None)
         self.assertEqual(path, None)
+
         # Numpy path
         path = util.inspect_representative_data("/tmp/data.npy")
         self.assertEqual(path, "/tmp/data.npy")
+
         # Some random path
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, "Unknown representative data file"):
             util.inspect_representative_data("boop")
+
         # Some random type
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, "Can't parse representative data"):
             util.inspect_representative_data(b"666")
 
     @unittest.skipUnless(
@@ -140,16 +147,15 @@ class TestInspectRepresentativeData(unittest.TestCase):
 
 
 class TestUtilHelperLists(unittest.TestCase):
-
     def test_get_profile_devices(self):
         client = util.configure_generic_client(
             key=ei.API_KEY,
             host=ei.API_ENDPOINT,
         )
         devices = util.get_profile_devices(client)
-        #  assert a couple of stable ones and the fact we have some number, though don't peg to an exact value
-        self.assertTrue('cortex-m4f-80mhz' in devices)
-        self.assertTrue('jetson-nano' in devices)
+        #  assert stable ones and the fact we have some number, though don't peg to an exact value
+        self.assertTrue("cortex-m4f-80mhz" in devices)
+        self.assertTrue("jetson-nano" in devices)
         self.assertTrue(len(devices) > 10)
 
     def test_get_project_deploy_targets(self):
@@ -158,7 +164,7 @@ class TestUtilHelperLists(unittest.TestCase):
             host=ei.API_ENDPOINT,
         )
         targets = util.get_project_deploy_targets(client)
-        #  assert a couple of stable ones and the fact we have some number, though don't peg to an exact value
-        self.assertTrue('zip' in targets)
-        self.assertTrue('brickml' in targets)
+        #  assert stable ones and the fact we have some number, though don't peg to an exact value
+        self.assertTrue("zip" in targets)
+        self.assertTrue("brickml" in targets)
         self.assertTrue(len(targets) > 10)

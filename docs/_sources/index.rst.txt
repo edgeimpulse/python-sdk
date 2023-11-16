@@ -61,6 +61,7 @@ Resources
    :hidden:
    :caption: Contents:
 
+   source/edgeimpulse.data
    source/edgeimpulse.exceptions
    source/edgeimpulse.model
    source/edgeimpulse.util

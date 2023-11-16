@@ -1,4 +1,8 @@
-import logging, re, os, tempfile, io
+import logging
+import re
+import os
+import tempfile
+import io
 from pathlib import Path
 
 from typing import Union, Optional, Any, List
@@ -23,7 +27,7 @@ from edgeimpulse.exceptions import (
     InvalidDeployParameterException,
     EdgeImpulseException,
     InvalidModelException,
-    TimeoutException
+    TimeoutException,
 )
 
 from edgeimpulse.util import (
@@ -49,7 +53,9 @@ from edgeimpulse_api.models.pretrained_model_tensor import PretrainedModelTensor
 def deploy(
     model: Union[Path, str, bytes, Any],
     model_output_type: Union[Classification, Regression, ObjectDetection],
-    model_input_type: Optional[Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput]] = None,
+    model_input_type: Optional[
+        Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput]
+    ] = None,
     representative_data_for_quantization: Optional[Union[Path, str, bytes, Any]] = None,
     deploy_model_type: Optional[str] = None,
     engine: str = "tflite",
@@ -60,15 +66,19 @@ def deploy(
 ) -> io.BytesIO:
     """Transforms a machine learning model into a library for an edge device
 
-    Transforms a trained model into a library, package, or firmware ready to deploy on an embedded device. Can optionally
-    apply post-training quantization if a representative data sample is uploaded.
+    Transforms a trained model into a library, package, or firmware ready to deploy on an embedded
+    device. Can optionally apply post-training quantization if a representative data sample is
+    uploaded.
 
     Supported model formats:
 
     * `Keras Model instance <https://www.tensorflow.org/api_docs/python/tf/keras/Model>`_
-    * `TensorFlow SavedModel <https://www.tensorflow.org/guide/saved_model>`_ (as path to directory or `.zip` file)
-    * `ONNX model file <https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model>`_ (as path to `.onnx` file)
-    * `TensorFlow Lite file <https://www.tensorflow.org/lite/guide>`_ (as bytes, or path to any file that is not `.zip` or `.onnx`)
+    * `TensorFlow SavedModel <https://www.tensorflow.org/guide/saved_model>`_ (as path to directory
+        or `.zip` file)
+    * `ONNX model file <https://learn.microsoft.com/en-us/windows/ai/windows-ml/get-onnx-model>`_
+        (as path to `.onnx` file)
+    * `TensorFlow Lite file <https://www.tensorflow.org/lite/guide>`_ (as bytes, or path to any file
+        that is not `.zip` or `.onnx`)
 
     Representative data for quantization:
 
@@ -76,28 +86,41 @@ def deploy(
     * Each element must have the same shape as your model's input.
     * Must be representative of the range (maximum and minimum) of values in your training data.
 
+    Note: the available deployment options will change depending on the values given
+    for `model`, `model_output_type`, and `model_input_type`. For example, the `openmv`
+    deployment option is only available if `model_input_type` is set to `ImageInput`. If
+    you attempt to deploy to an unavailable target, you will receive the error `Could
+    not deploy: deploy_target: ...`.
+
     Args:
-        model (Union[Path, str, bytes, Any]): A machine learning model, or similarly represented computational graph.
-            Can be `Path` or `str` denoting file path, Python `bytes` containing a model, or a Keras model instance.
-        model_output_type (Union[Classification, Regression, ObjectDetection]): Describe your model's type:
-            Classification, Regression, or ObjectDetection. The types are available in the module `edgeimpulse.model.output_type`.
-        model_input_type (Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput], optional): Determines any input preprocessing
-            (windowing, downsampling) that should be performed by the resulting library. The types are available
-            in `edgeimpulse.model.input_type`. The default is no preprocessing.
-        representative_data_for_quantization: A numpy representative input dataset. Accepts either an in memory numpy
-            array or the Path/str filename of a np.save .npy file.
-        deploy_model_type (str, optional): Use `int8` to receive an 8-bit quantized model, `float32` for
-            non-quantized. Defaults to None, in which case it will become `int8` if representative_data_for_quantization if provided and `float32` otherwise. For other values see `edgeimpulse.model.list_model_types()`.
-        engine (str, optional): Inference engine. Either `tflite` (for TensorFlow Lite for Microcontrollers)
-            or `tflite-eon` (for EON Compiler) to output a portable C++ library. For all engines, call `edgeimpulse.deploy.list_engines()`. Defaults to `tflite`.
-        deploy_target (str, optional): Target to deploy to, defaulting to a portable C++ library suitable for
-            most devices. See `edgeimpulse.model.list_deployment_targets()` for a list.
-        output_directory (str, optional): Directory to write deployment artifact to. File name may vary depending
-            on deployment type. Defaults to None in which case model will not be written to file.
-        api_key (str, optional): The API key for an Edge Impulse project. This can also be set via the module-level
-            variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
-        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to complete on the server.
-            None is considered "infinite timeout" and will wait forever.
+        model (Union[Path, str, bytes, Any]): A machine learning model, or similarly represented
+            computational graph. Can be `Path` or `str` denoting file path, Python `bytes`
+            containing a model, or a Keras model instance.
+        model_output_type (Union[Classification, Regression, ObjectDetection]): Describe your
+            model's type:Classification, Regression, or ObjectDetection. The types are available in
+            the module `edgeimpulse.model.output_type`.
+        model_input_type (Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput], optional):
+            Determines any input preprocessing (windowing, downsampling) that should be performed by
+            the resulting library. The types are available in `edgeimpulse.model.input_type`. The
+            default is `OtherInput` (no preprocessing).
+        representative_data_for_quantization: A numpy representative input dataset. Accepts either
+            an in memory numpy array or the Path/str filename of a np.save .npy file.
+        deploy_model_type (str, optional): Use `int8` to receive an 8-bit quantized model, `float32`
+            for non-quantized. Defaults to None, in which case it will become `int8` if
+            representative_data_for_quantization if provided and `float32` otherwise. For other
+            values see `edgeimpulse.model.list_model_types()`.
+        engine (str, optional): Inference engine. Either `tflite` (for TensorFlow Lite for
+            Microcontrollers) or `tflite-eon` (for EON Compiler) to output a portable C++ library.
+            For all engines, call `edgeimpulse.deploy.list_engines()`. Defaults to `tflite`.
+        deploy_target (str, optional): Target to deploy to, defaulting to a portable C++ library
+            suitable for most devices. See `edgeimpulse.model.list_deployment_targets()` for a list.
+        output_directory (str, optional): Directory to write deployment artifact to. File name may
+            vary depending on deployment type. Defaults to None in which case model will not be
+            written to file.
+        api_key (str, optional): The API key for an Edge Impulse project. This can also be set via
+            the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
+        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to
+            complete on the server. `None` is considered "infinite timeout" and will wait forever.
 
     Returns:
         BytesIO: A stream containing a binary representation of the deployment output.
@@ -118,6 +141,7 @@ def deploy(
             # Turn a Keras model into a C++ library and write to disk
             ei.model.deploy(model=keras_model,
                             model_output_type=ei.model.output_type.Classification(),
+                            model_input_type=ei.model.input_type.OtherInput(),
                             output_directory=".")
 
             # Convert various types of serialized models:
@@ -235,7 +259,7 @@ def deploy(
         )
     except pydantic.error_wrappers.ValidationError as e:
         if "Validation error for BuildOnDeviceModelRequest\nengine\n" in str(e):
-            raise InvalidEngineException(e)
+            raise InvalidEngineException(e) from e
         raise e
 
     # Start deployment job
@@ -282,7 +306,7 @@ def deploy(
     # Derive sensible name if none was provided
     if output_directory is not None:
         d = response.headers["Content-Disposition"]
-        output_filename = re.findall("filename\*?=(.+)", d)[0].replace("utf-8''", "")
+        output_filename = re.findall(r"filename\*?=(.+)", d)[0].replace("utf-8''", "")
         output_path = os.path.join(output_directory, output_filename)
         try:
             if not os.path.exists(output_directory):
@@ -298,11 +322,14 @@ def deploy(
 
 
 def list_deployment_targets(api_key: Optional[str] = None) -> "List[str]":
-    """Lists suitable deployment targets for the project associated with configured or provided api key.
+    """
+    Lists suitable deployment targets for the project associated with configured or provided api
+    key.
 
     Args:
         api_key (str, optional): The API key for an Edge Impulse project.
-            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
+            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var
+            `EI_API_KEY`.
 
     Returns:
         List[str]: List of deploy targets for project

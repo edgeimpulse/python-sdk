@@ -94,6 +94,7 @@ class UnsuccessfulRequestException(EdgeImpulseException):
             )
         )
 
+
 class TimeoutException(EdgeImpulseException):
     """
     Exception raised when a timeout has been reached.

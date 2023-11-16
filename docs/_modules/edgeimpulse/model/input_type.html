@@ -235,8 +235,12 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -285,11 +289,12 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an image input, and specifies how it should be processed.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            scaling_range (Literal[&#39;0..1&#39;, &#39;0..255&#39;, &#39;torch&#39;]): Describes any scaling or normalization that is applied</span>
-<span class="sd">                to images. If no value is set then &quot;0..1&quot; is used. &quot;0..1&quot; gives you non-normalized pixels between</span>
-<span class="sd">                0 and 1. &quot;0..255&quot; gives you non-normalized pixels between 0 and 255.</span>
-<span class="sd">                &quot;torch&quot; first scales pixels between 0 and 1, then applies normalization using the ImageNet dataset</span>
-<span class="sd">                as a reference (same as `torchvision.transforms.Normalize()`).</span>
+<span class="sd">            scaling_range (Literal[&#39;0..1&#39;, &#39;0..255&#39;, &#39;torch&#39;]): Describes any scaling or</span>
+<span class="sd">                normalization that is applied to images. If no value is set then &quot;0..1&quot; is used.</span>
+<span class="sd">                &quot;0..1&quot; gives you non-normalized pixels between 0 and 1. &quot;0..255&quot; gives you</span>
+<span class="sd">                non-normalized pixels between 0 and 255. &quot;torch&quot; first scales pixels between 0 and</span>
+<span class="sd">                1, then applies normalization using the ImageNet dataset as a reference (same as</span>
+<span class="sd">                `torchvision.transforms.Normalize()`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputScaling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaling_range</span></div>
@@ -316,7 +321,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            frequency_hz (float): The frequency of the signal in Hz (samples per second).</span>
-<span class="sd">            windowlength_ms (int): The length of the window of data that is fed into the model each inference.</span>
+<span class="sd">            windowlength_ms (int): The length of the window of data that is fed into the model each</span>
+<span class="sd">            inference.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;time-series&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;frequencyHz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frequency_hz</span>
@@ -325,8 +331,7 @@
 
 <div class="viewcode-block" id="OtherInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput">[docs]</a><span class="k">class</span> <span class="nc">OtherInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an input that is passed into the model without any changes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an input that is passed into the model without any changes.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
 </pre></div>
         </article>

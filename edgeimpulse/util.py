@@ -1,10 +1,12 @@
-import logging, tempfile
+import logging
+import tempfile
 import time
 import base64
 from typing import Union, Optional, List, Tuple, Any
 from pathlib import Path
 import shutil
 import os
+from urllib3.exceptions import ReadTimeoutError
 import zipfile
 
 import edgeimpulse as ei
@@ -14,7 +16,7 @@ from edgeimpulse.exceptions import (
     MissingApiKeyException,
     InvalidModelException,
     UnsuccessfulRequestException,
-    TimeoutException
+    TimeoutException,
 )
 
 from edgeimpulse_api import (
@@ -25,7 +27,10 @@ from edgeimpulse_api import (
     ProjectsApi,
     GetJobResponse,
     LearnApi,
+    RawDataApi,
 )
+
+DATA_CATEGORIES = ["training", "testing", "anomaly"]
 
 
 def configure_generic_client(
@@ -132,7 +137,6 @@ def poll(
 
         # See if polling timed out
         if timeout is not None and time.time() > timeout:
-
             # Log message
             err_msg = f"Timeout waiting for result for job_id {job_id}"
             logging.info(err_msg)
@@ -140,17 +144,18 @@ def poll(
             # Cancel job
             try:
                 logging.info(f"Canceling job {job_id}")
-                cancel_response = jobs_client.cancel_job(project_id, job_id, force_cancel="true")
+                cancel_response = jobs_client.cancel_job(
+                    project_id, job_id, force_cancel="true"
+                )
                 check_response_errors(cancel_response)
 
             # Catch errors if the cancel request fails
             except Exception as e:
-
                 # If unknown job ID, then the job is likely no longer running
                 if "Unknown job ID " in str(e):
                     logging.error(e)
                     break
-                    
+
                 # Everything else is propagated up
                 else:
                     logging.debug(f"Unhandled exception [{str(e)}]")
@@ -159,6 +164,8 @@ def poll(
             raise TimeoutException(err_msg)
 
 
+# Try importing numpy (even if it isn't used, which triggers F401 in linting)
+# ruff: noqa: F401
 def numpy_installed():
     try:
         import numpy as np
@@ -168,6 +175,8 @@ def numpy_installed():
         return False
 
 
+# Try importing tensorflow (even if it isn't used, which triggers F401 in linting)
+# ruff: noqa: F401
 def tensorflow_installed():
     try:
         import tensorflow as tf
@@ -176,6 +185,9 @@ def tensorflow_installed():
     except ModuleNotFoundError:
         return False
 
+
+# Try importing onnx (even if it isn't used, which triggers F401 in linting)
+# ruff: noqa: F401
 def onnx_installed():
     try:
         import onnx
@@ -183,6 +195,7 @@ def onnx_installed():
         return True
     except ModuleNotFoundError:
         return
+
 
 def is_path_to_numpy_file(data):
     return is_type_accepted_by_open(data) and str(data).endswith(".npy")
@@ -193,7 +206,7 @@ def is_path_to_onnx_model(model):
 
 
 def is_type_accepted_by_open(model):
-    return (type(model) == str) or (issubclass(type(model), Path))
+    return (isinstance(model, str)) or (issubclass(type(model), Path))
 
 
 def is_path_to_tf_saved_model_zipped(model):
@@ -216,6 +229,7 @@ def encode_file_as_base64(filename: str):
     with open(filename, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
+
 def is_keras_model(model):
     if not tensorflow_installed():
         return False
@@ -223,12 +237,14 @@ def is_keras_model(model):
 
     return issubclass(type(model), tf.keras.Model)
 
+
 def is_onnx_model(model):
     if not onnx_installed():
         return False
     import onnx
 
     return issubclass(type(model), onnx.ModelProto)
+
 
 def is_numpy_array(array):
     if not numpy_installed():
@@ -249,7 +265,7 @@ def make_zip_archive(saved_model_path):
 
 
 def save_model(model: Union[Path, str, bytes], directory: str) -> str:
-    if type(model) == str or type(model) == Path:
+    if isinstance(model, str) or isinstance(model, Path):
         raise Exception(f"Model is already located at path {model}")
 
     if tensorflow_installed() and is_keras_model(model):
@@ -261,10 +277,11 @@ def save_model(model: Union[Path, str, bytes], directory: str) -> str:
         return zip_path
     if onnx_installed() and is_onnx_model(model):
         import onnx
+
         onnx_path = os.path.join(directory, "model.onnx")
         onnx.save(model, onnx_path)
         return onnx_path
-    elif type(model) == bytes:
+    elif isinstance(model, bytes):
         filepath = os.path.join(directory, "model")
         with open(filepath, "wb") as f:
             f.write(model)
@@ -297,9 +314,7 @@ def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[st
             return "onnx", model
 
         elif is_path_to_tf_saved_model_zipped(model):
-            logging.info(
-                f"Model parsed as SavedModel (by zip filename) [{model}]"
-            )
+            logging.info(f"Model parsed as SavedModel (by zip filename) [{model}]")
             return "saved_model", model
 
         elif is_path_to_tf_saved_model_directory(model):
@@ -332,12 +347,12 @@ def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[st
             return "saved_model", f"{zip_base_filename}.zip"
 
         elif tensorflow_installed() and is_keras_model(model):
-            logging.info(f"Model parsed as keras model (in memory)")
+            logging.info("Model parsed as keras model (in memory)")
             saved_model_path = save_model(model, tempdir)
             return "saved_model", saved_model_path
-        
+
         elif onnx_installed() and is_onnx_model(model):
-            logging.info(f"Model parsed as ONNX model (in memory)")
+            logging.info("Model parsed as ONNX model (in memory)")
             onnx_path = save_model(model, tempdir)
             return "onnx", onnx_path
 
@@ -345,8 +360,8 @@ def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[st
             logging.info(f"Model parsed as assumed tflite file (on disk) [{model}]")
             return "tflite", model
 
-        elif type(model) == bytes:
-            logging.info(f"Model parsed as assumed tflite file (in memory)")
+        elif isinstance(model, bytes):
+            logging.info("Model parsed as assumed tflite file (in memory)")
             saved_model_path = save_model(model, tempdir)
             return "tflite", saved_model_path
 
@@ -357,7 +372,7 @@ def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[st
         raise InvalidModelException(
             f"Was unable to load_model of type {type(model)}"
             f" with exception {str(e)}"
-        )
+        ) from e
 
 
 def inspect_representative_data(data: Union[Path, str, bytes, Any]) -> Optional[str]:
@@ -377,7 +392,7 @@ def inspect_representative_data(data: Union[Path, str, bytes, Any]) -> Optional[
     if is_path_to_numpy_file(data):
         return str(data)
 
-    if type(data) == str:
+    if isinstance(data, str):
         raise Exception(
             f"Unknown representative data file {data}. Expecting file ending in .npy."
         )
@@ -413,7 +428,8 @@ def default_project_id_for(client: ApiClient) -> int:
     """Derive project id from api_key used to configure generic client
 
     Args:
-        client (ApiClient): Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().
+        client (ApiClient): Generic api client configured with a project api key. For jwt or
+            jwt_http key use get_project_id_list().
 
     Returns:
         int: Project id
@@ -500,12 +516,15 @@ def upload_pretrained_model_and_data(
 
     Args:
         tempdir (str): Temporary directory to hold saved form of any model passed in
-        client (ApiClient): Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().
+        client (ApiClient): Generic api client configured with a project api key. For jwt or
+            jwt_http key use get_project_id_list().
         project_id (int): Project id number
-        model (Union[Path, str, bytes, Any], op): A machine learning model, or similarly represented computational graph.
-            Can be `Path` or `str` denoting file path, Python `bytes` containing a model, or a Keras model instance.
-        representative_data (Optional[Union[Path, str, bytes, Any]], optional): A numpy representative input dataset. Accepts either an in memory numpy
-            array or the Path/str filename of a np.save .npy file.
+        model (Union[Path, str, bytes, Any], op): A machine learning model, or similarly represented
+            computational graph. Can be `Path` or `str` denoting file path, Python `bytes`
+            containing a model, or a Keras model instance.
+        representative_data (Optional[Union[Path, str, bytes, Any]], optional): A numpy
+            representative input dataset. Accepts either an in memory numpy array or the Path/str
+            filename of a np.save .npy file.
         device (Optional[str], optional): An embedded processor for which to profile the model.
             A comprehensive list can be obtained via `edgeimpulse.model.list_profile_devices()`.
         timeout_sec (Optional[float], optional): Optional timeout for polling.
@@ -545,7 +564,7 @@ def upload_pretrained_model_and_data(
         check_response_errors(response)
         job_id = response.id
     except FileNotFoundError as e:
-        raise InvalidModelException(str(e))
+        raise InvalidModelException(str(e)) from e
     except Exception as e:
         logging.debug(f"Exception starting upload job [{str(e)}]")
         raise e
@@ -556,7 +575,7 @@ def upload_pretrained_model_and_data(
             jobs_client=jobs,
             project_id=project_id,
             job_id=job_id,
-            timeout_sec=timeout_sec
+            timeout_sec=timeout_sec,
         )
     except TimeoutException as te:
         raise te
@@ -570,7 +589,7 @@ def upload_pretrained_model_and_data(
 
 
 def check_response_errors(request):
-    """Checks API responses for standard errors and raises an exception with the details if found."""
+    """Checks for standard errors and raises an exception with the details if found."""
     if hasattr(request, "success"):
         success = request.success
         error = None

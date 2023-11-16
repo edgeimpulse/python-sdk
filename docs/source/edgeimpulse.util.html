@@ -236,8 +236,12 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -283,7 +287,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.util.check_response_errors">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">check_response_errors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#check_response_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.check_response_errors" title="Permalink to this definition">#</a></dt>
-<dd><p>Checks API responses for standard errors and raises an exception with the details if found.</p>
+<dd><p>Checks for standard errors and raises an exception with the details if found.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -324,7 +328,8 @@
 <dd><p>Derive project id from api_key used to configure generic client</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().</p>
+<dd class="field-odd"><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or
+jwt_http key use get_project_id_list().</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Project id</p>
@@ -581,12 +586,15 @@ model passed</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tempdir</strong> (<em>str</em>) – Temporary directory to hold saved form of any model passed in</p></li>
-<li><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or jwt_http key use get_project_id_list().</p></li>
+<li><p><strong>client</strong> (<em>ApiClient</em>) – Generic api client configured with a project api key. For jwt or
+jwt_http key use get_project_id_list().</p></li>
 <li><p><strong>project_id</strong> (<em>int</em>) – Project id number</p></li>
-<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>op</em>) – A machine learning model, or similarly represented computational graph.
-Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite> containing a model, or a Keras model instance.</p></li>
-<li><p><strong>representative_data</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – A numpy representative input dataset. Accepts either an in memory numpy
-array or the Path/str filename of a np.save .npy file.</p></li>
+<li><p><strong>model</strong> (<em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>, </em><em>op</em>) – A machine learning model, or similarly represented
+computational graph. Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite>
+containing a model, or a Keras model instance.</p></li>
+<li><p><strong>representative_data</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Path</em><em>, </em><em>str</em><em>, </em><em>bytes</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – A numpy
+representative input dataset. Accepts either an in memory numpy array or the Path/str
+filename of a np.save .npy file.</p></li>
 <li><p><strong>device</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – An embedded processor for which to profile the model.
 A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_devices()</cite>.</p></li>
 <li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout for polling.</p></li>

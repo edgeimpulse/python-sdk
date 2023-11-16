@@ -1,0 +1,24 @@
+{
+    "protected": {
+        "ver": "v1",
+        "alg": "HS256",
+        "iat": 1564128599
+    },
+    "signature": "b0ee0572a1984b93b6bc56e6576e2cbbd6bccd65d0c356e26b31bbc9a48210c6",
+    "payload": {
+        "device_name": "ac:87:a3:0a:2d:1b",
+        "device_type": "DISCO-L475VG-IOT01A",
+        "interval_ms": 10,
+        "sensors": [
+            { "name": "accX", "units": "m/s2" },
+            { "name": "accY", "units": "m/s2" },
+            { "name": "accZ", "units": "m/s2" }
+        ],
+        "values": [
+            [ -9.81, 0.03, 1.21 ],
+            [ -9.83, 0.04, 1.27 ],
+            [ -9.12, 0.03, 1.23 ],
+            [ -9.14, 0.01, 1.25 ]
+        ]
+    }
+}

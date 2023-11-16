@@ -1,7 +1,7 @@
 import unittest
 
-from edgeimpulse.model.input_type import *
-from edgeimpulse.model.output_type import *
+from edgeimpulse.model.input_type import AudioInput, TimeSeriesInput
+from edgeimpulse.model.output_type import Classification, Regression, ObjectDetection
 from edgeimpulse.model.model_info import ModelInfo
 
 from edgeimpulse_api.models.deploy_pretrained_model_request_model_info_input import (

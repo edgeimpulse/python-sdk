@@ -1,11 +1,12 @@
 [tool.poetry]
 name = "edgeimpulse"
-version = "1.0.6"
+version = "1.0.7"
 description = "Python SDK for Edge Impulse."
 authors = ["EdgeImpulse Inc. <hello@edgeimpulse.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://edgeimpulse.com"
+repository = "https://github.com/edgeimpulse/python-sdk"
 documentation = "https://docs.edgeimpulse.com/docs/edge-impulse-python-sdk/overview"
 classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -14,8 +15,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-#edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
-edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
+edgeimpulse-api = "1.29.20"
+requests = "^2.23.0"
 
 [tool.poetry.dev-dependencies]
 numpy = "^1.22"
@@ -26,6 +27,10 @@ myst-parser = "2.0.0"
 m2r2 = "0.3.3.post2"
 pyYAML = "6.0.1"
 
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.1.3"
+black = "^23.10.1"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -34,3 +39,22 @@ build-backend = "poetry.core.masonry.api"
 name = "pypi-test"
 url = "https://test.pypi.org/simple"
 secondary = true
+
+[tool.ruff]
+target-version = "1.0.7"
+indent-width = 4
+
+[tool.ruff.lint]
+select = [
+    "A",    # flake8-builtins: prevent keywords that clobber python builtins
+    "E4",   # (default) flake8: listing imports
+    "E7",   # (default) flake8: multiple lines, comparisons, naming
+    "E9",   # (default) flake8: Python syntax errors
+    "F",    # (default) pyflakes: https://www.flake8rules.com/
+    "W",    # flake8: whitespace rules
+]
+ignore = []
+
+[tool.black]
+target-version = ["py38"]
+line-length = 88

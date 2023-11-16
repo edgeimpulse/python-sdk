@@ -1,4 +1,5 @@
-import logging, json
+import logging
+import json
 from pathlib import Path
 from typing import Union, Optional, Any, List
 import tempfile
@@ -74,29 +75,32 @@ def profile(
     timeout_sec: Optional[float] = None,
 ) -> ProfileResponse:
     """
-    Profiles the performance of a trained model on a range of embedded targets, or a specific device.
+    Profiles the performance of a trained model on a range of embedded targets, or a specific
+    device.
 
-    The response includes estimates of memory usage and latency for the model across a range of targets,
-    including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit (MPU),
-    and a GPU or neural network accelerator. It will also include details of any conditions that preclude
-    operation on a given type of device.
+    The response includes estimates of memory usage and latency for the model across a range of
+    targets, including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit
+    (MPU), and a GPU or neural network accelerator. It will also include details of any conditions
+    that preclude operation on a given type of device.
 
-    If you request a specific `device`, the results will also include estimates for that specific device.
-    A list of devices can be obtained from `edgeimpulse.model.list_profile_devices()`.
+    If you request a specific `device`, the results will also include estimates for that specific
+    device. A list of devices can be obtained from `edgeimpulse.model.list_profile_devices()`.
 
     You can call `.summary()` on the response to obtain a more readable version of the most relevant
     information.
 
     Args:
-        model (Union[Path, str, bytes, Any]): A machine learning model, or similarly represented computational graph.
-            Can be `Path` or `str` denoting file path, Python `bytes` containing a model, or a Keras model instance.
+        model (Union[Path, str, bytes, Any]): A machine learning model, or similarly represented
+            computational graph. Can be `Path` or `str` denoting file path, Python `bytes`
+            containing a model, or a Keras model instance.
         device (Optional[str], optional): An embedded processor for which to profile the model.
             A comprehensive list can be obtained via `edgeimpulse.model.list_profile_devices()`.
         api_key (Optional[str], optional): The API key for an Edge Impulse project.
-            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
-        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to complete on the server.
-            None is considered "infinite timeout" and will wait forever.
-            
+            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var
+            `EI_API_KEY`.
+        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to
+            complete on the server. `None` is considered "infinite timeout" and will wait forever.
+
     Returns:
         ProfileResponse: Structure containing profile information.
         A subclass of `edgeimpulse_api.models.get_pretrained_model_response`.
@@ -118,12 +122,18 @@ def profile(
             result.summary()
 
             # Profile different types of models on specific devices
-            result = ei.model.profile(model="heart_rate.onnx",  # ONNX
-                                        device="cortex-m4f-80mhz")
-            result = ei.model.profile(model="heart_rate",  # TensorFlow SavedModel (can also be a zip)
-                                        device="nordic-nrf9160-dk")
-            result = ei.model.profile(model="heart_rate.lite",  # TensorFlow Lite (float32 or int8)
-                                        device="synaptics-ka10000")
+            result = ei.model.profile(
+                model="heart_rate.onnx",  # ONNX
+                device="cortex-m4f-80mhz"
+            )
+            result = ei.model.profile(
+                model="heart_rate",  # TensorFlow SavedModel (can also be a zip)
+                device="nordic-nrf9160-dk"
+            )
+            result = ei.model.profile(
+                model="heart_rate.lite",  # TensorFlow Lite (float32 or int8)
+                device="synaptics-ka10000"
+            )
 
     """
 
@@ -200,7 +210,8 @@ def list_profile_devices(api_key: Optional[str] = None) -> "List[str]":
     """Lists possible values for the `device` field when calling `edgeimpulse.model.profile()`.
 
     Args:
-        api_key (str, optional): The API key for an Edge Impulse project. This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
+        api_key (str, optional): The API key for an Edge Impulse project. This can also be set via
+        the module-level variable `edgeimpulse.API_KEY`, or the env var `EI_API_KEY`.
 
     Returns:
         List[str]: List of profile targets for project
