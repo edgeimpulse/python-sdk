@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="output_type module" href="edgeimpulse.model.output_type.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>util module - Python SDK1.0.6</title>
+        <title>util module - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.8</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -226,7 +226,7 @@
     <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.8</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,8 +240,13 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.datasets.html">datasets module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -394,6 +399,12 @@ jwt_http key use get_project_id_list().</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.get_user_agent">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">get_user_agent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">add_platform_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#get_user_agent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.get_user_agent" title="Permalink to this definition">#</a></dt>
+<dd><p>Helper function to get user agent string for API calls.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.util.inspect_model">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">inspect_model</span></span><span class="sig-paren">(</span>
 
@@ -505,6 +516,11 @@ model passed</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.util.onnx_installed">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">onnx_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#onnx_installed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.onnx_installed" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.util.pandas_installed">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.util.</span></span><span class="sig-name descname"><span class="pre">pandas_installed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/util.html#pandas_installed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.util.pandas_installed" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -639,7 +655,7 @@ A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_de
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023, Edge Impulse Inc.
+                Copyright &#169; 2024, Edge Impulse Inc.
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -672,6 +688,7 @@ A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_de
 <li><a class="reference internal" href="#edgeimpulse.util.encode_file_as_base64"><code class="docutils literal notranslate"><span class="pre">encode_file_as_base64()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.get_profile_devices"><code class="docutils literal notranslate"><span class="pre">get_profile_devices()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.get_project_deploy_targets"><code class="docutils literal notranslate"><span class="pre">get_project_deploy_targets()</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.util.get_user_agent"><code class="docutils literal notranslate"><span class="pre">get_user_agent()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.inspect_model"><code class="docutils literal notranslate"><span class="pre">inspect_model()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.inspect_representative_data"><code class="docutils literal notranslate"><span class="pre">inspect_representative_data()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.is_keras_model"><code class="docutils literal notranslate"><span class="pre">is_keras_model()</span></code></a></li>
@@ -685,6 +702,7 @@ A comprehensive list can be obtained via <cite>edgeimpulse.model.list_profile_de
 <li><a class="reference internal" href="#edgeimpulse.util.make_zip_archive"><code class="docutils literal notranslate"><span class="pre">make_zip_archive()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.numpy_installed"><code class="docutils literal notranslate"><span class="pre">numpy_installed()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.onnx_installed"><code class="docutils literal notranslate"><span class="pre">onnx_installed()</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.util.pandas_installed"><code class="docutils literal notranslate"><span class="pre">pandas_installed()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.poll"><code class="docutils literal notranslate"><span class="pre">poll()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.save_model"><code class="docutils literal notranslate"><span class="pre">save_model()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.util.save_representative_data"><code class="docutils literal notranslate"><span class="pre">save_representative_data()</span></code></a></li>

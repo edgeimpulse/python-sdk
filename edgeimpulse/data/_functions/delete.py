@@ -1,7 +1,10 @@
 import logging
-from typing import Optional
+from typing import Optional, Tuple
 
 import edgeimpulse
+from edgeimpulse.data._functions.util import (
+    get_sample_ids,
+)
 from edgeimpulse.util import (
     configure_generic_client,
     default_project_id_for,
@@ -99,11 +102,11 @@ def delete_sample_by_id(
             filename_no_ext = os.path.splitext(filename)[0]
 
             # Get list of IDs that match the given sample filename
-            ids = ei.data.get_ids_by_filename(filename_no_ext)
+            infos = ei.experimental.data.get_sample_ids(filename_no_ext)
 
             # Delete the IDs
-            for id_num in ids:
-                resp = ei.data.delete_sample_by_id(id_num)
+            for info in infos:
+                resp = ei.experimental.data.delete_sample_by_id(info.sample_id)
                 if resp is None:
                     logging.warning(f"Could not delete sample {filename_no_ext}")
     """
@@ -136,3 +139,50 @@ def delete_sample_by_id(
     logging.info(f"Deleted sample {sample_id}")
 
     return resp
+
+
+# Delete sample from project
+def delete_samples_by_filename(
+    filename: str,
+    category: Optional[str] = None,
+    api_key: Optional[str] = None,
+    timeout_sec: Optional[float] = None,
+) -> Optional[Tuple[GenericApiResponse]]:
+    """
+    Delete any samples from an Edge Impulse project that match the given filename.
+
+    Note: the `filename` argument must not include the original extension. For example,
+    if you uploaded a file named `my-image.01.png`, you must provide the `filename` as
+    `my-image.01`.
+
+    Args:
+        filename (str): Filename of the sample to delete. You should not include any
+            extension on the filename.
+        category (Optional[str]): Category ("training", "testing", "anomaly") from which
+            the samples should be deleted. Set to 'None' to delete all samples from all
+            categories.
+        api_key (Optional[str]): The API key for an Edge Impulse project.
+            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
+            the environment variable `EI_API_KEY`.
+        timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API
+            calls.
+    """
+
+    # Get list of IDs that match the given sample filename
+    infos = get_sample_ids(
+        filename=filename,
+        category=category,
+        timeout_sec=timeout_sec,
+    )
+
+    # Delete the IDs
+    resps = []
+    for info in infos:
+        resp = delete_sample_by_id(
+            sample_id=info.sample_id, api_key=api_key, timeout_sec=timeout_sec
+        )
+        if resp is None:
+            logging.warning(f"Could not delete sample {filename}")
+        resps.append(resp)
+
+    return tuple(resps)

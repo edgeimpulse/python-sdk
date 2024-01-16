@@ -62,7 +62,9 @@ Resources
    :caption: Contents:
 
    source/edgeimpulse.data
+   source/edgeimpulse.datasets
    source/edgeimpulse.exceptions
+   source/edgeimpulse.experimental
    source/edgeimpulse.model
    source/edgeimpulse.util
 

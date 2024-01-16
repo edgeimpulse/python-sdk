@@ -6,3 +6,4 @@ poetry.lock
 venv/
 .DS_Store
 .ruff_cache/
+.ipynb_checkpoints/

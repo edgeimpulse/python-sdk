@@ -8,6 +8,7 @@ import shutil
 import os
 from urllib3.exceptions import ReadTimeoutError
 import zipfile
+import platform
 
 import edgeimpulse as ei
 
@@ -31,6 +32,18 @@ from edgeimpulse_api import (
 )
 
 DATA_CATEGORIES = ["training", "testing", "anomaly"]
+
+
+def get_user_agent(add_platform_info=False):
+    """
+    Helper function to get user agent string for API calls.
+    """
+    user_agent = f"edgeimpulse-sdk/{ei.__version__}"
+    if add_platform_info:
+        user_agent += (
+            f" (python {platform.python_version()} {platform.system().lower()})"
+        )
+    return user_agent
 
 
 def configure_generic_client(
@@ -73,8 +86,9 @@ def configure_generic_client(
         raise InvalidAuthTypeException(msg)
 
     client = ApiClient(config)
+
     # So we know which calls come from the SDK vs the client
-    client.user_agent += f" edgeimpulse-sdk/{ei.__version__}"
+    client.user_agent += f" {get_user_agent()}"
 
     return client
 
@@ -191,6 +205,17 @@ def tensorflow_installed():
 def onnx_installed():
     try:
         import onnx
+
+        return True
+    except ModuleNotFoundError:
+        return
+
+
+# Try importing pandas
+# ruff: noqa: F401
+def pandas_installed():
+    try:
+        import pandas
 
         return True
     except ModuleNotFoundError:
@@ -450,7 +475,7 @@ def default_project_id_for(client: ApiClient) -> int:
         logging.debug(f"Exception trying to fetch project ID [{str(e)}]")
         raise e
 
-    logging.info(f"Derived project_id={project_id} based on api key")
+    logging.debug(f"Derived project_id={project_id} based on api key")
     return project_id
 
 

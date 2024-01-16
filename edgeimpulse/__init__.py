@@ -3,10 +3,10 @@ import os
 # Import the subpackages here to expose them to the user
 # ruff: noqa: F401
 import edgeimpulse.model
-import edgeimpulse.data
 import edgeimpulse.exceptions
+import edgeimpulse.experimental
 
-__version__ = "1.0.5"
+__version__ = "1.0.8"
 
 try:
     API_KEY = os.environ["EI_API_KEY"]

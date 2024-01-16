@@ -1,10 +1,16 @@
+import json
 import logging
-from typing import Optional, Tuple
+import math
+from typing import Optional, List
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import edgeimpulse
 from edgeimpulse.util import (
     configure_generic_client,
     default_project_id_for,
+)
+from edgeimpulse.data.sample_type import (
+    SampleInfo,
 )
 from edgeimpulse_api import (
     RawDataApi,
@@ -70,15 +76,71 @@ def get_filename_by_id(
     return None
 
 
-def get_ids_by_filename(
+def _list_samples(
+    raw_data: RawDataApi,
+    project_id: str,
+    category: str,
+    labels: List[str],
     filename: str,
-    category: Optional[str] = None,
-    api_key: Optional[str] = None,
-    timeout_sec: Optional[float] = None,
-) -> Tuple[int, ...]:
+    offset: int,
+    samples_per_thread: int,
+    chunk_size: int = 1000,
+    timeout_sec=None,
+):
     """
-    Given a filename for a sample in a project, return any sample IDs that match that
-    filename.
+    Make API calls to get sample info from a project
+    """
+
+    # Determine how many times to make API call
+    num_chunks = int(math.ceil(samples_per_thread / chunk_size))
+
+    # Make API calls to list sample information
+    resps = []
+    for i in range(num_chunks):
+        # Determine offset and limit for this chunk
+        chunk_offset = i * chunk_size
+        limit = min(samples_per_thread - chunk_offset, chunk_size)
+
+        # Make API call
+        try:
+            resp = raw_data.list_samples(
+                project_id=project_id,
+                category=category,
+                labels=json.dumps(labels),
+                filename=filename,
+                offset=offset + chunk_offset,
+                limit=limit,
+                _request_timeout=timeout_sec,
+            )
+        except Exception as e:
+            logging.debug(f"Exception trying to get sample info [{str(e)}]")
+            raise e
+
+        # Parse and combine responses
+        for sample in resp.samples:
+            resps.append(
+                SampleInfo(
+                    sample_id=sample.id,
+                    filename=sample.filename,
+                    category=sample.category,
+                    label=sample.label,
+                )
+            )
+
+    return resps
+
+
+def get_sample_ids(
+    filename: Optional[str] = None,
+    category: Optional[str] = None,
+    labels: Optional[str] = None,
+    api_key: Optional[str] = None,
+    num_workers: Optional[int] = 4,
+    timeout_sec: Optional[float] = None,
+) -> List[SampleInfo]:
+    """
+    Get the sample IDs and filenames for all samples in a project, filtered by category,
+    labels, and/or filename.
 
     Note that filenames are given by the root of the filename when uploaded.
     For example, if you upload `my-image.01.png`, it will be stored in your project with
@@ -87,62 +149,109 @@ def get_ids_by_filename(
     extension and hash.
 
     Because of the possibility for multiple samples (i.e. different sample IDs) with the
-    same filename, we recommend providing unique filenames for your samples.
+    same filename, we recommend providing unique filenames for your samples when
+    uploading.
 
     Args:
-        filename (str): Root of the filename to look up (without extension or hash).
+        filename (Optional[str]): Filename of the sample(s) (without extension or hash)
+            to look up. Note that multiple samples can have the same filename. If no
+            filename is given, the function will look for samples with any filename.
         category (Optional[str]): Category ("training", "testing", "anomaly") to look in
             for your sample. If no category is given, the function will look in all
             possible categories.
+        labels (Optional[str]): Label to look for in your sample. If no label is given,
+            the function will look for samples with any label.
         api_key (Optional[str]): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
             the environment variable `EI_API_KEY`.
-        timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API calls.
+        num_workers (Optional[int]): Number of threads to use to make API calls.
+            Defaults to 4.
+        timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API
+            calls.
 
     Raises:
         e: Unhandled exception from api
 
     Returns:
-        Tuple[int]: Tuple of IDs corresponding to the sample filename given. Empty if
-            no samples matching the filename were found.
+        List[SampleInfo]: List of `SampleInfo` objects containing the sample ID,
+            filename, category, and label for each sample matching the criteria given.
     """
 
-    # Create API clients
+    # Recursively get info from all categories if no category given
+    if category == "all" or category is None:
+        resp_samples = []
+        for category in edgeimpulse.util.DATA_CATEGORIES:
+            resp_samples.extend(
+                get_sample_ids(
+                    category=category,
+                    labels=labels,
+                    filename=filename,
+                    num_workers=num_workers,
+                )
+            )
+
+        return resp_samples
+
+    # Check to make sure category is in the allowed set
+    if category not in edgeimpulse.util.DATA_CATEGORIES:
+        raise ValueError(
+            "Invalid category. Allowable categories: "
+            f"{edgeimpulse.util.DATA_CATEGORIES} "
+            "and None to search in all categories."
+        )
+
+    # Configure API client (TODO: make sure user can pass in api_key)
     client = configure_generic_client(
         key=api_key if api_key else edgeimpulse.API_KEY,
         host=edgeimpulse.API_ENDPOINT,
     )
-    raw_data_api = RawDataApi(client)
 
-    # Get project ID associated with API key
+    # Get project ID
     project_id = default_project_id_for(client)
 
-    # Go through all categories if no category given
-    if category is None:
-        categories = edgeimpulse.util.DATA_CATEGORIES
-    else:
-        categories = [category]
+    # Configure specific API client
+    raw_data = RawDataApi(client)
 
-    # Get IDs for a given filename
-    try:
-        resps = []
-        for category in categories:
-            resp = raw_data_api.list_samples(
+    # Make labels into a list
+    if isinstance(labels, str):
+        labels = [labels]
+
+    # Get number of samples with an API call
+    resp = raw_data.count_samples(
+        project_id=project_id,
+        category=category,
+        labels=json.dumps(labels),
+        _request_timeout=timeout_sec,
+    )
+    total_samples = resp.count
+
+    # Compute start and stop index for each thread
+    samples_per_thread = int(math.ceil(total_samples / num_workers))
+    start_indexes = []
+    for i in range(num_workers):
+        start_indexes.append(i * samples_per_thread)
+
+    # Create a ThreadPoolExecutor
+    resp_samples = []
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        # Submit tasks to the pool
+        futures = [
+            executor.submit(
+                _list_samples,
+                raw_data=raw_data,
                 project_id=project_id,
                 category=category,
+                labels=labels,
                 filename=filename,
-                _request_timeout=timeout_sec,
+                offset=start_indexes[i],
+                samples_per_thread=samples_per_thread,
+                timeout_sec=timeout_sec,
             )
-            resps.append(resp)
-    except Exception as e:
-        logging.debug(f"Exception trying to get sample IDs for {filename} [{str(e)}]")
-        raise e
+            for i in range(num_workers)
+        ]
 
-    # Construct list of IDs
-    ids = []
-    for resp in resps:
-        if resp.samples is not None:
-            for sample in resp.samples:
-                ids.append(sample.id)
+        # Collect results as they are completed
+        for future in as_completed(futures):
+            resp_samples.extend(future.result())
 
-    return tuple(ids)
+    return resp_samples

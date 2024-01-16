@@ -4,6 +4,17 @@ Description of notable changes to the [Edge Impulse Python SDK](https://pypi.org
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8] - 2024-01-15
+
+### Added
+
+ - `experimental` submodule for testing new features
+ - `experimental.data` submodule for testing data upload and download features
+ - `download_samples_by_ids()` function in `experimental.data` to download sample data and metadata from Edge Impulse project
+ - `upload_directory()` function in `experimental.data` to upload all files in a directory to an Edge Impulse project
+ - `upload_numpy()` function in `experimental.data` to upload Numpy arrays
+ - `upload_pandas_sample()`, `upload_pandas_dataframe_wide()`, `upload_pandas_dataframe()`, `upload_pandas_dataframe_with_group()` functions in `experimental.data` to uplaod pandas (and pandas-like) dataframes
+
 ## [1.0.7] - 2023-11-01
 
 ### Added

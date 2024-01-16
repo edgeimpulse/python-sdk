@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="exceptions module" href="edgeimpulse.exceptions.html" /><link rel="prev" title="data package" href="edgeimpulse.data.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="datasets module" href="edgeimpulse.datasets.html" /><link rel="prev" title="data package" href="edgeimpulse.data.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>sample_type module - Python SDK1.0.6</title>
+        <title>sample_type module - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.8</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -226,7 +226,7 @@
     <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.8</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,8 +240,13 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">sample_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.datasets.html">datasets module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -285,16 +290,282 @@
           <section id="module-edgeimpulse.data.sample_type">
 <span id="sample-type-module"></span><h1>sample_type module<a class="headerlink" href="#module-edgeimpulse.data.sample_type" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.DataAcquisition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">DataAcquisition</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">protected</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected" title="edgeimpulse.data.sample_type.Protected"><span class="pre">Protected</span></a></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload" title="edgeimpulse.data.sample_type.Payload"><span class="pre">Payload</span></a></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">signature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#DataAcquisition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper class for the Edge Impulse data acquisition format. See here for more
+information: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.DataAcquisition.protected">
+<span class="sig-name descname"><span class="pre">protected</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition.protected" title="Permalink to this definition">#</a></dt>
+<dd><p>Information about the signature format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected" title="edgeimpulse.data.sample_type.Protected">Protected</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.DataAcquisition.payload">
+<span class="sig-name descname"><span class="pre">payload</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition.payload" title="Permalink to this definition">#</a></dt>
+<dd><p>Sensor data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload" title="edgeimpulse.data.sample_type.Payload">Payload</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.DataAcquisition.signature">
+<span class="sig-name descname"><span class="pre">signature</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition.signature" title="Permalink to this definition">#</a></dt>
+<dd><p>Cryptographic signature of the data. Default is
+<cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">payload</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload" title="edgeimpulse.data.sample_type.Payload"><span class="pre">Payload</span></a></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">protected</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected" title="edgeimpulse.data.sample_type.Protected"><span class="pre">Protected</span></a></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">signature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">Payload</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">device_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">sensors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor" title="edgeimpulse.data.sample_type.Sensor"><span class="pre">Sensor</span></a><span class="p"><span class="pre">]</span></span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">interval_ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Payload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper class for the sensor data. Information about the data acquisition format
+can be found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.device_type">
+<span class="sig-name descname"><span class="pre">device_type</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.device_type" title="Permalink to this definition">#</a></dt>
+<dd><ul class="simple">
+<li><p>Device type, for example the exact model of the device.</p></li>
+</ul>
+<p>Should be the same for all similar devices. For example
+“DISCO-L475VG-IOT01A”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.sensors">
+<span class="sig-name descname"><span class="pre">sensors</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.sensors" title="Permalink to this definition">#</a></dt>
+<dd><p>List of Sensor objects representing the data acquisition
+sensors, such as <cite>“accX”</cite>, <cite>“accY”</cite>, <cite>“accZ”</cite> for a three-axis
+accelerometer where the units for each would be <cite>“m/s2”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor" title="edgeimpulse.data.sample_type.Sensor">Sensor</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">[</span><em class="sig-param"><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">]</span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.values" title="Permalink to this definition">#</a></dt>
+<dd><p>List of lists containing float values representing the data
+from each of the sensors.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.interval_ms">
+<span class="sig-name descname"><span class="pre">interval_ms</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.interval_ms" title="Permalink to this definition">#</a></dt>
+<dd><p>Interval in milliseconds between data samples.
+Default is 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.device_name">
+<span class="sig-name descname"><span class="pre">device_name</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.device_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Unique identifier for this device. Only set this
+when the device has a globally unique identifier (e.g. MAC address). If this
+field is set the device shows up on the ‘Devices’ page in the studio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="n">Payload</span><span class="p">,</span> <span class="n">Sensor</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">Payload</span><span class="p">(</span>
+    <span class="n">device_type</span><span class="o">=</span><span class="s2">&quot;DISCO-L475VG-IOT01A&quot;</span><span class="p">,</span>
+    <span class="n">sensors</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Sensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accX&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m/s2&quot;</span><span class="p">),</span>
+        <span class="n">Sensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accY&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m/s2&quot;</span><span class="p">),</span>
+        <span class="n">Sensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accZ&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;m/s2&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">9.81</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">1.21</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">9.83</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">1.27</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">9.12</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">1.23</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mf">9.14</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">interval_ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">device_name</span><span class="o">=</span><span class="s2">&quot;ac:87:a3:0a:2d:1b&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">device_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">device_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">interval_ms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">sensors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor" title="edgeimpulse.data.sample_type.Sensor"><span class="pre">Sensor</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#id7" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Protected">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">Protected</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">ver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'v1'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">alg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'HS256'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'none'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'none'</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">iat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Protected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper class for information about the signature format. More information can be
+found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Protected.ver">
+<span class="sig-name descname"><span class="pre">ver</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected.ver" title="Permalink to this definition">#</a></dt>
+<dd><p>Version of the signature format. Default is <cite>“v1”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Protected.alg">
+<span class="sig-name descname"><span class="pre">alg</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected.alg" title="Permalink to this definition">#</a></dt>
+<dd><p>Algorithm used to generate the signature. Default is <cite>“none”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Protected.iat">
+<span class="sig-name descname"><span class="pre">iat</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected.iat" title="Permalink to this definition">#</a></dt>
+<dd><p>Date and time when the file was created in seconds since
+epoch. Only set this when the device creating the file has an accurate
+clock. Default is <cite>None</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="n">Protected</span>
+
+<span class="n">protected</span> <span class="o">=</span> <span class="n">Protected</span><span class="p">(</span>
+    <span class="n">ver</span><span class="o">=</span><span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+    <span class="n">alg</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">iat</span><span class="o">=</span><span class="mi">1609459200</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">alg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'HS256'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'none'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'none'</span></em><a class="headerlink" href="#id8" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">iat</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id9" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">ver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'v1'</span></em><a class="headerlink" href="#id10" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sample">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span>
 
 <dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BufferedIOBase</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'training'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'testing'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'anomaly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'split'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'split'</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">bounding_boxes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Sample" title="Permalink to this definition">#</a></dt>
@@ -377,34 +648,245 @@ for your particular sample (example: <cite>{“source”: “microphone”, “t
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">bounding_boxes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sample.sample_id">
+<span class="sig-name descname"><span class="pre">sample_id</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Sample.sample_id" title="Permalink to this definition">#</a></dt>
+<dd><p>Unique ID of the sample. This is automatically assigned by the
+Edge Impulse server when the sample is uploaded. You can use this ID to retrieve the
+sample later. This value is ignored when uploading samples and should not be set by the
+user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">bounding_boxes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id11" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'training'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'testing'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'anomaly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'split'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'split'</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'training'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'testing'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'anomaly'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'split'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'split'</span></em><a class="headerlink" href="#id12" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BufferedIOBase</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BufferedIOBase</span></em><a class="headerlink" href="#id13" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id14" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id15" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id16" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id17" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">SampleInfo</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#SampleInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper for the response from the Edge Impulse ingestion service when retrieving
+sample information.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo.sample_id">
+<span class="sig-name descname"><span class="pre">sample_id</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo.sample_id" title="Permalink to this definition">#</a></dt>
+<dd><p>The sample ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo.filename" title="Permalink to this definition">#</a></dt>
+<dd><p>The filename of the sample.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo.category">
+<span class="sig-name descname"><span class="pre">category</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo.category" title="Permalink to this definition">#</a></dt>
+<dd><p>The category of the sample.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo.label">
+<span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo.label" title="Permalink to this definition">#</a></dt>
+<dd><p>The label of the sample.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id18" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id20" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id21" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleIngestionResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">SampleIngestionResponse</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">sample</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">response</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#SampleIngestionResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleIngestionResponse" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#SampleIngestionResponse.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a string providing an overview of the response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Response from the server.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sensor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">Sensor</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'A'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'K'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'cd'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'mol'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Hz'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rad'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'sr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'N'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'J'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'W'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'V'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'F'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Ohm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'S'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Wb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'T'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'H'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Cel'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bq'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Gy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Sv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kat'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m3'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'l'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m/s2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m3/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'l/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'W/m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'cd/m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bit'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bit/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lat'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lon'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pH'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dB'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dBW'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bspl'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'count'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'/'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%RH'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%EL'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'EL'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'1/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'1/min'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'beat/min'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'beats'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'S/m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'B'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'VA'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'VAs'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'var'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vars'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'J/m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kg/m3'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'deg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'NTU'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rgba'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'m/s'</span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Sensor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Sensor" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a sensor in the Edge Impulse data acquisition format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The units must comply with the SenML units list:
+<a class="reference external" href="https://www.iana.org/assignments/senml/senml.xhtml">https://www.iana.org/assignments/senml/senml.xhtml</a></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sensor.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Sensor.name" title="Permalink to this definition">#</a></dt>
+<dd><p>Name of the sensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">units</span> <span class="pre">(Literal[</span></span></dt>
+<dd><p>“m”, “kg”, “g”, “s”, “A”, “K”, “cd”, “mol”, “Hz”, “rad”, “sr”, “N”, “Pa”, “J”, “W”, “C”, “V”, “F”, “Ohm”,
+“S”, “Wb”, “T”, “H”, “Cel”, “lm”, “lx”, “Bq”, “Gy”, “Sv”, “kat”, “m2”, “m3”, “l”, “m/s”, “m/s2”, “m3/s”, “l/s”,
+“W/m2”, “cd/m2”, “bit”, “bit/s”, “lat”, “lon”, “pH”, “dB”, “dBW”, “Bspl”, “count”, “/”, “%”, “%RH”, “%EL”,
+“EL”, “1/s”, “1/min”, “beat/min”, “beats”, “S/m”, “B”, “VA”, “VAs”, “var”, “vars”, “J/m”, “kg/m3”, “deg”, “NTU”,
+“rgba”</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">])</span></span></dt>
+<dd><p>Measurement units of the sensor as defined by <a class="reference external" href="https://www.iana.org/assignments/senml/senml.xhtml">https://www.iana.org/assignments/senml/senml.xhtml</a>. Defaults to “m/s”.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sensor.units">
+<span class="sig-name descname"><span class="pre">units</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'g'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'A'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'K'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'cd'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'mol'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Hz'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rad'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'sr'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'N'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Pa'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'J'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'W'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'V'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'F'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Ohm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'S'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Wb'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'T'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'H'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Cel'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lm'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lx'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bq'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Gy'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Sv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kat'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m3'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'l'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m/s2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'m3/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'l/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'W/m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'cd/m2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bit'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'bit/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lat'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lon'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'pH'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dB'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'dBW'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Bspl'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'count'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'/'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%RH'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'%EL'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'EL'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'1/s'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'1/min'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'beat/min'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'beats'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'S/m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'B'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'VA'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'VAs'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'var'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vars'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'J/m'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kg/m3'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'deg'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'NTU'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'rgba'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'m/s'</span></em><a class="headerlink" href="#edgeimpulse.data.sample_type.Sensor.units" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.UploadSamplesResponse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.sample_type.</span></span><span class="sig-name descname"><span class="pre">UploadSamplesResponse</span></span><span class="sig-paren">(</span>
+
+<dl>
+<dd><em class="sig-param"><span class="n"><span class="pre">successes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleIngestionResponse" title="edgeimpulse.data.sample_type.SampleIngestionResponse"><span class="pre">SampleIngestionResponse</span></a><span class="p"><span class="pre">]</span></span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">fails</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleIngestionResponse" title="edgeimpulse.data.sample_type.SampleIngestionResponse"><span class="pre">SampleIngestionResponse</span></a><span class="p"><span class="pre">]</span></span></span></em>,</dd>
+</dl>
+
+<span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#UploadSamplesResponse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.UploadSamplesResponse" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#UploadSamplesResponse.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns a string providing an overview of the number of successes and fails from
+the responses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Successful upload along with number of successes and fails.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -415,12 +897,12 @@ for your particular sample (example: <cite>{“source”: “microphone”, “t
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="edgeimpulse.exceptions.html">
+          <a class="next-page" href="edgeimpulse.datasets.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">exceptions module</div>
+                <div class="title">datasets module</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -439,7 +921,7 @@ for your particular sample (example: <cite>{“source”: “microphone”, “t
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023, Edge Impulse Inc.
+                Copyright &#169; 2024, Edge Impulse Inc.
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -466,6 +948,37 @@ for your particular sample (example: <cite>{“source”: “microphone”, “t
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">sample_type module</a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.DataAcquisition"><code class="docutils literal notranslate"><span class="pre">DataAcquisition</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.DataAcquisition.protected"><code class="docutils literal notranslate"><span class="pre">protected</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.DataAcquisition.payload"><code class="docutils literal notranslate"><span class="pre">payload</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.DataAcquisition.signature"><code class="docutils literal notranslate"><span class="pre">signature</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">payload</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">protected</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">signature</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload"><code class="docutils literal notranslate"><span class="pre">Payload</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload.device_type"><code class="docutils literal notranslate"><span class="pre">device_type</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload.sensors"><code class="docutils literal notranslate"><span class="pre">sensors</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload.values"><code class="docutils literal notranslate"><span class="pre">values</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload.interval_ms"><code class="docutils literal notranslate"><span class="pre">interval_ms</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Payload.device_name"><code class="docutils literal notranslate"><span class="pre">device_name</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">device_name</span></code></a></li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">device_type</span></code></a></li>
+<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">interval_ms</span></code></a></li>
+<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">sensors</span></code></a></li>
+<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">values</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected"><code class="docutils literal notranslate"><span class="pre">Protected</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected.ver"><code class="docutils literal notranslate"><span class="pre">ver</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected.alg"><code class="docutils literal notranslate"><span class="pre">alg</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Protected.iat"><code class="docutils literal notranslate"><span class="pre">iat</span></code></a></li>
+<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">alg</span></code></a></li>
+<li><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">iat</span></code></a></li>
+<li><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">ver</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample"><code class="docutils literal notranslate"><span class="pre">Sample</span></code></a><ul>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.filename"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.data"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
@@ -473,12 +986,39 @@ for your particular sample (example: <cite>{“source”: “microphone”, “t
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.label"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.bounding_boxes"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.metadata"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
-<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
-<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
-<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
-<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
-<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.sample_id"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
+<li><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
+<li><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
+<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
+<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
+<li><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
+<li><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo"><code class="docutils literal notranslate"><span class="pre">SampleInfo</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.sample_id"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.filename"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.category"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.label"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
+<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
+<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
+<li><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
+<li><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleIngestionResponse"><code class="docutils literal notranslate"><span class="pre">SampleIngestionResponse</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__"><code class="docutils literal notranslate"><span class="pre">__repr__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor"><code class="docutils literal notranslate"><span class="pre">Sensor</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+<li><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor.units"><code class="docutils literal notranslate"><span class="pre">units</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.UploadSamplesResponse"><code class="docutils literal notranslate"><span class="pre">UploadSamplesResponse</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__"><code class="docutils literal notranslate"><span class="pre">__repr__()</span></code></a></li>
 </ul>
 </li>
 </ul>

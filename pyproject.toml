@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgeimpulse"
-version = "1.0.7"
+version = "1.0.8"
 description = "Python SDK for Edge Impulse."
 authors = ["EdgeImpulse Inc. <hello@edgeimpulse.com>"]
 license = "Apache-2.0"
@@ -14,11 +14,12 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-edgeimpulse-api = "1.29.20"
+python = ">=3.8,<4.0"
+edgeimpulse-api = "1.40.11"
 requests = "^2.23.0"
 
 [tool.poetry.dev-dependencies]
+pandas = "^2.0.3"
 numpy = "^1.22"
 onnx = "^1.12"
 sphinx = "7.1.2"
@@ -41,7 +42,7 @@ url = "https://test.pypi.org/simple"
 secondary = true
 
 [tool.ruff]
-target-version = "1.0.7"
+target-version = "1.0.8"
 indent-width = 4
 
 [tool.ruff.lint]

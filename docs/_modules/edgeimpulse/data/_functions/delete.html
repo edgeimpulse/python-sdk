@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>edgeimpulse.data._functions.delete - Python SDK1.0.6</title>
+        <title>edgeimpulse.data._functions.delete - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -198,7 +198,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+      <a href="../../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.8</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -225,7 +225,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.8</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,8 +239,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.datasets.html">datasets module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -282,9 +287,12 @@
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.delete</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">edgeimpulse</span>
+<span class="kn">from</span> <span class="nn">edgeimpulse.data._functions.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_sample_ids</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">edgeimpulse.util</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">configure_generic_client</span><span class="p">,</span>
     <span class="n">default_project_id_for</span><span class="p">,</span>
@@ -295,7 +303,7 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="delete_all_samples"><a class="viewcode-back" href="../../../../source/edgeimpulse.data.html#edgeimpulse.data.delete_all_samples">[docs]</a><span class="k">def</span> <span class="nf">delete_all_samples</span><span class="p">(</span>
+<div class="viewcode-block" id="delete_all_samples"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_all_samples">[docs]</a><span class="k">def</span> <span class="nf">delete_all_samples</span><span class="p">(</span>
     <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -350,7 +358,7 @@
     <span class="k">return</span> <span class="n">resp</span></div>
 
 
-<div class="viewcode-block" id="delete_sample_by_id"><a class="viewcode-back" href="../../../../source/edgeimpulse.data.html#edgeimpulse.data.delete_sample_by_id">[docs]</a><span class="k">def</span> <span class="nf">delete_sample_by_id</span><span class="p">(</span>
+<div class="viewcode-block" id="delete_sample_by_id"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_sample_by_id">[docs]</a><span class="k">def</span> <span class="nf">delete_sample_by_id</span><span class="p">(</span>
     <span class="n">sample_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -382,11 +390,11 @@
 <span class="sd">            filename_no_ext = os.path.splitext(filename)[0]</span>
 
 <span class="sd">            # Get list of IDs that match the given sample filename</span>
-<span class="sd">            ids = ei.data.get_ids_by_filename(filename_no_ext)</span>
+<span class="sd">            infos = ei.experimental.data.get_sample_ids(filename_no_ext)</span>
 
 <span class="sd">            # Delete the IDs</span>
-<span class="sd">            for id_num in ids:</span>
-<span class="sd">                resp = ei.data.delete_sample_by_id(id_num)</span>
+<span class="sd">            for info in infos:</span>
+<span class="sd">                resp = ei.experimental.data.delete_sample_by_id(info.sample_id)</span>
 <span class="sd">                if resp is None:</span>
 <span class="sd">                    logging.warning(f&quot;Could not delete sample {filename_no_ext}&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -419,6 +427,53 @@
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deleted sample </span><span class="si">{</span><span class="n">sample_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">resp</span></div>
+
+
+<span class="c1"># Delete sample from project</span>
+<div class="viewcode-block" id="delete_samples_by_filename"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_samples_by_filename">[docs]</a><span class="k">def</span> <span class="nf">delete_samples_by_filename</span><span class="p">(</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">GenericApiResponse</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete any samples from an Edge Impulse project that match the given filename.</span>
+
+<span class="sd">    Note: the `filename` argument must not include the original extension. For example,</span>
+<span class="sd">    if you uploaded a file named `my-image.01.png`, you must provide the `filename` as</span>
+<span class="sd">    `my-image.01`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename (str): Filename of the sample to delete. You should not include any</span>
+<span class="sd">            extension on the filename.</span>
+<span class="sd">        category (Optional[str]): Category (&quot;training&quot;, &quot;testing&quot;, &quot;anomaly&quot;) from which</span>
+<span class="sd">            the samples should be deleted. Set to &#39;None&#39; to delete all samples from all</span>
+<span class="sd">            categories.</span>
+<span class="sd">        api_key (Optional[str]): The API key for an Edge Impulse project.</span>
+<span class="sd">            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or</span>
+<span class="sd">            the environment variable `EI_API_KEY`.</span>
+<span class="sd">        timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API</span>
+<span class="sd">            calls.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Get list of IDs that match the given sample filename</span>
+    <span class="n">infos</span> <span class="o">=</span> <span class="n">get_sample_ids</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+        <span class="n">category</span><span class="o">=</span><span class="n">category</span><span class="p">,</span>
+        <span class="n">timeout_sec</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Delete the IDs</span>
+    <span class="n">resps</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">infos</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">delete_sample_by_id</span><span class="p">(</span>
+            <span class="n">sample_id</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">sample_id</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span> <span class="n">timeout_sec</span><span class="o">=</span><span class="n">timeout_sec</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not delete sample </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">resps</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
@@ -431,7 +486,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023, Edge Impulse Inc.
+                Copyright &#169; 2024, Edge Impulse Inc.
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

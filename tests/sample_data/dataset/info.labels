@@ -1,0 +1,71 @@
+{
+    "files": [
+        {
+            "boundingBoxes": [],
+            "category": "testing",
+            "label": {
+                "label": "background",
+                "type": "label"
+            },
+            "name": "0_0.png.28kmrth3",
+            "path": "testing/background.0_0.png.28kmrth3.ingestion-56f58bdc98-dh5w7.jpg"
+        },
+
+
+        {
+            "boundingBoxes": [],
+            "category": "testing",
+            "label": {
+                "label": "capacitor",
+                "type": "label"
+            },
+            "name": "16_12.png.28kmss20",
+            "path": "testing/capacitor.16_12.png.28kmss20.ingestion-56f58bdc98-9766g.jpg"
+        },
+
+
+        {
+            "boundingBoxes": [],
+            "category": "testing",
+            "label": {
+                "label": "diode",
+                "type": "label"
+            },
+            "name": "14_8.png.28kmtpkc",
+            "path": "testing/diode.14_8.png.28kmtpkc.ingestion-56f58bdc98-9766g.jpg"
+        },
+
+        {
+            "boundingBoxes": [],
+            "category": "training",
+            "label": {
+                "label": "background",
+                "type": "label"
+            },
+            "name": "0_1.png.28kmrth4",
+            "path": "training/background.0_1.png.28kmrth4.ingestion-56f58bdc98-bljp2.jpg"
+        },
+
+        {
+            "boundingBoxes": [],
+            "category": "training",
+            "label": {
+                "label": "capacitor",
+                "type": "label"
+            },
+            "name": "24_5.png.28kmst8d",
+            "path": "training/capacitor.24_5.png.28kmst8d.ingestion-56f58bdc98-dh5w7.jpg"
+        },
+
+        {
+            "boundingBoxes": [],
+            "category": "training",
+            "label": {
+                "label": "diode",
+                "type": "label"
+            },
+            "name": "8_2.png.28kmtom8",
+            "path": "training/diode.8_2.png.28kmtom8.ingestion-56f58bdc98-9766g.jpg"
+        }
+    ]      
+}  

@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="sample_type module" href="edgeimpulse.data.sample_type.html" /><link rel="prev" title="Edge Impulse SDK" href="../index.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>data package - Python SDK1.0.6</title>
+        <title>data package - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -199,7 +199,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+      <a href="../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.8</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -226,7 +226,7 @@
     <img class="sidebar-logo only-dark" src="../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.8</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -240,8 +240,13 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.datasets.html">datasets module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -294,248 +299,6 @@
 </section>
 <section id="module-edgeimpulse.data">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edgeimpulse.data" title="Permalink to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.data.delete_all_samples">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.</span></span><span class="sig-name descname"><span class="pre">delete_all_samples</span></span><span class="sig-paren">(</span>
-
-<dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-</dl>
-
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GenericApiResponse</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/delete.html#delete_all_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.delete_all_samples" title="Permalink to this definition">#</a></dt>
-<dd><p>Deletes all samples in a given category. If category is set to <cite>None</cite>, all samples
-in the project are deleted.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>category</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Category (“training”, “testing”, “anomaly”) from which
-the samples should be deleted. Set to ‘None’ to delete all samples from all
-categories.</p></li>
-<li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or
-the environment variable <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout (in seconds) for API calls.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>e</strong> – Unhandled exception from api</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>API response</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Optional[GenericApiResponse]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.data.delete_sample_by_id">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.</span></span><span class="sig-name descname"><span class="pre">delete_sample_by_id</span></span><span class="sig-paren">(</span>
-
-<dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-</dl>
-
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GenericApiResponse</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/delete.html#delete_sample_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.delete_sample_by_id" title="Permalink to this definition">#</a></dt>
-<dd><p>Delete a particular sample from a project given the sample ID.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sample_id</strong> (<em>id</em>) – ID of the sample to delete</p></li>
-<li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or
-the environment variable <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout (in seconds) for API calls.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>e</strong> – Unhandled exception from api</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>API response, None if no sample is found</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Optional[GenericApiResponse]</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example of filename that has been uploaded to Studio</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;my-image.01.png&quot;</span>
-
-<span class="c1"># Remove extension on the filename when querying the dataset in Studio</span>
-<span class="n">filename_no_ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-<span class="c1"># Get list of IDs that match the given sample filename</span>
-<span class="n">ids</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">get_ids_by_filename</span><span class="p">(</span><span class="n">filename_no_ext</span><span class="p">)</span>
-
-<span class="c1"># Delete the IDs</span>
-<span class="k">for</span> <span class="n">id_num</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">delete_sample_by_id</span><span class="p">(</span><span class="n">id_num</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">resp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not delete sample </span><span class="si">{</span><span class="n">filename_no_ext</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.data.get_filename_by_id">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.</span></span><span class="sig-name descname"><span class="pre">get_filename_by_id</span></span><span class="sig-paren">(</span>
-
-<dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-</dl>
-
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/util.html#get_filename_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.get_filename_by_id" title="Permalink to this definition">#</a></dt>
-<dd><p>Given an ID for a sample in a project, return the filename associated with that
-sample.</p>
-<p>Note that while multiple samples can have the same filename, each sample has a
-unique sample ID that is provided by Studio when the sample is uploaded.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sample_id</strong> (<em>int</em>) – Sample ID to look up</p></li>
-<li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or
-the environment variable <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout (in seconds) for API calls.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>e</strong> – Unhandled exception from api</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>Filename (string) if sample is found. None if no sample is found</dt><dd><p>matching the ID given.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Optional[str]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.data.get_ids_by_filename">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.</span></span><span class="sig-name descname"><span class="pre">get_ids_by_filename</span></span><span class="sig-paren">(</span>
-
-<dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-</dl>
-
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/util.html#get_ids_by_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.get_ids_by_filename" title="Permalink to this definition">#</a></dt>
-<dd><p>Given a filename for a sample in a project, return any sample IDs that match that
-filename.</p>
-<p>Note that filenames are given by the root of the filename when uploaded.
-For example, if you upload <cite>my-image.01.png</cite>, it will be stored in your project with
-a hash, such as <cite>my-image.01.png.4f262n1b.json</cite>. To find the ID(s) that match this
-sample, you must provide the argument <cite>filename=my-image.01</cite>. Notic the lack of
-extension and hash.</p>
-<p>Because of the possibility for multiple samples (i.e. different sample IDs) with the
-same filename, we recommend providing unique filenames for your samples.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filename</strong> (<em>str</em>) – Root of the filename to look up (without extension or hash).</p></li>
-<li><p><strong>category</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Category (“training”, “testing”, “anomaly”) to look in
-for your sample. If no category is given, the function will look in all
-possible categories.</p></li>
-<li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or
-the environment variable <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Optional timeout (in seconds) for API calls.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>e</strong> – Unhandled exception from api</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt>Tuple of IDs corresponding to the sample filename given. Empty if</dt><dd><p>no samples matching the filename were found.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Tuple[int]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.data.upload_samples">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.data.</span></span><span class="sig-name descname"><span class="pre">upload_samples</span></span><span class="sig-paren">(</span>
-
-<dl>
-<dd><em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a><span class="p"><span class="pre">]</span></span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">allow_duplicates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-<dd><em class="sig-param"><span class="n"><span class="pre">timeout_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
-</dl>
-
-<span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Response</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload.html#upload_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.upload_samples" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads one or more samples to an Edge Impulse project using the ingestion service.</p>
-<p>Each sample must be wrapped in a <cite>Sample</cite> object, which contains metadata about that sample.
-Give this function a single <cite>Sample</cite> or a sequence of <cite>Sample</cite> objects to upload to your
-project. The <cite>data</cite> field of the <cite>Sample</cite> must be a raw binary stream, such as a BufferedIOBase
-object (which you can create with the <cite>open(…, “rb”)</cite> function).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>samples</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><em>Sample</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><em>Sample</em></a><em>]</em><em>]</em>) – One or more <cite>Sample</cite> objects that contain data
-for that sample along with associated metadata.</p></li>
-<li><p><strong>allow_duplicates</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Set to <cite>True</cite> to allow samples with the same data to be
-uploaded. If <cite>False</cite>, the ingestion service will perform a hash of the data and compare
-it to the hashes of the data already in the project. If a match is found, the service
-will reject the incoming sample (uploading for other samples will continue).</p></li>
-<li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
-This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or the env
-var <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile job to
-complete on the server. <cite>None</cite> is considered “infinite timeout” and will wait forever.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>Sequence of requests. Response objects that contain information about the</dt><dd><p>upload status of your Samples.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[Response]</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a dataset (with a single Sample)</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Sample</span><span class="p">(</span>
-        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;wave.01.csv&quot;</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/wave.01.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span>
-        <span class="n">category</span><span class="o">=</span><span class="s2">&quot;split&quot;</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;wave&quot;</span><span class="p">,</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-
-<span class="c1"># Upload samples and print responses</span>
-<span class="n">resps</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">upload_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="n">resps</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
 </section>
 </section>
 
@@ -568,7 +331,7 @@ complete on the server. <cite>None</cite> is considered “infinite timeout” a
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023, Edge Impulse Inc.
+                Copyright &#169; 2024, Edge Impulse Inc.
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -596,14 +359,7 @@ complete on the server. <cite>None</cite> is considered “infinite timeout” a
             <ul>
 <li><a class="reference internal" href="#">data package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-edgeimpulse.data">Module contents</a><ul>
-<li><a class="reference internal" href="#edgeimpulse.data.delete_all_samples"><code class="docutils literal notranslate"><span class="pre">delete_all_samples()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.data.delete_sample_by_id"><code class="docutils literal notranslate"><span class="pre">delete_sample_by_id()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.data.get_filename_by_id"><code class="docutils literal notranslate"><span class="pre">get_filename_by_id()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.data.get_ids_by_filename"><code class="docutils literal notranslate"><span class="pre">get_ids_by_filename()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.data.upload_samples"><code class="docutils literal notranslate"><span class="pre">upload_samples()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#module-edgeimpulse.data">Module contents</a></li>
 </ul>
 </li>
 </ul>

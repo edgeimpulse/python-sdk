@@ -1,0 +1,7 @@
+datasets module
+===============
+
+.. automodule:: edgeimpulse.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:

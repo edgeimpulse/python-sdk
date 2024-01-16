@@ -1,0 +1,10 @@
+data package
+============
+
+Module contents
+---------------
+
+.. automodule:: edgeimpulse.experimental.data
+   :members:
+   :undoc-members:
+   :show-inheritance:

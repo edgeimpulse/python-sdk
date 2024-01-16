@@ -5,7 +5,7 @@ class EdgeImpulseException(Exception):
     def __init__(self, message):
         super().__init__(
             message
-            + "\n\nFor more information see https://docs.edgeimpulse.com/reference/python-sdk"
+            + "\r\n\r\nFor more information see https://docs.edgeimpulse.com/reference/python-sdk"
             + " or ask a question at https://forum.edgeimpulse.com/"
         )
 
@@ -87,7 +87,7 @@ class UnsuccessfulRequestException(EdgeImpulseException):
         self.error = error
         super().__init__(
             (
-                "The Edge Impulse API responded with an error.\n"
+                "The Edge Impulse API responded with an error.\r\n"
                 f"Error message: '{error}'"
                 if error is not None
                 else "There was no error message included."
@@ -102,3 +102,23 @@ class TimeoutException(EdgeImpulseException):
 
     def __init__(self, msg: str):
         super().__init__(msg)
+
+
+class UnsupportedSampleType(EdgeImpulseException):
+    """
+    Exception raised when attempting to upload or download a data type that is
+    not supported by Edge Impulse.
+    """
+
+    def __init__(self, error: Optional[str]):
+        self.error = error
+        super().__init__(
+            (
+                "Unsupported sample type. See here to learn more about the "
+                "supported sample types: "
+                "https://docs.edgeimpulse.com/reference/data-acquisition-format"
+                f"Error message: '{error}'"
+                if error is not None
+                else "There was no error message included."
+            )
+        )

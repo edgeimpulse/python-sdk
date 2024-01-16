@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>edgeimpulse.data._functions.upload - Python SDK1.0.6</title>
+        <title>edgeimpulse.data._functions.upload - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
@@ -198,7 +198,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.6</font></div></a>
+      <a href="../../../../index.html"><div class="brand">Python SDK<br><font size='-0.5'>1.0.8</font></div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -225,7 +225,7 @@
     <img class="sidebar-logo only-dark" src="../../../../_static/edge-impulse-primary-logo-white-text-transparent-bg.png" alt="Dark Logo"/>
   </div>
   
-  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.6</font></span>
+  <span class="sidebar-brand-text">Python SDK<br><font size='-0.5'>1.0.8</font></span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -239,8 +239,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.datasets.html">datasets module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.input_type.html">input_type module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.model_info.html">model_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
@@ -281,24 +286,139 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.upload</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Sequence</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urljoin</span>
+<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span><span class="p">,</span> <span class="n">Session</span>
+<span class="kn">from</span> <span class="nn">requests.adapters</span> <span class="kn">import</span> <span class="n">HTTPAdapter</span>
 
-<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">post</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">edgeimpulse</span> <span class="k">as</span> <span class="nn">ei</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span>
+
 <span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Sample</span><span class="p">,</span>
+    <span class="n">DataAcquisition</span><span class="p">,</span>
+    <span class="n">SampleIngestionResponse</span><span class="p">,</span>
+    <span class="n">UploadSamplesResponse</span><span class="p">,</span>
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="upload_samples"><a class="viewcode-back" href="../../../../source/edgeimpulse.data.html#edgeimpulse.data.upload_samples">[docs]</a><span class="k">def</span> <span class="nf">upload_samples</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">_upload_sample_with_progress</span><span class="p">(</span>
+    <span class="n">session</span><span class="p">:</span> <span class="n">Session</span><span class="p">,</span>
+    <span class="n">sample</span><span class="p">:</span> <span class="n">Sample</span><span class="p">,</span>
+    <span class="n">allow_duplicates</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">progress_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;x-api-key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
+        <span class="s2">&quot;x-upload-source&quot;</span><span class="p">:</span> <span class="s2">&quot;EDGE_IMPULSE_PYTHON_SDK&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Construct headers</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_duplicates</span><span class="p">:</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-disallow-duplicates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+    <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span><span class="p">)</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-bounding-boxes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span>
+    <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+        <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">category</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;split&quot;</span>
+
+    <span class="c1"># Construct URL</span>
+    <span class="n">resource_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/api/</span><span class="si">{</span><span class="n">sample</span><span class="o">.</span><span class="n">category</span><span class="si">}</span><span class="s2">/files&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">urljoin</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
+
+    <span class="c1"># Assign filename if not provided</span>
+    <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">%16x</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">64</span><span class="p">),)</span>
+
+    <span class="c1"># Fill in data</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">DataAcquisition</span><span class="p">):</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;data&quot;</span><span class="p">,</span>
+                <span class="p">(</span>
+                    <span class="n">sample</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">data</span><span class="p">)),</span>
+                    <span class="s2">&quot;application/cbor&quot;</span><span class="p">,</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">sample</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;multipart/form-data&quot;</span><span class="p">))]</span>
+
+    <span class="c1"># Make request</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">)</span>
+
+    <span class="c1"># Call progress callback</span>
+    <span class="k">if</span> <span class="n">progress_callback</span><span class="p">:</span>
+        <span class="n">progress_callback</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_report_results</span><span class="p">(</span><span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Response</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts http reponses to a type with success and error samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">successes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fails</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Sort results into successes and failures</span>
+    <span class="k">for</span> <span class="n">result</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">json</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;files&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">fails</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">SampleIngestionResponse</span><span class="p">(</span>
+                        <span class="n">sample</span><span class="p">,</span>
+                        <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No files listed in response&quot;</span><span class="p">},</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;success&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="n">fails</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SampleIngestionResponse</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sample</span><span class="o">.</span><span class="n">sample_id</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sampleId&quot;</span><span class="p">)</span>
+                    <span class="n">successes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SampleIngestionResponse</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">file</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="p">}</span>
+            <span class="n">fails</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SampleIngestionResponse</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
+
+    <span class="c1"># Report results</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Samples uploaded: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">successes</span><span class="p">)</span><span class="si">}</span><span class="s2">, failed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fails</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fails</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">fails</span><span class="p">]</span>
+
+    <span class="c1"># Create response object</span>
+    <span class="k">return</span> <span class="n">UploadSamplesResponse</span><span class="p">(</span><span class="n">successes</span><span class="p">,</span> <span class="n">fails</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="upload_samples"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_samples">[docs]</a><span class="k">def</span> <span class="nf">upload_samples</span><span class="p">(</span>
     <span class="n">samples</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sample</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sample</span><span class="p">]],</span>
     <span class="n">allow_duplicates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Response</span><span class="p">]:</span>
+    <span class="n">max_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_progress</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">pool_maxsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">pool_connections</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uploads one or more samples to an Edge Impulse project using the ingestion service.</span>
 
@@ -317,12 +437,23 @@
 <span class="sd">        api_key (Optional[str]): The API key for an Edge Impulse project.</span>
 <span class="sd">            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or the env</span>
 <span class="sd">            var `EI_API_KEY`.</span>
-<span class="sd">        timeout_sec (Optional[float], optional): Number of seconds to wait for profile job to</span>
+<span class="sd">        timeout_sec (Optional[float], optional): Number of seconds to wait for an upload request to</span>
 <span class="sd">            complete on the server. `None` is considered &quot;infinite timeout&quot; and will wait forever.</span>
+<span class="sd">        max_workers (Optional[int]): The max number of workers to upload the samples. It should</span>
+<span class="sd">            ideally be equal to the number of cores on your machine. If `None`, the number of</span>
+<span class="sd">            workers will be automatically determined.</span>
+<span class="sd">        show_progress (Optional[bool]): Show progress bar while uploading samples. Default is</span>
+<span class="sd">            `False`.</span>
+<span class="sd">        pool_maxsize (Optional[int]): The maximum number of connections to make in a single</span>
+<span class="sd">            connection pool (for multithreaded uploads).</span>
+<span class="sd">        pool_connections (Optional[int]): The maximum number of connections to cache for different</span>
+<span class="sd">            hosts.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Tuple[Response]: Sequence of requests. Response objects that contain information about the</span>
-<span class="sd">            upload status of your Samples.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
+<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
+<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
+<span class="sd">            along with the error message.</span>
 
 <span class="sd">    Examples:</span>
 
@@ -339,57 +470,65 @@
 <span class="sd">            )</span>
 
 <span class="sd">            # Upload samples and print responses</span>
-<span class="sd">            resps = ei.data.upload_samples(samples)</span>
-<span class="sd">            for resp in resps:</span>
-<span class="sd">                print(resp)</span>
+<span class="sd">            response = ei.data.upload_samples(samples)</span>
+<span class="sd">            print(response.successes)</span>
+<span class="sd">            print(response.fails)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Turn a single sample into a 1-element list</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">Sample</span><span class="p">):</span>
         <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">samples</span><span class="p">]</span>
 
-    <span class="c1"># Define endpoint and API key</span>
     <span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span> <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ei</span><span class="o">.</span><span class="n">API_KEY</span>
     <span class="n">endpoint</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">INGESTION_ENDPOINT</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>  <span class="c1"># TODO: support iterators?</span>
 
-    <span class="c1"># Send one request per sample</span>
-    <span class="c1"># TODO: Update this to send multiple samples per request once Studio supports it</span>
-    <span class="n">resps</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
-        <span class="c1"># Configure headers</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;x-api-key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
-            <span class="s2">&quot;x-upload-source&quot;</span><span class="p">:</span> <span class="s2">&quot;EDGE_IMPULSE_PYTHON_SDK&quot;</span><span class="p">,</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_duplicates</span><span class="p">:</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-disallow-duplicates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
-        <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">label</span>
-        <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span><span class="p">:</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-bounding-boxes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">bounding_boxes</span>
-        <span class="k">if</span> <span class="n">sample</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
-            <span class="n">headers</span><span class="p">[</span><span class="s2">&quot;x-metadata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">()</span>
 
-        <span class="c1"># Construct full URL</span>
-        <span class="n">resource_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/api/</span><span class="si">{</span><span class="n">sample</span><span class="o">.</span><span class="n">category</span><span class="si">}</span><span class="s2">/files&quot;</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">urljoin</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">resource_path</span><span class="p">)</span>
-
-        <span class="c1"># Construct required tuple for uploading</span>
-        <span class="c1"># TODO: construct multiple tuples when Studio allows it and</span>
-        <span class="c1"># add per-file header information in a 4-tuple (instead of 3)</span>
-        <span class="n">files</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">sample</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;multipart/form-data&quot;</span><span class="p">))]</span>
-
-        <span class="c1"># Upload data</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">post</span><span class="p">(</span>
-            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
-            <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span>
-            <span class="n">timeout</span><span class="o">=</span><span class="n">timeout_sec</span><span class="p">,</span>
+    <span class="k">with</span> <span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="n">HTTPAdapter</span><span class="p">(</span>
+            <span class="n">pool_connections</span><span class="o">=</span><span class="n">pool_connections</span><span class="p">,</span> <span class="n">pool_maxsize</span><span class="o">=</span><span class="n">pool_maxsize</span>
         <span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;http://&quot;</span><span class="p">,</span> <span class="n">adapter</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">,</span> <span class="n">adapter</span><span class="p">)</span>
 
-        <span class="n">resps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">total_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">resps</span><span class="p">)</span></div>
+            <span class="c1"># Show progress bar if enabled</span>
+            <span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uploading </span><span class="si">{</span><span class="n">total_samples</span><span class="si">}</span><span class="s2"> samples...&quot;</span><span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">progress_callback</span><span class="p">():</span>
+                    <span class="k">nonlocal</span> <span class="n">total_samples</span>
+                    <span class="n">total_samples</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">percent_complete</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="p">(</span><span class="n">total_samples</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Progress: </span><span class="si">{</span><span class="n">percent_complete</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
+                        <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">progress_callback</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">executor</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                    <span class="k">lambda</span> <span class="n">sample</span><span class="p">:</span> <span class="n">_upload_sample_with_progress</span><span class="p">(</span>
+                        <span class="n">session</span><span class="p">,</span>
+                        <span class="n">sample</span><span class="p">,</span>
+                        <span class="n">allow_duplicates</span><span class="p">,</span>
+                        <span class="n">api_key</span><span class="p">,</span>
+                        <span class="n">endpoint</span><span class="p">,</span>
+                        <span class="n">timeout_sec</span><span class="p">,</span>
+                        <span class="n">progress_callback</span><span class="o">=</span><span class="n">progress_callback</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">samples</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_report_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
@@ -402,7 +541,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023, Edge Impulse Inc.
+                Copyright &#169; 2024, Edge Impulse Inc.
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
