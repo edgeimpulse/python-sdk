@@ -4,7 +4,9 @@ Description of notable changes to the [Edge Impulse Python SDK](https://pypi.org
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.9] - WIP
+## [1.0.9] - 2024-04-26
+
+Work in progress: adding EON Tuner functionality to the Python SDK.
 
 ### Added
 
