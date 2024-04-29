@@ -1,3 +1,4 @@
+# ruff: noqa: D100
 import json
 import logging
 import os
@@ -37,10 +38,7 @@ def _download_sample_as_image(
     endpoint: str,
     timeout_sec: Optional[float] = None,
 ) -> Optional[BytesIO]:
-    """
-    Downloads a sample by ID from an Edge Impulse project as an image.
-    """
-
+    """Download a sample by ID from an Edge Impulse project as an image."""
     data = None
 
     # Workaround: Use raw request for now
@@ -69,10 +67,7 @@ def _download_sample_as_video(
     endpoint: str,
     timeout_sec: Optional[float] = None,
 ) -> Optional[BytesIO]:
-    """
-    Downloads a sample by ID from an Edge Impulse project as a video.
-    """
-
+    """Download a sample by ID from an Edge Impulse project as a video."""
     data = None
 
     # Workaround: Use raw request for now
@@ -101,10 +96,7 @@ def _download_sample_as_audio(
     endpoint: str,
     timeout_sec: Optional[float] = None,
 ) -> Optional[BytesIO]:
-    """
-    Downloads a sample by ID from an Edge Impulse project as a .WAV file.
-    """
-
+    """Download a sample by ID from an Edge Impulse project as a .WAV file."""
     data = None
 
     # Workaround: Use raw request for now
@@ -128,10 +120,7 @@ def _download_sample_as_audio(
 def _convert_timeseries_to_json(
     resp: dict,
 ) -> BytesIO:
-    """
-    Parse time series response from Edge Impulse API and convert to CBOR buffer.
-    """
-
+    """Parse time series response from Edge Impulse API and convert to CBOR buffer."""
     # Parse response
     data = DataAcquisition(
         protected=Protected(),
@@ -165,10 +154,7 @@ def _download_sample_with_progress(
     timeout_sec: Optional[float] = None,
     progress_callback: Optional[callable] = None,
 ) -> Optional[Sample]:
-    """
-    Downloads a sample by ID from an Edge Impulse project with progress info.
-    """
-
+    """Download a sample by ID from an Edge Impulse project with progress info."""
     # Define headers
     headers = {
         "x-api-key": api_key,
@@ -189,7 +175,6 @@ def _download_sample_with_progress(
 
     # Convert JSON response to dictionary
     resp = resp.json()
-
     if isinstance(resp, str):
         resp = json.loads(resp)
 
@@ -269,14 +254,14 @@ def _download_sample_with_progress(
     sample = Sample(
         data=data,
         filename=filename,
-        category=resp["sample"]["category"],
-        label=resp["sample"]["label"],
-        bounding_boxes=resp["sample"]["boundingBoxes"],
-        metadata=resp.get("sample", {}).get("metadata", None),
         sample_id=sample_id,
+        label=resp["sample"]["label"],
+        category=resp["sample"]["category"],
+        bounding_boxes=resp["sample"]["boundingBoxes"],
+        metadata=resp["sample"].get("metadata", None),
+        structured_labels=resp["sample"].get("structuredLabels", None),
     )
 
-    # Update progress
     if progress_callback:
         progress_callback()
 
@@ -292,9 +277,9 @@ def download_samples_by_ids(
     pool_maxsize: Optional[int] = 20,
     pool_connections: Optional[int] = 20,
 ) -> List[Sample]:
-    """
-    Downloads samples by their associated IDs from an Edge Impulse project. Downloaded
-    sample data is returned as a `DownloadSample` object, which contains the raw data in
+    """Download samples by their associated IDs from an Edge Impulse project.
+
+    Downloaded sample data is returned as a `DownloadSample` object, which contains the raw data in
     a BytesIO object along with associated metadata.
 
     **Important!** All time series data is returned as a JSON file (in BytesIO format)
@@ -309,13 +294,15 @@ def download_samples_by_ids(
         api_key (Optional[str]): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
             the env var `EI_API_KEY`.
-        timeout_sec (Optional[float], optional): Number of seconds to wait for profile
+        timeout_sec (float, optional): Number of seconds to wait for profile
             job to complete on the server. `None` is considered "infinite timeout" and
             will wait forever.
-        max_workers (Optional[int]): The maximum number of subprocesses to use when
+        max_workers (int, optional): The maximum number of subprocesses to use when
             making concurrent requests. If `None`, the number of workers will be set to
             the number of processors on the machine multiplied by 5.
-        show_progress=False: Show progress bar while uploading samples.
+        show_progress: Show progress bar while uploading samples.
+        pool_maxsize: (int, optional) Maxium size of the upload pool. Defaults to 20.
+        pool_connections: (int, optional) Maxium size of the pool connections. Defaults to 20.
 
     Returns:
         List[Sample]: List of Sample objects with data and metadata as downloaded from
@@ -323,13 +310,11 @@ def download_samples_by_ids(
             with the matching IDs are found.
 
     Example:
-
         .. code-block:: python
 
             sample = ei.data.download_samples_by_ids(12345)
             print(sample)
     """
-
     # Turn single or multiple IDs into list
     if isinstance(sample_ids, int):
         sample_ids = [sample_ids]

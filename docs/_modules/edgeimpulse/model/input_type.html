@@ -8,6 +8,7 @@
         <title>edgeimpulse.model.input_type - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,12 +290,13 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.model.input_type</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span></span><span class="c1"># ruff: noqa: D100, D101</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
 
 
 <div class="viewcode-block" id="ImageInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput">[docs]</a><span class="k">class</span> <span class="nc">ImageInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scaling_range</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;0..1&quot;</span><span class="p">,</span> <span class="s2">&quot;0..255&quot;</span><span class="p">,</span> <span class="s2">&quot;torch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;0..1&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an image input, and specifies how it should be processed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe an image input, and specifies how it should be processed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            scaling_range (Literal[&#39;0..1&#39;, &#39;0..255&#39;, &#39;torch&#39;]): Describes any scaling or</span>
@@ -307,7 +312,7 @@
 
 <div class="viewcode-block" id="AudioInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput">[docs]</a><span class="k">class</span> <span class="nc">AudioInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_hz</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an audio input, and specifies how it should be processed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe an audio input, and specifies how it should be processed.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            frequency_hz (float): The frequency of the audio signal in Hz (samples per second).</span>
@@ -318,7 +323,7 @@
 
 <div class="viewcode-block" id="TimeSeriesInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput">[docs]</a><span class="k">class</span> <span class="nc">TimeSeriesInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency_hz</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">windowlength_ms</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes a time series input, and specifies how it should be processed.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe a time series input, and specifies how it should be processed.</span>
 
 <span class="sd">        A stream of time series data is windowed into chunks of `windowlength_ms` according to the</span>
 <span class="sd">        signal&#39;s frequency (`frequency_hz`). The window length represents how much data</span>
@@ -336,7 +341,7 @@
 
 <div class="viewcode-block" id="OtherInput"><a class="viewcode-back" href="../../../source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput">[docs]</a><span class="k">class</span> <span class="nc">OtherInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describes an input that is passed into the model without any changes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Describe an input that is passed into the model without any changes.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inputType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;other&quot;</span></div>
 </pre></div>
         </article>
@@ -374,5 +379,7 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

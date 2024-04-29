@@ -27,7 +27,7 @@ from edgeimpulse_api import (
 
 class ProfileResponse(GetPretrainedModelResponse):
     def summary(self) -> None:
-        """Returns a summary of the profiling results"""
+        """Return a summary of the profiling results."""
         output = []
         if self.specific_device_selected and self.model and self.model.profile_info:
             if self.model.profile_info.float32:
@@ -64,7 +64,7 @@ class ProfileResponse(GetPretrainedModelResponse):
 
     @classmethod
     def from_dict(cls, obj: dict):
-        """Create an instance of ProfileResponse from a dict"""
+        """Create an instance of ProfileResponse from a dict."""
         return cls(**obj)
 
 
@@ -74,9 +74,7 @@ def profile(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> ProfileResponse:
-    """
-    Profiles the performance of a trained model on a range of embedded targets, or a specific
-    device.
+    """Profile the performance of a trained model on a range of embedded targets, or a specific device.
 
     The response includes estimates of memory usage and latency for the model across a range of
     targets, including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit
@@ -114,7 +112,6 @@ def profile(
         TimeoutException: Timeout waiting for result
 
     Examples:
-
         .. code-block:: python
 
             # Profile a Keras model across a range of devices
@@ -122,21 +119,26 @@ def profile(
             result.summary()
 
             # Profile different types of models on specific devices
+
+            # ONNX
             result = ei.model.profile(
-                model="heart_rate.onnx",  # ONNX
+                model="heart_rate.onnx",
                 device="cortex-m4f-80mhz"
             )
+
+            # TensorFlow SavedModel (can also be a zip)
             result = ei.model.profile(
-                model="heart_rate",  # TensorFlow SavedModel (can also be a zip)
+                model="heart_rate",
                 device="nordic-nrf9160-dk"
             )
+
+            # TensorFlow Lite (float32 or int8)
             result = ei.model.profile(
-                model="heart_rate.lite",  # TensorFlow Lite (float32 or int8)
+                model="heart_rate.lite",
                 device="synaptics-ka10000"
             )
 
     """
-
     client = configure_generic_client(
         key=api_key if api_key else edgeimpulse.API_KEY,
         host=edgeimpulse.API_ENDPOINT,
@@ -206,8 +208,8 @@ def profile(
     return profile_response
 
 
-def list_profile_devices(api_key: Optional[str] = None) -> "List[str]":
-    """Lists possible values for the `device` field when calling `edgeimpulse.model.profile()`.
+def list_profile_devices(api_key: Optional[str] = None) -> List[str]:
+    """List possible values for the `device` field when calling `edgeimpulse.model.profile()`.
 
     Args:
         api_key (str, optional): The API key for an Edge Impulse project. This can also be set via

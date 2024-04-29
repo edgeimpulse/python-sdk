@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import unittest
 import resource
 import logging
@@ -29,6 +30,20 @@ class TestUploadFiles(unittest.TestCase):
         self.assertEqual(len(res.fails), 0)
 
         assert_uploaded_samples(self, res.successes)
+
+    def test_upload_directory_multi_label(self):
+        res = upload_directory(directory="tests/sample_data/coffee")
+
+        self.assertEqual(len(res.successes), 11)
+        self.assertEqual(len(res.fails), 0)
+
+        assert_uploaded_samples(
+            self,
+            res.successes,
+            check_meta=False,
+            check_label=False,
+            check_structured_labels=True,
+        )
 
     def test_upload_directory_with_transform(self):
         # define a transform that will be called before file upload

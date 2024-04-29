@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import unittest
 import logging
 import os
@@ -29,9 +30,7 @@ TIMEOUT = 1200.0  # 20 min
 
 
 class TestDataUpload(unittest.TestCase):
-    """
-    Test upload features
-    """
+    """Test upload features."""
 
     def setUp(self):
         # Suppress annoying message from request's socket

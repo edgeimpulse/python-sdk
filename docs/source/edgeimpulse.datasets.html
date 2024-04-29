@@ -9,6 +9,7 @@
         <title>datasets module - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -236,6 +237,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -244,6 +246,7 @@
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -252,6 +255,7 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -289,28 +293,32 @@
         <article role="main">
           <section id="module-edgeimpulse.datasets">
 <span id="datasets-module"></span><h1>datasets module<a class="headerlink" href="#module-edgeimpulse.datasets" title="Permalink to this heading">#</a></h1>
+<p>Use this module to download sample datasets from Edge Impulse CDN.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.datasets.load_faucets">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">load_faucets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#load_faucets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.load_faucets" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads the faucet dataset</p>
+<dt class="sig sig-object py" id="edgeimpulse.datasets.download_dataset">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">download_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_redownload</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite_existing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#download_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.download_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Download and extracts a dataset from the Edge Impulse CDN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the dataset to download.</p></li>
+<li><p><strong>force_redownload</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, forces re-downloading the dataset even if it exists. Defaults to False.</p></li>
+<li><p><strong>overwrite_existing</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, overwrites the existing dataset directory. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.datasets.load_gestures">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">load_gestures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#load_gestures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.load_gestures" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads the gestures dataset</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="edgeimpulse.datasets.load_keywords">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">load_keywords</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#load_keywords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.load_keywords" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads the keywords dataset</p>
+<dt class="sig sig-object py" id="edgeimpulse.datasets.list_datasets">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">list_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#list_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.list_datasets" title="Permalink to this definition">#</a></dt>
+<dd><p>List the available datasets on the Edge Impulse CDN.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.datasets.load_timeseries">
-<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">load_timeseries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#load_timeseries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.load_timeseries" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads the timeseries dataset</p>
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.datasets.</span></span><span class="sig-name descname"><span class="pre">load_timeseries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">np.array</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/datasets.html#load_timeseries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.datasets.load_timeseries" title="Permalink to this definition">#</a></dt>
+<dd><p>Load the timeseries dataset.</p>
 </dd></dl>
 
 </section>
@@ -371,9 +379,8 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">datasets module</a><ul>
-<li><a class="reference internal" href="#edgeimpulse.datasets.load_faucets"><code class="docutils literal notranslate"><span class="pre">load_faucets()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.datasets.load_gestures"><code class="docutils literal notranslate"><span class="pre">load_gestures()</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.datasets.load_keywords"><code class="docutils literal notranslate"><span class="pre">load_keywords()</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.datasets.download_dataset"><code class="docutils literal notranslate"><span class="pre">download_dataset()</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.datasets.list_datasets"><code class="docutils literal notranslate"><span class="pre">list_datasets()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.datasets.load_timeseries"><code class="docutils literal notranslate"><span class="pre">load_timeseries()</span></code></a></li>
 </ul>
 </li>
@@ -390,5 +397,7 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

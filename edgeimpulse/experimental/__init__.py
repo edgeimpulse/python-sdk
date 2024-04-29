@@ -1,3 +1,4 @@
-# Import the subpackages here to expose them to the user
-# ruff: noqa: F401
-import edgeimpulse.experimental.data
+"""This module contains all our experimental features.
+
+Be warned these signatures may change.
+"""

@@ -1,3 +1,5 @@
+# ruff: noqa: D100, D101, D107
+
 from typing import Optional
 
 from edgeimpulse_api.models.deploy_pretrained_model_request_model_info_input import (

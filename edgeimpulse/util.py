@@ -1,16 +1,18 @@
+# noqa: D100
 import logging
-import tempfile
 import time
 import base64
 from typing import Union, Optional, List, Tuple, Any
 from pathlib import Path
 import shutil
 import os
-from urllib3.exceptions import ReadTimeoutError
 import zipfile
+import socketio
 import platform
+import re
 
 import edgeimpulse as ei
+import edgeimpulse
 
 from edgeimpulse.exceptions import (
     InvalidAuthTypeException,
@@ -24,20 +26,18 @@ from edgeimpulse_api import (
     ApiClient,
     JobsApi,
     DeploymentApi,
+    OrganizationJobsApi,
     Configuration,
     ProjectsApi,
     GetJobResponse,
     LearnApi,
-    RawDataApi,
 )
 
 DATA_CATEGORIES = ["training", "testing", "anomaly"]
 
 
 def get_user_agent(add_platform_info=False):
-    """
-    Helper function to get user agent string for API calls.
-    """
+    """Get user agent string for API calls so we can track usage."""
     user_agent = f"edgeimpulse-sdk/{ei.__version__}"
     if add_platform_info:
         user_agent += (
@@ -51,11 +51,11 @@ def configure_generic_client(
     key_type: str = "api",
     host: str = "https://studio.edgeimpulse.com/v1",
 ) -> ApiClient:
-    """Helper funtion to configure generic api client
+    """Configure generic api client which the right key.
 
     Args:
         key (str): api, jwt or jwt_http key.
-        key_type (str, optional): Type of key. Defaults to 'api'.
+        key_type (str, optional): Type of key. Defaults to `api`.
         host (str): API host url. Defaults to "https://studio.edgeimpulse.com/v1".
 
     Raises:
@@ -64,7 +64,6 @@ def configure_generic_client(
     Returns:
         ApiClient: Generic API client used in other generated APIs
     """
-
     if key is None:
         raise MissingApiKeyException()
 
@@ -99,7 +98,7 @@ def poll(
     job_id: int,
     timeout_sec: Optional[float] = None,
 ) -> GetJobResponse:
-    """Helper function to syncronously poll a specific job within a project
+    """Poll a specific job within a project until done or timmeout is reached.
 
     Args:
         jobs_client (JobsApi): JobsApi client
@@ -180,7 +179,8 @@ def poll(
 
 # Try importing numpy (even if it isn't used, which triggers F401 in linting)
 # ruff: noqa: F401
-def numpy_installed():
+def numpy_installed() -> bool:
+    """Check if numpy is installed returns true or false."""
     try:
         import numpy as np
 
@@ -191,7 +191,8 @@ def numpy_installed():
 
 # Try importing tensorflow (even if it isn't used, which triggers F401 in linting)
 # ruff: noqa: F401
-def tensorflow_installed():
+def tensorflow_installed() -> bool:
+    """Check if tensorflow is installed returns true or false."""
     try:
         import tensorflow as tf
 
@@ -202,7 +203,8 @@ def tensorflow_installed():
 
 # Try importing onnx (even if it isn't used, which triggers F401 in linting)
 # ruff: noqa: F401
-def onnx_installed():
+def onnx_installed() -> bool:
+    """Check if onnx is installed returns true or false."""
     try:
         import onnx
 
@@ -213,7 +215,8 @@ def onnx_installed():
 
 # Try importing pandas
 # ruff: noqa: F401
-def pandas_installed():
+def pandas_installed() -> bool:
+    """Check if pandas is installed returns true or false."""
     try:
         import pandas
 
@@ -222,19 +225,23 @@ def pandas_installed():
         return
 
 
-def is_path_to_numpy_file(data):
-    return is_type_accepted_by_open(data) and str(data).endswith(".npy")
+def is_path_to_numpy_file(path):
+    """Check if given path is a numpy file."""
+    return is_type_accepted_by_open(path) and str(path).endswith(".npy")
 
 
-def is_path_to_onnx_model(model):
-    return is_type_accepted_by_open(model) and str(model).endswith(".onnx")
+def is_path_to_onnx_model(path):
+    """Check if given path is a onnx file."""
+    return is_type_accepted_by_open(path) and str(path).endswith(".onnx")
 
 
-def is_type_accepted_by_open(model):
-    return (isinstance(model, str)) or (issubclass(type(model), Path))
+def is_type_accepted_by_open(path):
+    """Check if given path is a. string or a `Path`."""
+    return (isinstance(path, str)) or (issubclass(type(path), Path))
 
 
 def is_path_to_tf_saved_model_zipped(model):
+    """Check if path is poiting to a zipped model."""
     if not is_type_accepted_by_open(model):
         return False
     if not os.path.exists(model):
@@ -247,15 +254,18 @@ def is_path_to_tf_saved_model_zipped(model):
 
 
 def is_path_to_tf_saved_model_directory(model_dir):
+    """Check if directory contains a saved model."""
     return os.path.exists(f"{model_dir}/saved_model.pb")
 
 
 def encode_file_as_base64(filename: str):
+    """Envode a file as base64."""
     with open(filename, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
 def is_keras_model(model):
+    """Check if model is a keras model."""
     if not tensorflow_installed():
         return False
     import tensorflow as tf
@@ -264,6 +274,7 @@ def is_keras_model(model):
 
 
 def is_onnx_model(model):
+    """Check if given model is an onnx model."""
     if not onnx_installed():
         return False
     import onnx
@@ -272,6 +283,7 @@ def is_onnx_model(model):
 
 
 def is_numpy_array(array):
+    """Check if array is a numpy array."""
     if not numpy_installed():
         return False
     import numpy as np
@@ -280,6 +292,7 @@ def is_numpy_array(array):
 
 
 def make_zip_archive(saved_model_path):
+    """Create zip archive from a model path."""
     zip_path = shutil.make_archive(
         saved_model_path,
         "zip",
@@ -290,6 +303,27 @@ def make_zip_archive(saved_model_path):
 
 
 def save_model(model: Union[Path, str, bytes], directory: str) -> str:
+    """Save a machine learning model to the specified directory.
+
+    Args:
+        model (Union[Path, str, bytes]): The machine learning model to be saved.
+            It can be either a file path pointing to the location of the model file,
+            a bytes object representing the model, or the model object itself.
+        directory (str): The directory where the model will be saved.
+
+    Returns:
+        str: The path to the saved model or archive.
+
+    Raises:
+        Exception: If the model is already located at the provided path.
+        InvalidModelException: If the model is of an unexpected type and cannot be processed.
+
+    Note:
+        The function supports saving TensorFlow/Keras models in TensorFlow's
+        SavedModel format if TensorFlow is installed and the model is a Keras model.
+        It also supports saving ONNX models if ONNX is installed and the model is in ONNX format.
+
+    """
     if isinstance(model, str) or isinstance(model, Path):
         raise Exception(f"Model is already located at path {model}")
 
@@ -318,8 +352,7 @@ def save_model(model: Union[Path, str, bytes], directory: str) -> str:
 
 
 def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[str, str]:
-    """
-    Helper function to load tflite model
+    """Load tflite model.
 
     Args:
         model: Supports a number of ways of representing a model including
@@ -329,6 +362,7 @@ def inspect_model(model: Union[Path, str, bytes, Any], tempdir: str) -> Tuple[st
                instance
         tempdir: temp dir used to write saved form of any in memory
                  model passed
+
     Returns:
         Tuple(str): (model type suitable for API,
                      path to model saved suitable for API)
@@ -434,6 +468,7 @@ def inspect_representative_data(data: Union[Path, str, bytes, Any]) -> Optional[
 
 
 def save_representative_data(data: Union[Path, str, bytes], directory: str) -> str:
+    """Save the representive data to a directory."""
     if numpy_installed():
         import numpy as np
 
@@ -450,11 +485,11 @@ def save_representative_data(data: Union[Path, str, bytes], directory: str) -> s
 
 
 def default_project_id_for(client: ApiClient) -> int:
-    """Derive project id from api_key used to configure generic client
+    """Derive project id from api_key used to configure generic client.
 
     Args:
         client (ApiClient): Generic api client configured with a project api key. For jwt or
-            jwt_http key use get_project_id_list().
+            jwt_http key use `get_project_id_list()`.
 
     Returns:
         int: Project id
@@ -482,10 +517,11 @@ def default_project_id_for(client: ApiClient) -> int:
 def get_project_deploy_targets(
     client: ApiClient, project_id: Optional[int] = None
 ) -> List[str]:
-    """Pull a list of deploy targets
+    """Pull a list of deploy targets.
 
     Args:
         client (ApiClient): Generic api client configured with a project api key
+        project_id: (int, Optional) Project id to get the targets for. Defaults to None.
 
     Returns:
         List[str]: List of deploy targets for project
@@ -506,10 +542,11 @@ def get_project_deploy_targets(
 def get_profile_devices(
     client: ApiClient, project_id: Optional[int] = None
 ) -> List[str]:
-    """Pull a list of profile devices
+    """Pull a list of profile devices.
 
     Args:
         client (ApiClient): Generic api client configured with a project api key
+        project_id: (int, Optional) Project id to get the targets for. Defaults to None.
 
     Returns:
         List[str]: List of profile targets for project
@@ -536,15 +573,14 @@ def upload_pretrained_model_and_data(
     device: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> GetJobResponse:
-    """
-    Upload a model and data to Edge Impulse servers.
+    """Upload a model and data to Edge Impulse servers.
 
     Args:
         tempdir (str): Temporary directory to hold saved form of any model passed in
         client (ApiClient): Generic api client configured with a project api key. For jwt or
-            jwt_http key use get_project_id_list().
+            jwt_http key use `get_project_id_list()`.
         project_id (int): Project id number
-        model (Union[Path, str, bytes, Any], op): A machine learning model, or similarly represented
+        model (Union[Path, str, bytes, Any]): A machine learning model, or similarly represented
             computational graph. Can be `Path` or `str` denoting file path, Python `bytes`
             containing a model, or a Keras model instance.
         representative_data (Optional[Union[Path, str, bytes, Any]], optional): A numpy
@@ -562,7 +598,6 @@ def upload_pretrained_model_and_data(
     Returns:
         GetJobResponse: Structure containing job information
     """
-
     # Determine the type of model we have and make sure it is present on disk
     model_file_type, model_path = inspect_model(model, tempdir)
 
@@ -614,7 +649,7 @@ def upload_pretrained_model_and_data(
 
 
 def check_response_errors(request):
-    """Checks for standard errors and raises an exception with the details if found."""
+    """Check for standard errors and raise an exception with the details if found."""
     if hasattr(request, "success"):
         success = request.success
         error = None
@@ -622,3 +657,178 @@ def check_response_errors(request):
             error = request.error
         if success is not True:
             raise UnsuccessfulRequestException(error)
+
+
+def run_organization_job_until_completion(
+    organization_id: int,
+    job_id: int,
+    data_cb=None,
+    client=None,
+    timeout_sec: int = 3600,
+) -> None:
+    """Runs an organization job until completion.
+
+    Args:
+        organization_id (int): The ID of the organization.
+        job_id (int): The ID of the job to run.
+        data_cb (callable, optional): Callback function to handle job data.
+        client (object, optional): An API client object. If None, a generic client will be configured.
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+
+    Returns:
+        None
+    """
+    if client is None:
+        client = configure_generic_client(
+            key=ei.API_KEY,
+            host=ei.API_ENDPOINT,
+        )
+
+    api = OrganizationJobsApi(client)
+    status = api.get_organization_job_status(
+        organization_id=organization_id, job_id=job_id
+    )
+    if status.job.finished is not None:
+        logging.debug(f"Organization job {job_id} is already finished")
+        return
+
+    ws = get_organization_websocket(client=client, organization_id=organization_id)
+    run_job_until_completion(ws, job_id, data_cb, timeout_sec=timeout_sec)
+
+
+def run_project_job_until_completion(
+    job_id: int,
+    data_cb=None,
+    client=None,
+    project_id: int = None,
+    timeout_sec: int = 3600,
+) -> None:
+    """Runs a project job until completion.
+
+    Args:
+        job_id (int): The ID of the job to run.
+        data_cb (callable, optional): Callback function to handle job data.
+        client (object, optional): An API client object. If None, a generic client will be configured.
+        project_id (int, optional): The ID of the project. If not provided, a default project ID will be used.
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+
+    Returns:
+        None
+    """
+    if client is None:
+        client = configure_generic_client(
+            key=ei.API_KEY,
+            host=ei.API_ENDPOINT,
+        )
+
+    if project_id is None:
+        project_id = default_project_id_for(client)
+
+    api = JobsApi(client)
+    status = api.get_job_status(project_id=project_id, job_id=job_id)
+    if status.job.finished is not None:
+        logging.debug(f"Job {job_id} is already finished")
+        return
+
+    ws = get_project_websocket(client=client, project_id=project_id)
+    run_job_until_completion(
+        ws=ws, job_id=job_id, data_cb=data_cb, timeout_sec=timeout_sec
+    )
+
+
+def run_job_until_completion(ws, job_id: int, data_cb=None, timeout_sec: int = 3600):
+    """Runs a project or organization job until completion.
+
+    Args:
+        ws (object): Websocket object.
+        job_id (int): The ID of the job to run.
+        data_cb (callable, optional): Callback function to handle job data.
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+
+    Returns:
+        None
+    """
+    finished = [False]  # python hack for scoping
+
+    def handle_any(event, data):
+        if event == f"job-data-{job_id}":
+            line = data["data"].strip()
+            if data_cb is None:
+                logging.info(f"[{job_id}] {line}")
+            else:
+                data_cb(line)
+
+    def handle_finished(data):
+        if job_id == data.get("jobId"):
+            # TODO: Should we disconnect?
+            finished[0] = True
+            ws.disconnect()
+
+    logging.info(f"Watching job: {job_id}")
+    ws.on("*", handle_any)
+    ws.on("job-finished", handle_finished)
+    while not finished[0]:
+        if timeout_sec <= 0:
+            raise Exception(f"Timeout reached while waiting for job {job_id}")
+        time.sleep(1)
+        timeout_sec = timeout_sec - 1
+
+
+def get_organization_websocket(
+    client, organization_id: int, host: str = None
+) -> socketio.Client:
+    """Gets a websocket to listen to organization events.
+
+    Args:
+        client (object): An API client object.
+        organization_id (int): The ID of the organization.
+        host (str, optional): The hostname. If None, API_ENDPOINT will be used.
+
+    Returns:
+        object: Websocket object.
+    """
+    organization = OrganizationJobsApi(client)
+    token_res = organization.get_organization_socket_token(organization_id)
+    return connect_websocket(token_res.token.socket_token, host=host)
+
+
+def get_project_websocket(client, project_id: int, host: str = None) -> socketio.Client:
+    """Gets a websocket to listen to project events.
+
+    Args:
+        client (object): An API client object.
+        project_id (int): The ID of the project.
+        host (str, optional): The hostname. If None, API_ENDPOINT will be used.
+
+    Returns:
+        object: Websocket object.
+    """
+    projects = ProjectsApi(client)
+    token_res = projects.get_socket_token(project_id)
+    return connect_websocket(token_res.token.socket_token, host=host)
+
+
+def connect_websocket(token, host: str = None) -> socketio.Client:
+    """Connects to the websocket server.
+
+    Parameters:
+        token (str): The authentication token.
+        host (str, optional): The hostname. If None, API_ENDPOINT will be used.
+
+    Returns:
+        object: Websocket object.
+    """
+    if not host:
+        host = ei.API_ENDPOINT
+        host = host.replace("https://", "wss://")
+        host = host.replace("http://", "ws://")
+        host = host.replace("/v1", "/")
+
+    sio = socketio.Client(ssl_verify="wss://" in host)
+    sio.on("error", lambda: logging.info("Error"))
+    sio.on("connect", lambda: logging.info("Websocket connected to server"))
+    sio.on("disconnect", lambda: logging.info("Websocket disconnected from server"))
+
+    host = f"{host}/socket.io/?token={token}"
+    sio.connect(host, transports=["websocket"])
+    return sio

@@ -9,6 +9,7 @@
         <title>sample_type module - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -236,6 +237,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">sample_type module</a></li>
 </ul>
@@ -244,6 +246,7 @@
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -252,6 +255,7 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -301,8 +305,8 @@
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#DataAcquisition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper class for the Edge Impulse data acquisition format. See here for more
-information: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<p>Wrapper class for the Edge Impulse data acquisition format.</p>
+<p>See here for more information: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.DataAcquisition.protected">
 <span class="sig-name descname"><span class="pre">protected</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.DataAcquisition.protected" title="Permalink to this definition">#</a></dt>
@@ -368,8 +372,8 @@ information: <a class="reference external" href="https://docs.edgeimpulse.com/re
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Payload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper class for the sensor data. Information about the data acquisition format
-can be found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<p>Wrapper class for the sensor data.</p>
+<p>Information about the data acquisition format can be found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Payload.device_type">
 <span class="sig-name descname"><span class="pre">device_type</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Payload.device_type" title="Permalink to this definition">#</a></dt>
@@ -490,8 +494,8 @@ field is set the device shows up on the ‘Devices’ page in the studio.</p>
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Protected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper class for information about the signature format. More information can be
-found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a></p>
+<p>Wrapper class for information about the signature format.</p>
+<p>More information can be found here: <a class="reference external" href="https://docs.edgeimpulse.com/reference/data-acquisition-format">https://docs.edgeimpulse.com/reference/data-acquisition-format</a>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Protected.ver">
 <span class="sig-name descname"><span class="pre">ver</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Protected.ver" title="Permalink to this definition">#</a></dt>
@@ -566,12 +570,13 @@ clock. Default is <cite>None</cite>.</p>
 <dd><em class="sig-param"><span class="n"><span class="pre">bounding_boxes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">structured_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.Sample" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper class for sample data, labels, and associated metadata. Sample data should be contained
-in a file or file-like object, for example, as the return from <cite>open(…, “rb”)</cite>. The
+<p>Wrapper class for sample data, labels, and associated metadata.</p>
+<p>Sample data should be contained in a file or file-like object, for example, as the return from <cite>open(…, “rb”)</cite>. The
 <cite>upload_samples()</cite> function expects Sample objects as input.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sample.filename">
@@ -662,6 +667,21 @@ user.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.data.sample_type.Sample.structured_labels">
+<span class="sig-name descname"><span class="pre">structured_labels</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.Sample.structured_labels" title="Permalink to this definition">#</a></dt>
+<dd><p>Array of dictionary objects that define the labels
+in this sample at various intervals.
+&lt;<a class="reference external" href="https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label">https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label</a>&gt;`_ to
+read more. Example: <cite>[{“label”: “noise”,”startIndex”: 0,”endIndex”: 5000},
+{“label”: “water”,”startIndex”: 5000,”endIndex”: 10000}]</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Sequence[dict]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id11">
 <span class="sig-name descname"><span class="pre">bounding_boxes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id11" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -696,6 +716,11 @@ user.</p>
 <span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id17" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">structured_labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id18" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -711,8 +736,7 @@ user.</p>
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#SampleInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper for the response from the Edge Impulse ingestion service when retrieving
-sample information.</p>
+<p>Wrapper for the response from the Edge Impulse ingestion service when retrieving sample information.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleInfo.sample_id">
 <span class="sig-name descname"><span class="pre">sample_id</span></span><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleInfo.sample_id" title="Permalink to this definition">#</a></dt>
@@ -758,23 +782,23 @@ sample information.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id18" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id19" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id20" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id20" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id21" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id21" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -793,7 +817,7 @@ sample information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#SampleIngestionResponse.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a string providing an overview of the response.</p>
+<dd><p>Return a string providing an overview of the response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Response from the server.</p>
@@ -851,8 +875,8 @@ sample information.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id22" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#id23" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -876,8 +900,7 @@ sample information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#UploadSamplesResponse.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__" title="Permalink to this definition">#</a></dt>
-<dd><p>Returns a string providing an overview of the number of successes and fails from
-the responses.</p>
+<dd><p>Return a string providing an overview of the number of successes and fails from the responses.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Successful upload along with number of successes and fails.</p>
@@ -987,6 +1010,7 @@ the responses.</p>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.bounding_boxes"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.metadata"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.sample_id"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sample.structured_labels"><code class="docutils literal notranslate"><span class="pre">structured_labels</span></code></a></li>
 <li><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
 <li><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
 <li><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
@@ -994,6 +1018,7 @@ the responses.</p>
 <li><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
 <li><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
 <li><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">structured_labels</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo"><code class="docutils literal notranslate"><span class="pre">SampleInfo</span></code></a><ul>
@@ -1001,10 +1026,10 @@ the responses.</p>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.filename"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.category"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleInfo.label"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
-<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
-<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
-<li><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
-<li><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
+<li><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">filename</span></code></a></li>
+<li><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
+<li><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.SampleIngestionResponse"><code class="docutils literal notranslate"><span class="pre">SampleIngestionResponse</span></code></a><ul>
@@ -1013,7 +1038,7 @@ the responses.</p>
 </li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor"><code class="docutils literal notranslate"><span class="pre">Sensor</span></code></a><ul>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+<li><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.data.sample_type.Sensor.units"><code class="docutils literal notranslate"><span class="pre">units</span></code></a></li>
 </ul>
 </li>
@@ -1036,5 +1061,7 @@ the responses.</p>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

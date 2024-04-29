@@ -64,7 +64,7 @@ def deploy(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> io.BytesIO:
-    """Transforms a machine learning model into a library for an edge device
+    """Transform a machine learning model into a library for an edge device.
 
     Transforms a trained model into a library, package, or firmware ready to deploy on an embedded
     device. Can optionally apply post-training quantization if a representative data sample is
@@ -97,7 +97,7 @@ def deploy(
             computational graph. Can be `Path` or `str` denoting file path, Python `bytes`
             containing a model, or a Keras model instance.
         model_output_type (Union[Classification, Regression, ObjectDetection]): Describe your
-            model's type:Classification, Regression, or ObjectDetection. The types are available in
+            model's type: Classification, Regression, or ObjectDetection. The types are available in
             the module `edgeimpulse.model.output_type`.
         model_input_type (Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput], optional):
             Determines any input preprocessing (windowing, downsampling) that should be performed by
@@ -135,7 +135,6 @@ def deploy(
         Exception: Unhandled exception from API
 
     Examples:
-
         .. code-block:: python
 
             # Turn a Keras model into a C++ library and write to disk
@@ -165,7 +164,6 @@ def deploy(
                 f.write(output.read())
 
     """
-
     if model_input_type is None:
         model_input_type = OtherInput()
 
@@ -321,10 +319,8 @@ def deploy(
     return io.BytesIO(response.data)
 
 
-def list_deployment_targets(api_key: Optional[str] = None) -> "List[str]":
-    """
-    Lists suitable deployment targets for the project associated with configured or provided api
-    key.
+def list_deployment_targets(api_key: Optional[str] = None) -> List[str]:
+    """List suitable deployment targets for the project associated with configured or provided api key.
 
     Args:
         api_key (str, optional): The API key for an Edge Impulse project.
@@ -342,18 +338,17 @@ def list_deployment_targets(api_key: Optional[str] = None) -> "List[str]":
     return get_project_deploy_targets(client)
 
 
-def list_engines() -> "List[str]":
-    """Lists all the engines that can be passed to `deploy()`'s `engine` parameter.
+def list_engines() -> List[str]:
+    """List all the engines that can be passed to `deploy()`'s `engine` parameter.
 
     Returns:
         List[str]: List of engines
-
     """
     return [e.value for e in DeploymentTargetEngine]
 
 
-def list_model_types() -> "List[str]":
-    """Lists all the model types that can passed to `deploy()`'s `deploy_model_type` parameter.
+def list_model_types() -> List[str]:
+    """List all the model types that can passed to `deploy()`'s `deploy_model_type` parameter.
 
     Returns:
         List[str]: List of model types

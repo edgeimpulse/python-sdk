@@ -1,9 +1,11 @@
+# ruff: noqa: D100, D101, D102, D103
 import unittest
 from pathlib import Path
 import edgeimpulse as ei
 from edgeimpulse import util
 import zipfile
 import tempfile
+from edgeimpulse import EdgeImpulseApi
 
 
 def sample_model_path(model_fname):
@@ -27,6 +29,26 @@ class TestDefaultProjectIdFor(unittest.TestCase):
                     util.configure_generic_client("jwt_key_string", "jwt")
                 ),
             )
+
+
+class TestEasyApi(unittest.TestCase):
+    def test_easy_api_key(self):
+        api = EdgeImpulseApi(host=ei.API_ENDPOINT)
+        api.authenticate(key=ei.API_KEY)
+        pr_id = api.default_project_id()
+        api.devices.list_devices(pr_id)
+
+    def test_easy_api_jwt(self):
+        api = EdgeImpulseApi(host=ei.API_ENDPOINT)
+        if not ei.EI_USERNAME or not ei.EI_PASSWORD:
+            raise Exception("Either EI_USERNAME or EI_PASSWORD isn't set")
+
+        res = api.login.login({"username": ei.EI_USERNAME, "password": ei.EI_PASSWORD})
+
+        api = EdgeImpulseApi(host=ei.API_ENDPOINT)
+        api.authenticate(key=res.token, key_type="jwt_http")
+        user = api.user.get_current_user()
+        print(user)
 
 
 class TestConfigureGenericClient(unittest.TestCase):

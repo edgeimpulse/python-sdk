@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import logging
 import os
 import pathlib

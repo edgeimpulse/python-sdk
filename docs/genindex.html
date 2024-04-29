@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 --><title>Index - Python SDK1.0.8</title>
 <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -234,6 +235,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -242,6 +244,7 @@
 <li class="toctree-l1"><a class="reference internal" href="source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -250,6 +253,7 @@
 <li class="toctree-l2"><a class="reference internal" href="source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -287,7 +291,7 @@
           
 <section class="genindex-section">
   <h1 id="index">Index</h1>
-  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
+  <div class="genindex-jumpbox"><a href="#_"><strong>_</strong></a> | <a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a></div>
 </section>
 <section id="_" class="genindex-section">
   <h2>_</h2>
@@ -312,6 +316,8 @@
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput">AudioInput (class in edgeimpulse.model.input_type)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.authenticate">authenticate() (edgeimpulse.api.EdgeImpulseApi method)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -338,18 +344,26 @@
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample.category">category (edgeimpulse.data.sample_type.Sample attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id12">[1]</a>
 
         <ul>
-          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.category">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id18">[1]</a>
+          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.category">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id19">[1]</a>
 </li>
           <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.Sample.category">(edgeimpulse.experimental.data.Sample attribute)</a>, <a href="source/edgeimpulse.experimental.data.html#id1">[1]</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.check_response_errors">check_response_errors() (in module edgeimpulse.util)</a>
 </li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.check_tuner">check_tuner() (in module edgeimpulse.experimental.tuner)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification">Classification (class in edgeimpulse.model.output_type)</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.classify">classify (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.client">client (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.configure_generic_client">configure_generic_client() (in module edgeimpulse.util)</a>
+</li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.connect_websocket">connect_websocket() (in module edgeimpulse.util)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -367,23 +381,37 @@
         </ul></li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.DataAcquisition">DataAcquisition (class in edgeimpulse.data.sample_type)</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.default_project_id">default_project_id() (edgeimpulse.api.EdgeImpulseApi method)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.default_project_id_for">default_project_id_for() (in module edgeimpulse.util)</a>
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_all_samples">delete_all_samples() (in module edgeimpulse.experimental.data)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_sample_by_id">delete_sample_by_id() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.delete_samples_by_filename">delete_samples_by_filename() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.deploy">deploy() (in module edgeimpulse.model)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException.deploy_target">deploy_target (edgeimpulse.exceptions.InvalidTargetException attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.deployment">deployment (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeviceException.device">device (edgeimpulse.exceptions.InvalidDeviceException attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Payload.device_name">device_name (edgeimpulse.data.sample_type.Payload attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id3">[1]</a>
 </li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Payload.device_type">device_type (edgeimpulse.data.sample_type.Payload attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id4">[1]</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.devices">devices (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.download_dataset">download_dataset() (in module edgeimpulse.datasets)</a>
+</li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.download_samples_by_ids">download_samples_by_ids() (in module edgeimpulse.experimental.data)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.dsp">dsp (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -393,6 +421,13 @@
   <h2>E</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    edgeimpulse.api
+
+        <ul>
+          <li><a href="source/edgeimpulse.api.html#module-edgeimpulse.api">module</a>
+</li>
+        </ul></li>
         <li>
     edgeimpulse.data
 
@@ -435,6 +470,13 @@
           <li><a href="source/edgeimpulse.experimental.data.html#module-edgeimpulse.experimental.data">module</a>
 </li>
         </ul></li>
+        <li>
+    edgeimpulse.experimental.tuner
+
+        <ul>
+          <li><a href="source/edgeimpulse.experimental.tuner.html#module-edgeimpulse.experimental.tuner">module</a>
+</li>
+        </ul></li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li>
@@ -466,15 +508,26 @@
 </li>
         </ul></li>
         <li>
+    edgeimpulse.tuner
+
+        <ul>
+          <li><a href="source/edgeimpulse.tuner.html#module-edgeimpulse.tuner">module</a>
+</li>
+        </ul></li>
+        <li>
     edgeimpulse.util
 
         <ul>
           <li><a href="source/edgeimpulse.util.html#module-edgeimpulse.util">module</a>
 </li>
         </ul></li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi">EdgeImpulseApi (class in edgeimpulse.api)</a>
+</li>
         <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.EdgeImpulseException">EdgeImpulseException</a>
 </li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.encode_file_as_base64">encode_file_as_base64() (in module edgeimpulse.util)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.export">export (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -484,10 +537,12 @@
   <h2>F</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.feature_flags">feature_flags (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample.filename">filename (edgeimpulse.data.sample_type.Sample attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id14">[1]</a>
 
         <ul>
-          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.filename">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id19">[1]</a>
+          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.filename">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id20">[1]</a>
 </li>
           <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.Sample.filename">(edgeimpulse.experimental.data.Sample attribute)</a>, <a href="source/edgeimpulse.experimental.data.html#id3">[1]</a>
 </li>
@@ -502,15 +557,29 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.get_filename_by_id">get_filename_by_id() (in module edgeimpulse.experimental.data)</a>
 </li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.get_organization_websocket">get_organization_websocket() (in module edgeimpulse.util)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.get_profile_devices">get_profile_devices() (in module edgeimpulse.util)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.get_project_deploy_targets">get_project_deploy_targets() (in module edgeimpulse.util)</a>
 </li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.get_project_websocket">get_project_websocket() (in module edgeimpulse.util)</a>
+</li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.get_sample_ids">get_sample_ids() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.get_user_agent">get_user_agent() (in module edgeimpulse.util)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.host">host (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -524,6 +593,10 @@
 </li>
         <li><a href="source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput">ImageInput (class in edgeimpulse.model.input_type)</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.impulse">impulse (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.infer_category_and_label_from_filename">infer_category_and_label_from_filename() (in module edgeimpulse.experimental.data)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.inspect_model">inspect_model() (in module edgeimpulse.util)</a>
 </li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.inspect_representative_data">inspect_representative_data() (in module edgeimpulse.util)</a>
@@ -536,10 +609,10 @@
 </li>
         <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeviceException">InvalidDeviceException</a>
 </li>
-        <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException">InvalidEngineException</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException">InvalidEngineException</a>
+</li>
         <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidModelException">InvalidModelException</a>
 </li>
         <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException">InvalidTargetException</a>
@@ -564,6 +637,16 @@
   </tr></table>
 </section>
 
+<section id="J" class="genindex-section">
+  <h2>J</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.jobs">jobs (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
 <section id="L" class="genindex-section">
   <h2>L</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
@@ -571,28 +654,28 @@
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample.label">label (edgeimpulse.data.sample_type.Sample attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id15">[1]</a>
 
         <ul>
-          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.label">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id20">[1]</a>
+          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.label">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id21">[1]</a>
 </li>
           <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.Sample.label">(edgeimpulse.experimental.data.Sample attribute)</a>, <a href="source/edgeimpulse.experimental.data.html#id4">[1]</a>
 </li>
         </ul></li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.learn">learn (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.list_datasets">list_datasets() (in module edgeimpulse.datasets)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.list_deployment_targets">list_deployment_targets() (in module edgeimpulse.model)</a>
 </li>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.list_engines">list_engines() (in module edgeimpulse.model)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.list_model_types">list_model_types() (in module edgeimpulse.model)</a>
 </li>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.list_profile_devices">list_profile_devices() (in module edgeimpulse.model)</a>
 </li>
-        <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.load_faucets">load_faucets() (in module edgeimpulse.datasets)</a>
-</li>
-        <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.load_gestures">load_gestures() (in module edgeimpulse.datasets)</a>
-</li>
-        <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.load_keywords">load_keywords() (in module edgeimpulse.datasets)</a>
-</li>
         <li><a href="source/edgeimpulse.datasets.html#edgeimpulse.datasets.load_timeseries">load_timeseries() (in module edgeimpulse.datasets)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.login">login (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -618,6 +701,8 @@
     module
 
         <ul>
+          <li><a href="source/edgeimpulse.api.html#module-edgeimpulse.api">edgeimpulse.api</a>
+</li>
           <li><a href="source/edgeimpulse.data.html#module-edgeimpulse.data">edgeimpulse.data</a>
 </li>
           <li><a href="source/edgeimpulse.data.sample_type.html#module-edgeimpulse.data.sample_type">edgeimpulse.data.sample_type</a>
@@ -630,6 +715,8 @@
 </li>
           <li><a href="source/edgeimpulse.experimental.data.html#module-edgeimpulse.experimental.data">edgeimpulse.experimental.data</a>
 </li>
+          <li><a href="source/edgeimpulse.experimental.tuner.html#module-edgeimpulse.experimental.tuner">edgeimpulse.experimental.tuner</a>
+</li>
           <li><a href="source/edgeimpulse.model.html#module-edgeimpulse.model">edgeimpulse.model</a>
 </li>
           <li><a href="source/edgeimpulse.model.input_type.html#module-edgeimpulse.model.input_type">edgeimpulse.model.input_type</a>
@@ -637,6 +724,8 @@
           <li><a href="source/edgeimpulse.model.model_info.html#module-edgeimpulse.model.model_info">edgeimpulse.model.model_info</a>
 </li>
           <li><a href="source/edgeimpulse.model.output_type.html#module-edgeimpulse.model.output_type">edgeimpulse.model.output_type</a>
+</li>
+          <li><a href="source/edgeimpulse.tuner.html#module-edgeimpulse.tuner">edgeimpulse.tuner</a>
 </li>
           <li><a href="source/edgeimpulse.util.html#module-edgeimpulse.util">edgeimpulse.util</a>
 </li>
@@ -649,7 +738,7 @@
   <h2>N</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor.name">name (edgeimpulse.data.sample_type.Sensor attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id22">[1]</a>
+        <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor.name">name (edgeimpulse.data.sample_type.Sensor attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id23">[1]</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
@@ -667,9 +756,27 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection">ObjectDetection (class in edgeimpulse.model.output_type)</a>
 </li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.onnx_installed">onnx_installed() (in module edgeimpulse.util)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.optimization">optimization (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_blocks">organization_blocks (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_create_project">organization_create_project (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_data">organization_data (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.onnx_installed">onnx_installed() (in module edgeimpulse.util)</a>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_data_campaigns">organization_data_campaigns (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_jobs">organization_jobs (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_pipelines">organization_pipelines (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organization_portals">organization_portals (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.organizations">organizations (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
         <li><a href="source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput">OtherInput (class in edgeimpulse.model.input_type)</a>
 </li>
@@ -689,11 +796,19 @@
 </li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.DataAcquisition.payload">payload (edgeimpulse.data.sample_type.DataAcquisition attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id0">[1]</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.performance_calibration">performance_calibration (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.poll">poll() (in module edgeimpulse.util)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.print_tuner_coordinator_logs">print_tuner_coordinator_logs() (in module edgeimpulse.experimental.tuner)</a>
+</li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.print_tuner_job_logs">print_tuner_job_logs() (in module edgeimpulse.experimental.tuner)</a>
+</li>
         <li><a href="source/edgeimpulse.model.html#edgeimpulse.model.profile">profile() (in module edgeimpulse.model)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.projects">projects (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Protected">Protected (class in edgeimpulse.data.sample_type)</a>
 </li>
@@ -707,7 +822,17 @@
   <h2>R</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.raw_data">raw_data (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression">Regression (class in edgeimpulse.model.output_type)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.run_job_until_completion">run_job_until_completion() (in module edgeimpulse.util)</a>
+</li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.run_organization_job_until_completion">run_organization_job_until_completion() (in module edgeimpulse.util)</a>
+</li>
+        <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.run_project_job_until_completion">run_project_job_until_completion() (in module edgeimpulse.util)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -726,27 +851,41 @@
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample.sample_id">sample_id (edgeimpulse.data.sample_type.Sample attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id17">[1]</a>
 
         <ul>
-          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.sample_id">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id21">[1]</a>
+          <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo.sample_id">(edgeimpulse.data.sample_type.SampleInfo attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id22">[1]</a>
 </li>
           <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.Sample.sample_id">(edgeimpulse.experimental.data.Sample attribute)</a>, <a href="source/edgeimpulse.experimental.data.html#id6">[1]</a>
 </li>
         </ul></li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo">SampleInfo (class in edgeimpulse.data.sample_type)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleIngestionResponse">SampleIngestionResponse (class in edgeimpulse.data.sample_type)</a>
 </li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.save_model">save_model() (in module edgeimpulse.util)</a>
 </li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.save_representative_data">save_representative_data() (in module edgeimpulse.util)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor">Sensor (class in edgeimpulse.data.sample_type)</a>
 </li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Payload.sensors">sensors (edgeimpulse.data.sample_type.Payload attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id6">[1]</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.set_client">set_client() (edgeimpulse.api.EdgeImpulseApi method)</a>
+</li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.set_impulse_from_trial">set_impulse_from_trial() (in module edgeimpulse.experimental.tuner)</a>
+</li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.DataAcquisition.signature">signature (edgeimpulse.data.sample_type.DataAcquisition attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id2">[1]</a>
 </li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.start_custom_tuner">start_custom_tuner() (in module edgeimpulse.experimental.tuner)</a>
+</li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.start_tuner">start_tuner() (in module edgeimpulse.experimental.tuner)</a>
+</li>
+        <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample.structured_labels">structured_labels (edgeimpulse.data.sample_type.Sample attribute)</a>, <a href="source/edgeimpulse.data.sample_type.html#id18">[1]</a>
+
+        <ul>
+          <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.Sample.structured_labels">(edgeimpulse.experimental.data.Sample attribute)</a>, <a href="source/edgeimpulse.experimental.data.html#id7">[1]</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -755,6 +894,8 @@
   <h2>T</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException.target_names">target_names (edgeimpulse.exceptions.InvalidTargetException attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.tensorflow_installed">tensorflow_installed() (in module edgeimpulse.util)</a>
 </li>
     </ul></td>
@@ -762,6 +903,8 @@
         <li><a href="source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException">TimeoutException</a>
 </li>
         <li><a href="source/edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput">TimeSeriesInput (class in edgeimpulse.model.input_type)</a>
+</li>
+        <li><a href="source/edgeimpulse.experimental.tuner.html#edgeimpulse.experimental.tuner.tuner_report_as_df">tuner_report_as_df() (in module edgeimpulse.experimental.tuner)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -785,21 +928,25 @@
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_pandas_dataframe">upload_pandas_dataframe() (in module edgeimpulse.experimental.data)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_pandas_dataframe_wide">upload_pandas_dataframe_wide() (in module edgeimpulse.experimental.data)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_pandas_dataframe_with_group">upload_pandas_dataframe_with_group() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_pandas_sample">upload_pandas_sample() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_plain_directory">upload_plain_directory() (in module edgeimpulse.experimental.data)</a>
 </li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.upload_portal">upload_portal (edgeimpulse.api.EdgeImpulseApi attribute)</a>
+</li>
         <li><a href="source/edgeimpulse.util.html#edgeimpulse.util.upload_pretrained_model_and_data">upload_pretrained_model_and_data() (in module edgeimpulse.util)</a>
 </li>
         <li><a href="source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_samples">upload_samples() (in module edgeimpulse.experimental.data)</a>
 </li>
         <li><a href="source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse (class in edgeimpulse.data.sample_type)</a>
+</li>
+        <li><a href="source/edgeimpulse.api.html#edgeimpulse.api.EdgeImpulseApi.user">user (edgeimpulse.api.EdgeImpulseApi attribute)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -855,5 +1002,7 @@
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

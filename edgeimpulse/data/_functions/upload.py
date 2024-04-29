@@ -1,3 +1,4 @@
+# ruff: noqa: D100
 from typing import Union, Optional, Sequence, List
 from urllib.parse import urljoin
 from requests import Response, Session
@@ -37,14 +38,18 @@ def _upload_sample_with_progress(
     # Construct headers
     if not allow_duplicates:
         headers["x-disallow-duplicates"] = "1"
+
     if sample.label:
         headers["x-label"] = str(sample.label)
+
     if sample.bounding_boxes:
         if isinstance(sample.bounding_boxes, list):
             sample.bounding_boxes = json.dumps(sample.bounding_boxes)
         headers["x-bounding-boxes"] = sample.bounding_boxes
+
     if sample.metadata:
         headers["x-metadata"] = json.dumps(sample.metadata)
+
     if sample.category is None:
         sample.category = "split"
 
@@ -71,6 +76,25 @@ def _upload_sample_with_progress(
     else:
         files = [("data", (sample.filename, sample.data, "multipart/form-data"))]
 
+    if sample.structured_labels:
+        # append the structured labels to the file upload
+        structured_labels = {
+            "version": 1,
+            "type": "structured-labels",
+            "structuredLabels": {sample.filename: sample.structured_labels},
+        }
+
+        files.append(
+            (
+                "data",
+                (
+                    "structured_labels.labels",
+                    json.dumps(structured_labels),
+                    "application/json",
+                ),
+            )
+        )
+
     # Make request
     response = session.post(url, headers=headers, files=files, timeout=timeout_sec)
 
@@ -82,9 +106,7 @@ def _upload_sample_with_progress(
 
 
 def _report_results(results: List[Response]) -> UploadSamplesResponse:
-    """
-    Converts http reponses to a type with success and error samples
-    """
+    """Convert http responses to a type with success and error samples."""
     successes = []
     fails = []
 
@@ -131,8 +153,7 @@ def upload_samples(
     pool_maxsize: Optional[int] = 20,
     pool_connections: Optional[int] = 20,
 ) -> UploadSamplesResponse:
-    """
-    Uploads one or more samples to an Edge Impulse project using the ingestion service.
+    """Upload one or more samples to an Edge Impulse project using the ingestion service.
 
     Each sample must be wrapped in a `Sample` object, which contains metadata about that sample.
     Give this function a single `Sample` or a sequence of `Sample` objects to upload to your
@@ -168,7 +189,6 @@ def upload_samples(
             along with the error message.
 
     Examples:
-
         .. code-block:: python
 
             # Create a dataset (with a single Sample)
@@ -186,7 +206,6 @@ def upload_samples(
             print(response.successes)
             print(response.fails)
     """
-
     # Turn a single sample into a 1-element list
     if isinstance(samples, Sample):
         samples = [samples]

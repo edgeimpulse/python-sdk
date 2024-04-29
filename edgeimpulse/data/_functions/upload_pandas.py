@@ -1,3 +1,4 @@
+# ruff: noqa: D100
 # NOTE: We're not importing pandas here because we want to be compatible with pandas like
 # frameworks. I.e. Dask, Modin, Polars etc.
 # Please try to rely on duck typing where possible and don't make any dependencies towards
@@ -28,9 +29,7 @@ MSG_NO_DF_MODULE = (
 
 
 def row_metadata(row, metadata_col):
-    """
-    Get the metadata from a dataframe row for a single sample.
-    """
+    """Get the metadata from a dataframe row for a single sample."""
     metadata = None
     if metadata_col is not None:
         metadata = {k: str(row[k]) for k in metadata_col}
@@ -38,9 +37,7 @@ def row_metadata(row, metadata_col):
 
 
 def ts_to_ms(timestamp):
-    """
-    Helper to convert timestamps to miliseconds for the EI data aquisition format
-    """
+    """Convert timestamps to milliseconds for the EI data aquisition format."""
     if isinstance(timestamp, (int, float)):
         return int(timestamp * 1000)
     elif hasattr(timestamp, "timestamp"):
@@ -58,8 +55,9 @@ def upload_pandas_sample(
     metadata: Optional[dict] = None,
     category: Literal["training", "testing", "split"] = "split",
 ) -> UploadSamplesResponse:
-    """
-    Upload a single dataframe sample.
+    """Upload a single dataframe sample.
+
+    Upload a single dataframe sample to Edge Impulse.
 
     Args:
         df (DataFrame): The input DataFrame containing data.
@@ -72,10 +70,7 @@ def upload_pandas_sample(
         category (str or None, optional): Category or class label for the entire dataset. Default is split.
 
     Returns:
-        UploadSamplesResponse: A response object that contains the results of the upload. The
-            response object contains two tuples: the first tuple contains the samples that were
-            successfully uploaded, and the second tuple contains the samples that failed to upload
-            along with the error message.
+        UploadSamplesResponse: A response object that contains the results of the upload.
 
     Raises:
         AttributeError: If the input object does not have a `reset_index` method.
@@ -83,7 +78,6 @@ def upload_pandas_sample(
             argument is not a dictionary.
 
     Examples:
-
         .. code-block:: python
 
             import edgeimpulse as ei
@@ -146,14 +140,13 @@ def pandas_dataframe_to_sample(
     metadata: Optional[dict] = None,
     category: Literal["training", "testing", "split"] = "split",
 ) -> Sample:
-    """
-    Converts a dataframe to a single sample. Can both handle timeseries and non-timeseries data.
+    """Convert a dataframe to a single sample. Can handle both *timeseries* and *non-timeseries* data.
 
-    In order to be a determiend to be a timeseries it must have:
+    In order to be inferred as timeseries it must have:
 
     - More than one row
     - A sample rate or an index from which the sample rate can be inferred
-        - Therefore must be monotonically inreasing
+        - Therefore must be monotonically increasing
         - And int or a date
 
     Args:
@@ -161,15 +154,13 @@ def pandas_dataframe_to_sample(
         sample_rate_ms (int): The sampling rate of the time series data (in milliseconds).
         label (str, optional): The label for the sample. Default is None.
         filename (str, optional): The filename for the sample. Default is None.
-        axis_columns (List[str], optional): List of column names representing axis if the data is
-            multi-dimensional. Default is None.
-        metadata (dict, optional): Dictionary containing metadata information. Default is None.
-        category (str or None, optional): Category or class label for the entire dataset. Default is split.
+        axis_columns (List[str], optional): List of column names representing axis if the data is multi-dimensional. Default is None.
+        metadata (dict, optional): Dictionary containing metadata information for the sample. Default is None.
+        category (str or None, optional): To which category this sample belongs (training/testing/split) default is spit.
 
     Returns:
         Sample: A sample object containing the data from the dataframe.
     """
-
     # Check to make sure dataframe operations are supported
     if not hasattr(df, "reset_index") or not callable(getattr(df, "reset_index")):
         raise AttributeError(MSG_NO_DF_MODULE)
@@ -204,14 +195,14 @@ def pandas_dataframe_to_sample(
 
             if not hasattr(df.index, "is_monotonic_increasing"):
                 raise ValueError(
-                    "Index should be monotonicly increasing in order to detect sample rate. Or specify sample_rate_ms argument."
+                    "Index should be monotonically increasing in order to detect sample rate. Or specify sample_rate_ms argument."
                 )
 
             if hasattr(df.index, "seconds"):
                 # the csv ingestion services requires the timestamp to be specified
                 # in milliseconds. See here: https://docs.edgeimpulse.com/reference/importing-csv-data
                 # So here we convert the index when its timedelta index.
-                # Because we're duck typeing we can't check for
+                # Because we're duck typing we can't check for
                 # explicit TimeDeltaIndex
                 df.index = df.index.seconds * 1000
             else:
@@ -219,7 +210,7 @@ def pandas_dataframe_to_sample(
                 pass
 
     # We convert here to a csv since its a little bit more easy to use than the JSON ei data
-    # We don't need sensors here (they are automatically infered)
+    # We don't need sensors here (they are automatically inferred)
     # And we can both support timeseries and non-time series.
 
     csv = io.StringIO()
@@ -261,17 +252,12 @@ def upload_pandas_dataframe_wide(
     data_col_length: Optional[int] = None,
     data_axis_cols: List[str] = None,
 ) -> UploadSamplesResponse:
-    """
-    Uploads a dataframe to Edge Impulse where each of columns represent a value in the
-    timeseries data and the rows become the individual samples.
+    """Upload a dataframe to Edge Impulse where each of columns represent a value in the timeseries data and the rows become the individual samples.
 
     Args:
-        df (DataFrame):
-            The input DataFrame containing time series data.
-        data_col_start (int):
-            The index of the column from which the time series data begins.
-        sample_rate_ms (int):
-            The sampling rate of the time series data (in milliseconds).
+        df (DataFrame): The input DataFrame containing time series data.
+        data_col_start (int): The index of the column from which the time series data begins.
+        sample_rate_ms (int): The sampling rate of the time series data (in milliseconds).
         label_col (str, optional): The column name containing labels for each
             time series. Default is None.
         category_col (str, optional): The column name containing the category for the
@@ -284,10 +270,7 @@ def upload_pandas_dataframe_wide(
             multi-dimensional. Default is None.
 
     Returns:
-        UploadSamplesResponse: A response object that contains the results of the upload. The
-            response object contains two tuples: the first tuple contains the samples that were
-            successfully uploaded, and the second tuple contains the samples that failed to upload
-            along with the error message.
+        UploadSamplesResponse: A response object that contains the results of the upload.
 
     Raises:
         AttributeError: If the input object does not have a `iterrows` method.
@@ -295,7 +278,6 @@ def upload_pandas_dataframe_wide(
             argument is not an integer.
 
     Examples:
-
         .. code-block:: python
 
             import edgeimpulse as ei
@@ -323,9 +305,8 @@ def upload_pandas_dataframe_wide(
                 sample_rate_ms=100,
             )
             self.assertEqual(len(response.successes), 2)
-            self.assertEqual(len(resonse.fails), 0)
+            self.assertEqual(len(response.fails), 0)
     """
-
     # Check to make sure dataframe operations are supported
     if not hasattr(df, "iterrows") or not callable(getattr(df, "iterrows")):
         raise AttributeError(MSG_NO_DF_MODULE)
@@ -335,7 +316,7 @@ def upload_pandas_dataframe_wide(
     if is_single_axis:
         for _, row in df.iterrows():
             # We need to transpose the single wide row to a timeseries long dataframe
-            # We reset the index in order to make it compatible. After toframe, the column names are the index
+            # We reset the index in order to make it compatible. After to frame, the column names are the index
             # so if that is text it will break the upload
 
             row_df = row[data_col_start:].to_frame()  # transforms from wide to long.
@@ -406,8 +387,7 @@ def upload_pandas_dataframe(
     category_col: Optional[str] = None,
     metadata_cols: Optional[List[str]] = None,
 ) -> UploadSamplesResponse:
-    """
-    Upload non-timeseries data to Edge Impulse where each dataframe row becomes a sample.
+    """Upload non-timeseries data to Edge Impulse where each dataframe row becomes a sample.
 
     Args:
         df (dataframe): The DataFrame to be uploaded.
@@ -417,16 +397,12 @@ def upload_pandas_dataframe(
         metadata_cols (List[str], optional): Optional list of column names containing metadata
 
     Returns:
-        UploadSamplesResponse: A response object that contains the results of the upload. The
-            response object contains two tuples: the first tuple contains the samples that were
-            successfully uploaded, and the second tuple contains the samples that failed to upload
-            along with the error message.
+        UploadSamplesResponse: A response object that contains the results of the upload.
 
     Raises:
         AttributeError: If the input object does not have a `iterrows` method.
 
     Examples:
-
         .. code-block:: python
 
             import edgeimpulse as ei
@@ -457,7 +433,6 @@ def upload_pandas_dataframe(
             )
             assert len(response.fails) == 0, "Could not upload some files"
     """
-
     # Check to make sure dataframe operations are supported
     if not hasattr(df, "iterrows") or not callable(getattr(df, "iterrows")):
         raise AttributeError(MSG_NO_DF_MODULE)
@@ -485,16 +460,20 @@ def upload_pandas_dataframe_with_group(
     category_col: Optional[str] = None,
     metadata_cols: Optional[List[str]] = None,
 ) -> UploadSamplesResponse:
-    """
-    Uploads a dataframe where the rows contain multiple samples and timeseries data for
-    those samples. It uses a `group_by` in order to detect what timeseries value belongs
+    """Upload a dataframe where the rows contain multiple samples and timeseries data for those samples.
+
+    It uses a `group_by` in order to detect what timeseries value belongs
     to which sample.
 
     Args:
-        df (dataframe): The DataFrame to be uploaded.
-        timestamp_col (str): The name of the column containing the timestamp for the data (in seconds).
-        group_by (str): The name of the column containing the group for the data.
-        feature_cols (List[str]): A list of column names containing features.
+        df (dataframe):
+            The DataFrame to be uploaded.
+        timestamp_col (str):
+            The name of the column containing the timestamp for the data (in seconds).
+        group_by (str):
+            The name of the column containing the group for the data.
+        feature_cols (List[str]):
+            A list of column names containing features.
         label_col (str, optional): The name of the column containing labels for the data. Each group
             must have the same label. Default is None (derived from group name).
         category_col (str, optional): The name of the column containing the category for the data.
@@ -503,13 +482,9 @@ def upload_pandas_dataframe_with_group(
             Each group must have the same metadata. Default is None.
 
     Returns:
-        UploadSamplesResponse: A response object that contains the results of the upload. The
-            response object contains two tuples: the first tuple contains the samples that were
-            successfully uploaded, and the second tuple contains the samples that failed to upload
-            along with the error message.
+        UploadSamplesResponse: A response object that contains the results of the upload.
 
     Examples:
-
         .. code-block:: python
 
             import edgeimpulse as ei
@@ -549,7 +524,6 @@ def upload_pandas_dataframe_with_group(
             )
             assert len(response.fails) == 0, "Could not upload some files"
     """
-
     # Check to make sure dataframe operations are supported
     if not hasattr(df[timestamp_col], "apply") or not callable(
         getattr(df[timestamp_col], "apply")

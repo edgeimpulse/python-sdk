@@ -8,6 +8,7 @@
         <title>edgeimpulse.model._functions.deploy - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -352,7 +356,7 @@
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transforms a machine learning model into a library for an edge device</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transform a machine learning model into a library for an edge device.</span>
 
 <span class="sd">    Transforms a trained model into a library, package, or firmware ready to deploy on an embedded</span>
 <span class="sd">    device. Can optionally apply post-training quantization if a representative data sample is</span>
@@ -385,7 +389,7 @@
 <span class="sd">            computational graph. Can be `Path` or `str` denoting file path, Python `bytes`</span>
 <span class="sd">            containing a model, or a Keras model instance.</span>
 <span class="sd">        model_output_type (Union[Classification, Regression, ObjectDetection]): Describe your</span>
-<span class="sd">            model&#39;s type:Classification, Regression, or ObjectDetection. The types are available in</span>
+<span class="sd">            model&#39;s type: Classification, Regression, or ObjectDetection. The types are available in</span>
 <span class="sd">            the module `edgeimpulse.model.output_type`.</span>
 <span class="sd">        model_input_type (Union[ImageInput, AudioInput, TimeSeriesInput, OtherInput], optional):</span>
 <span class="sd">            Determines any input preprocessing (windowing, downsampling) that should be performed by</span>
@@ -423,7 +427,6 @@
 <span class="sd">        Exception: Unhandled exception from API</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            # Turn a Keras model into a C++ library and write to disk</span>
@@ -453,7 +456,6 @@
 <span class="sd">                f.write(output.read())</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="n">model_input_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">model_input_type</span> <span class="o">=</span> <span class="n">OtherInput</span><span class="p">()</span>
 
@@ -609,10 +611,8 @@
     <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="list_deployment_targets"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_deployment_targets">[docs]</a><span class="k">def</span> <span class="nf">list_deployment_targets</span><span class="p">(</span><span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;List[str]&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Lists suitable deployment targets for the project associated with configured or provided api</span>
-<span class="sd">    key.</span>
+<div class="viewcode-block" id="list_deployment_targets"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_deployment_targets">[docs]</a><span class="k">def</span> <span class="nf">list_deployment_targets</span><span class="p">(</span><span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List suitable deployment targets for the project associated with configured or provided api key.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        api_key (str, optional): The API key for an Edge Impulse project.</span>
@@ -630,18 +630,17 @@
     <span class="k">return</span> <span class="n">get_project_deploy_targets</span><span class="p">(</span><span class="n">client</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="list_engines"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_engines">[docs]</a><span class="k">def</span> <span class="nf">list_engines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;List[str]&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lists all the engines that can be passed to `deploy()`&#39;s `engine` parameter.</span>
+<div class="viewcode-block" id="list_engines"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_engines">[docs]</a><span class="k">def</span> <span class="nf">list_engines</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all the engines that can be passed to `deploy()`&#39;s `engine` parameter.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[str]: List of engines</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">DeploymentTargetEngine</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="list_model_types"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_model_types">[docs]</a><span class="k">def</span> <span class="nf">list_model_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;List[str]&quot;</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Lists all the model types that can passed to `deploy()`&#39;s `deploy_model_type` parameter.</span>
+<div class="viewcode-block" id="list_model_types"><a class="viewcode-back" href="../../../../source/edgeimpulse.model.html#edgeimpulse.model.list_model_types">[docs]</a><span class="k">def</span> <span class="nf">list_model_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all the model types that can passed to `deploy()`&#39;s `deploy_model_type` parameter.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[str]: List of model types</span>
@@ -782,5 +781,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

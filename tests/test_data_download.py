@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import unittest
 import logging
 import os
@@ -56,9 +57,7 @@ def upload_dataset(samples):
 
 
 class TestDataDownload(unittest.TestCase):
-    """
-    Test downloading data from Edge Impulse
-    """
+    """Test downloading data from Edge Impulse."""
 
     def setUp(self):
         # Suppress annoying message from request's socket

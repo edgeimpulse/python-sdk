@@ -1,3 +1,4 @@
+# ruff: noqa: D100
 from edgeimpulse.data.sample_type import (
     Sample,
     DataAcquisition,
@@ -17,35 +18,6 @@ from dataclasses import asdict
 DEVICE_TYPE = "EDGE_IMPULSE_PYTHON_SDK"
 
 
-def numpy_timeseries_to_sample(
-    values, sensors: Sequence[Sensor], sample_rate_ms: int
-) -> Sample:
-    """
-    Converts numpy values to a sample that can be uploaded to Edge Impulse
-
-    Args:
-        data (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)
-        sensors (Sequence[Sensor]): List of sensor objects representing the sensors used in the data.
-        sample_rate_ms (int): Time interval in milliseconds between consecutive data points. Default is 50ms.
-
-    Returns:
-        Sample: Sample object that can be uploaded to Edge Impulse
-    """
-    data = DataAcquisition(
-        protected=Protected(),
-        payload=Payload(
-            device_type=DEVICE_TYPE,
-            interval_ms=sample_rate_ms,
-            values=values,
-            sensors=sensors,
-        ),
-    )
-    sample = Sample(
-        filename="%08x.json" % random.getrandbits(64), data=json.dumps(asdict(data))
-    )
-    return sample
-
-
 def upload_numpy(
     data,
     labels: Sequence[str],
@@ -54,12 +26,10 @@ def upload_numpy(
     metadata: dict = None,
     category: Literal["training", "testing", "split"] = "split",
 ) -> UploadSamplesResponse:
-    """
-    Uploads numpy arrays as timeseries using the Edge Impulse data acquisition format.
+    """Upload numpy arrays as timeseries using the Edge Impulse data acquisition format.
 
     Args:
-        data (any): Numpy array containing the timeseries data.
-            The shape should be (num_samples, time_point, num_sensors)
+        data (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)
         labels (Sequence[str]): List of labels for the data samples can also be a numpy array.
         sensors (Sequence[Sensor]): List of Sensor objects representing the sensors used in the data.
         sample_rate_ms (int): Time interval in milliseconds between consecutive data points.
@@ -67,21 +37,18 @@ def upload_numpy(
         category (str or None, optional): Category or class label for the entire dataset. Default is split.
 
     Returns:
-        UploadSamplesResponse: A response object that contains the results of the upload. The
-            response object contains two tuples: the first tuple contains the samples that were
-            successfully uploaded, and the second tuple contains the samples that failed to upload
-            along with the error message.
+        UploadSamplesResponse: A response object that contains the results of the upload.
 
     Raises:
-        ValueError: If the length of labels doesn't match the number of samples.
-        ValueError: If the number of sensors doesn't match the number of axis in the data.
+        ValueError: If the length of labels doesn't match the number of samples or if the number of sensors
+            doesn't match the number of axis in the data.
 
     Examples:
-
         .. code-block:: python
 
             import numpy as np
             import edgeimpulse as ei
+            from ei.experimental.data import upload_numpy
 
             ei.API_KEY = "your-api-key" # set your key
 
@@ -114,7 +81,7 @@ def upload_numpy(
             ]
 
             # Upload samples to your Edge Impulse project
-            resp = ei.experimental.data.upload_numpy(
+            resp = upload_numpy(
                 sample_rate_ms=100,
                 data=samples,
                 labels=labels,
@@ -145,3 +112,31 @@ def upload_numpy(
         samples.append(sample)
 
     return upload_samples(samples)
+
+
+def numpy_timeseries_to_sample(
+    values, sensors: Sequence[Sensor], sample_rate_ms: int
+) -> Sample:
+    """Convert numpy values to a sample that can be uploaded to Edge Impulse.
+
+    Args:
+        values (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)
+        sensors (Sequence[Sensor]): List of sensor objects representing the sensors used in the data.
+        sample_rate_ms (int): Time interval in milliseconds between consecutive data points.
+
+    Returns:
+        Sample: Sample object that can be uploaded to Edge Impulse
+    """
+    data = DataAcquisition(
+        protected=Protected(),
+        payload=Payload(
+            device_type=DEVICE_TYPE,
+            interval_ms=sample_rate_ms,
+            values=values,
+            sensors=sensors,
+        ),
+    )
+    sample = Sample(
+        filename="%08x.json" % random.getrandbits(64), data=json.dumps(asdict(data))
+    )
+    return sample

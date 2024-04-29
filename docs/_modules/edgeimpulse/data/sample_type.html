@@ -8,6 +8,7 @@
         <title>edgeimpulse.data.sample_type - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,15 +290,15 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data.sample_type</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span></span><span class="c1"># ruff: noqa: D100, D101</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BufferedIOBase</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">List</span>
 
 
 <div class="viewcode-block" id="Sensor"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Sensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a sensor in the Edge Impulse data acquisition format.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a sensor in the Edge Impulse data acquisition format.</span>
 
 <span class="sd">    Note:</span>
 <span class="sd">        The units must comply with the SenML units list:</span>
@@ -386,9 +390,9 @@
 
 <div class="viewcode-block" id="Payload"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Payload">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Payload</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrapper class for the sensor data. Information about the data acquisition format</span>
-<span class="sd">    can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper class for the sensor data.</span>
+
+<span class="sd">    Information about the data acquisition format can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        device_type (str): - Device type, for example the exact model of the device.</span>
@@ -406,7 +410,6 @@
 <span class="sd">            field is set the device shows up on the &#39;Devices&#39; page in the studio.</span>
 
 <span class="sd">    Example:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            from edgeimpulse.data.sample_type import Payload, Sensor</span>
@@ -438,9 +441,9 @@
 
 <div class="viewcode-block" id="Protected"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Protected">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Protected</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrapper class for information about the signature format. More information can be</span>
-<span class="sd">    found here: https://docs.edgeimpulse.com/reference/data-acquisition-format</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper class for information about the signature format.</span>
+
+<span class="sd">    More information can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        ver (str): Version of the signature format. Default is `&quot;v1&quot;`.</span>
@@ -450,7 +453,6 @@
 <span class="sd">            clock. Default is `None`.</span>
 
 <span class="sd">    Example:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            from edgeimpulse.data.sample_type import Protected</span>
@@ -469,9 +471,9 @@
 
 <div class="viewcode-block" id="DataAcquisition"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.DataAcquisition">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">DataAcquisition</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrapper class for the Edge Impulse data acquisition format. See here for more</span>
-<span class="sd">    information: https://docs.edgeimpulse.com/reference/data-acquisition-format</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper class for the Edge Impulse data acquisition format.</span>
+
+<span class="sd">    See here for more information: https://docs.edgeimpulse.com/reference/data-acquisition-format.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        protected (Protected): Information about the signature format.</span>
@@ -487,9 +489,9 @@
 
 <div class="viewcode-block" id="Sample"><a class="viewcode-back" href="../../../source/edgeimpulse.experimental.data.html#edgeimpulse.data.sample_type.Sample">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Sample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrapper class for sample data, labels, and associated metadata. Sample data should be contained</span>
-<span class="sd">    in a file or file-like object, for example, as the return from `open(..., &quot;rb&quot;)`. The</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper class for sample data, labels, and associated metadata.</span>
+
+<span class="sd">    Sample data should be contained in a file or file-like object, for example, as the return from `open(..., &quot;rb&quot;)`. The</span>
 <span class="sd">    `upload_samples()` function expects Sample objects as input.</span>
 
 <span class="sd">    Attributes:</span>
@@ -512,6 +514,12 @@
 <span class="sd">            Edge Impulse server when the sample is uploaded. You can use this ID to retrieve the</span>
 <span class="sd">            sample later. This value is ignored when uploading samples and should not be set by the</span>
 <span class="sd">            user.</span>
+<span class="sd">        structured_labels (Optional[Sequence[dict]]): Array of dictionary objects that define the labels</span>
+<span class="sd">            in this sample at various intervals.</span>
+<span class="sd">            &lt;https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label&gt;`_ to</span>
+<span class="sd">            read more. Example: `[{&quot;label&quot;: &quot;noise&quot;,&quot;startIndex&quot;: 0,&quot;endIndex&quot;: 5000},</span>
+<span class="sd">            {&quot;label&quot;: &quot;water&quot;,&quot;startIndex&quot;: 5000,&quot;endIndex&quot;: 10000}]`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span><span class="p">:</span> <span class="n">BufferedIOBase</span>
@@ -520,7 +528,8 @@
     <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">bounding_boxes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">sample_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">sample_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">structured_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="SampleIngestionResponse"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleIngestionResponse">[docs]</a><span class="k">class</span> <span class="nc">SampleIngestionResponse</span><span class="p">:</span>
@@ -529,14 +538,12 @@
         <span class="n">sample</span><span class="p">:</span> <span class="n">Sample</span><span class="p">,</span>
         <span class="n">response</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wrapper for the response from the Edge Impulse ingestion service when uploading</span>
-<span class="sd">        a sample along with the sample that was uploaded.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrapper for the response from the Edge Impulse ingestion service when uploading a sample along with the sample that was uploaded.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sample (Sample): The sample that was uploaded.</span>
 <span class="sd">            response (dict): The response from the server.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>  <span class="c1"># noqa: D401</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="kc">None</span>
@@ -557,8 +564,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;fileName&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="SampleIngestionResponse.__repr__"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleIngestionResponse.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a string providing an overview of the response.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string providing an overview of the response.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: Response from the server.</span>
@@ -576,8 +582,7 @@
         <span class="n">successes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SampleIngestionResponse</span><span class="p">],</span>
         <span class="n">fails</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SampleIngestionResponse</span><span class="p">],</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Response from the Edge Impulse server when uploading multiple samples.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Response from the Edge Impulse server when uploading multiple samples.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            success (bool): `True` if all samples were uploaded successfully.</span>
@@ -592,9 +597,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fails</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="UploadSamplesResponse.__repr__"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a string providing an overview of the number of successes and fails from</span>
-<span class="sd">        the responses.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string providing an overview of the number of successes and fails from the responses.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: Successful upload along with number of successes and fails.</span>
@@ -609,9 +612,7 @@
 
 <div class="viewcode-block" id="SampleInfo"><a class="viewcode-back" href="../../../source/edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SampleInfo</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrapper for the response from the Edge Impulse ingestion service when retrieving</span>
-<span class="sd">    sample information.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper for the response from the Edge Impulse ingestion service when retrieving sample information.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        sample_id (Optional[int]): The sample ID.</span>
@@ -662,5 +663,7 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

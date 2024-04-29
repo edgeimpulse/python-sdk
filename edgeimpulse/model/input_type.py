@@ -1,9 +1,10 @@
+# ruff: noqa: D100, D101
 from typing import Literal
 
 
 class ImageInput(dict):
     def __init__(self, scaling_range: Literal["0..1", "0..255", "torch"] = "0..1"):
-        """Describes an image input, and specifies how it should be processed.
+        """Describe an image input, and specifies how it should be processed.
 
         Args:
             scaling_range (Literal['0..1', '0..255', 'torch']): Describes any scaling or
@@ -19,7 +20,7 @@ class ImageInput(dict):
 
 class AudioInput(dict):
     def __init__(self, frequency_hz: float):
-        """Describes an audio input, and specifies how it should be processed.
+        """Describe an audio input, and specifies how it should be processed.
 
         Args:
             frequency_hz (float): The frequency of the audio signal in Hz (samples per second).
@@ -30,7 +31,7 @@ class AudioInput(dict):
 
 class TimeSeriesInput(dict):
     def __init__(self, frequency_hz: float, windowlength_ms: int):
-        """Describes a time series input, and specifies how it should be processed.
+        """Describe a time series input, and specifies how it should be processed.
 
         A stream of time series data is windowed into chunks of `windowlength_ms` according to the
         signal's frequency (`frequency_hz`). The window length represents how much data
@@ -48,5 +49,5 @@ class TimeSeriesInput(dict):
 
 class OtherInput(dict):
     def __init__(self):
-        """Describes an input that is passed into the model without any changes."""
+        """Describe an input that is passed into the model without any changes."""
         self["inputType"] = "other"

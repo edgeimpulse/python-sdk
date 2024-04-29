@@ -61,11 +61,13 @@ Resources
    :hidden:
    :caption: Contents:
 
+   source/edgeimpulse.api
    source/edgeimpulse.data
    source/edgeimpulse.datasets
    source/edgeimpulse.exceptions
    source/edgeimpulse.experimental
    source/edgeimpulse.model
+   source/edgeimpulse.tuner
    source/edgeimpulse.util
 
 Indices and tables

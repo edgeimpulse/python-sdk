@@ -8,6 +8,7 @@
         <title>edgeimpulse.data._functions.download - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.download</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span></span><span class="c1"># ruff: noqa: D100</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">BytesIO</span>
@@ -325,10 +330,7 @@
     <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Downloads a sample by ID from an Edge Impulse project as an image.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download a sample by ID from an Edge Impulse project as an image.&quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Workaround: Use raw request for now</span>
@@ -357,10 +359,7 @@
     <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Downloads a sample by ID from an Edge Impulse project as a video.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download a sample by ID from an Edge Impulse project as a video.&quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Workaround: Use raw request for now</span>
@@ -389,10 +388,7 @@
     <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BytesIO</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Downloads a sample by ID from an Edge Impulse project as a .WAV file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download a sample by ID from an Edge Impulse project as a .WAV file.&quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="c1"># Workaround: Use raw request for now</span>
@@ -416,10 +412,7 @@
 <span class="k">def</span> <span class="nf">_convert_timeseries_to_json</span><span class="p">(</span>
     <span class="n">resp</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BytesIO</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parse time series response from Edge Impulse API and convert to CBOR buffer.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse time series response from Edge Impulse API and convert to CBOR buffer.&quot;&quot;&quot;</span>
     <span class="c1"># Parse response</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">DataAcquisition</span><span class="p">(</span>
         <span class="n">protected</span><span class="o">=</span><span class="n">Protected</span><span class="p">(),</span>
@@ -453,10 +446,7 @@
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">progress_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sample</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Downloads a sample by ID from an Edge Impulse project with progress info.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download a sample by ID from an Edge Impulse project with progress info.&quot;&quot;&quot;</span>
     <span class="c1"># Define headers</span>
     <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;x-api-key&quot;</span><span class="p">:</span> <span class="n">api_key</span><span class="p">,</span>
@@ -477,7 +467,6 @@
 
     <span class="c1"># Convert JSON response to dictionary</span>
     <span class="n">resp</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
@@ -557,14 +546,14 @@
     <span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
         <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-        <span class="n">category</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;category&quot;</span><span class="p">],</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
-        <span class="n">bounding_boxes</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;boundingBoxes&quot;</span><span class="p">],</span>
-        <span class="n">metadata</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="n">sample_id</span><span class="o">=</span><span class="n">sample_id</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
+        <span class="n">category</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;category&quot;</span><span class="p">],</span>
+        <span class="n">bounding_boxes</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">][</span><span class="s2">&quot;boundingBoxes&quot;</span><span class="p">],</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">structured_labels</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;sample&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;structuredLabels&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="c1"># Update progress</span>
     <span class="k">if</span> <span class="n">progress_callback</span><span class="p">:</span>
         <span class="n">progress_callback</span><span class="p">()</span>
 
@@ -580,9 +569,9 @@
     <span class="n">pool_maxsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
     <span class="n">pool_connections</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Sample</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Downloads samples by their associated IDs from an Edge Impulse project. Downloaded</span>
-<span class="sd">    sample data is returned as a `DownloadSample` object, which contains the raw data in</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download samples by their associated IDs from an Edge Impulse project.</span>
+
+<span class="sd">    Downloaded sample data is returned as a `DownloadSample` object, which contains the raw data in</span>
 <span class="sd">    a BytesIO object along with associated metadata.</span>
 
 <span class="sd">    **Important!** All time series data is returned as a JSON file (in BytesIO format)</span>
@@ -597,13 +586,15 @@
 <span class="sd">        api_key (Optional[str]): The API key for an Edge Impulse project.</span>
 <span class="sd">            This can also be set via the module-level variable `edgeimpulse.API_KEY`, or</span>
 <span class="sd">            the env var `EI_API_KEY`.</span>
-<span class="sd">        timeout_sec (Optional[float], optional): Number of seconds to wait for profile</span>
+<span class="sd">        timeout_sec (float, optional): Number of seconds to wait for profile</span>
 <span class="sd">            job to complete on the server. `None` is considered &quot;infinite timeout&quot; and</span>
 <span class="sd">            will wait forever.</span>
-<span class="sd">        max_workers (Optional[int]): The maximum number of subprocesses to use when</span>
+<span class="sd">        max_workers (int, optional): The maximum number of subprocesses to use when</span>
 <span class="sd">            making concurrent requests. If `None`, the number of workers will be set to</span>
 <span class="sd">            the number of processors on the machine multiplied by 5.</span>
-<span class="sd">        show_progress=False: Show progress bar while uploading samples.</span>
+<span class="sd">        show_progress: Show progress bar while uploading samples.</span>
+<span class="sd">        pool_maxsize: (int, optional) Maxium size of the upload pool. Defaults to 20.</span>
+<span class="sd">        pool_connections: (int, optional) Maxium size of the pool connections. Defaults to 20.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List[Sample]: List of Sample objects with data and metadata as downloaded from</span>
@@ -611,13 +602,11 @@
 <span class="sd">            with the matching IDs are found.</span>
 
 <span class="sd">    Example:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            sample = ei.data.download_samples_by_ids(12345)</span>
 <span class="sd">            print(sample)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Turn single or multiple IDs into list</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sample_ids</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">sample_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">sample_ids</span><span class="p">]</span>
@@ -733,5 +722,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

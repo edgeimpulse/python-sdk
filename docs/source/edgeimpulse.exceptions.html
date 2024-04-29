@@ -9,6 +9,7 @@
         <title>exceptions module - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -236,6 +237,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -244,6 +246,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -252,6 +255,7 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -313,19 +317,36 @@
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidDeviceException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">profile_devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#InvalidDeviceException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.InvalidDeviceException" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
 <p>Exception raised when an invalid device is passed.</p>
-<dl class="simple">
-<dt>Atrributes:</dt><dd><p>device (str): device type to profile
-profile devices (List[str]): List of devices for a project as strings.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.exceptions.InvalidDeviceException.device">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#edgeimpulse.exceptions.InvalidDeviceException.device" title="Permalink to this definition">#</a></dt>
+<dd><p>device type to profile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">profile</span> <span class="pre">devices</span></span></dt>
+<dd><p>List of devices for a project as strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="edgeimpulse.exceptions.InvalidEngineException">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidEngineException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validation_error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#InvalidEngineException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.InvalidEngineException" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
-<p>Exception raised when an invalid engine is passed.
-For a list of valid engines use <cite>edgeimpulse.model.list_engines()</cite>.</p>
+<p>Exception raised when an invalid engine is passed.</p>
+<p>For a list of valid engines use <cite>edgeimpulse.model.list_engines()</cite>.</p>
 </dd></dl>
 
 <dl class="py exception">
@@ -338,15 +359,30 @@ For a list of valid engines use <cite>edgeimpulse.model.list_engines()</cite>.</
 <dt class="sig sig-object py" id="edgeimpulse.exceptions.InvalidTargetException">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">InvalidTargetException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deploy_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#InvalidTargetException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.InvalidTargetException" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
-<blockquote>
-<div><p>Exception raised when an invalid target is passed.
-For a list of valid targets use <cite>edgeimpulse.model.list_deployment_targets()</cite>.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>Atrributes:</dt><dd><p>deploy_target (str): Target to deploy to.
-target_names (List[str]): List of targets for a project as strings.</p>
+<p>Exception raised when an invalid target is passed.</p>
+<p>For a list of valid targets use <cite>edgeimpulse.model.list_deployment_targets()</cite>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.exceptions.InvalidTargetException.deploy_target">
+<span class="sig-name descname"><span class="pre">deploy_target</span></span><a class="headerlink" href="#edgeimpulse.exceptions.InvalidTargetException.deploy_target" title="Permalink to this definition">#</a></dt>
+<dd><p>Target to deploy to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.exceptions.InvalidTargetException.target_names">
+<span class="sig-name descname"><span class="pre">target_names</span></span><a class="headerlink" href="#edgeimpulse.exceptions.InvalidTargetException.target_names" title="Permalink to this definition">#</a></dt>
+<dd><p>List of targets for a project as strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py exception">
@@ -372,8 +408,7 @@ target_names (List[str]): List of targets for a project as strings.</p>
 <dt class="sig sig-object py" id="edgeimpulse.exceptions.UnsupportedSampleType">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnsupportedSampleType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/exceptions.html#UnsupportedSampleType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.exceptions.UnsupportedSampleType" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException" title="edgeimpulse.exceptions.EdgeImpulseException"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></p>
-<p>Exception raised when attempting to upload or download a data type that is
-not supported by Edge Impulse.</p>
+<p>Exception raised when attempting to upload or download a data type that is not supported by Edge Impulse.</p>
 </dd></dl>
 
 </section>
@@ -437,10 +472,17 @@ not supported by Edge Impulse.</p>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.EdgeImpulseException"><code class="docutils literal notranslate"><span class="pre">EdgeImpulseException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidAuthTypeException"><code class="docutils literal notranslate"><span class="pre">InvalidAuthTypeException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidDeployParameterException"><code class="docutils literal notranslate"><span class="pre">InvalidDeployParameterException</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidDeviceException"><code class="docutils literal notranslate"><span class="pre">InvalidDeviceException</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidDeviceException"><code class="docutils literal notranslate"><span class="pre">InvalidDeviceException</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidDeviceException.device"><code class="docutils literal notranslate"><span class="pre">device</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidEngineException"><code class="docutils literal notranslate"><span class="pre">InvalidEngineException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidModelException"><code class="docutils literal notranslate"><span class="pre">InvalidModelException</span></code></a></li>
-<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidTargetException"><code class="docutils literal notranslate"><span class="pre">InvalidTargetException</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidTargetException"><code class="docutils literal notranslate"><span class="pre">InvalidTargetException</span></code></a><ul>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidTargetException.deploy_target"><code class="docutils literal notranslate"><span class="pre">deploy_target</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.exceptions.InvalidTargetException.target_names"><code class="docutils literal notranslate"><span class="pre">target_names</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.MissingApiKeyException"><code class="docutils literal notranslate"><span class="pre">MissingApiKeyException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.TimeoutException"><code class="docutils literal notranslate"><span class="pre">TimeoutException</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.exceptions.UnsuccessfulRequestException"><code class="docutils literal notranslate"><span class="pre">UnsuccessfulRequestException</span></code></a></li>
@@ -460,5 +502,7 @@ not supported by Edge Impulse.</p>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

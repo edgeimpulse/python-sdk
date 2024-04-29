@@ -1,3 +1,4 @@
+# noqa: D100
 import edgeimpulse as ei
 import json
 import logging
@@ -20,18 +21,23 @@ from edgeimpulse.util import (
 )
 
 
-def ids_from_succ(succ):
+def ids_from_succ(succ):  # noqa: D103
     return [sample.sample_id for sample in succ]
 
 
-def assert_uploaded_samples(test, succ, check_label=False):
+def assert_uploaded_samples(  # noqa: D103
+    test, succ, check_label=False, check_structured_labels=False, check_meta=True
+):
     ids = ids_from_succ(succ)
     samples = download_samples_by_ids(sample_ids=ids, show_progress=True)
+
     for upload in samples:
         found = [x.sample for x in succ if x.sample_id == upload.sample_id][0]
 
         test.assertEqual(found.sample_id, upload.sample_id)
-        test.assertEqual(found.metadata, upload.metadata)
+
+        if check_meta:
+            test.assertEqual(found.metadata, upload.metadata)
 
         if found.category != "split":
             test.assertEqual(found.category, upload.category)
@@ -42,11 +48,12 @@ def assert_uploaded_samples(test, succ, check_label=False):
         if check_label:
             test.assertEqual(found.label, upload.label)
 
+        if check_structured_labels:
+            test.assertEqual(found.structured_labels, upload.structured_labels)
 
-def delete_all_samples():
-    """
-    Deletes all samples from the current logged in project. Use with care.
-    """
+
+def delete_all_samples():  # noqa: D103
+    """Delete all samples from the current logged in project. Use with care."""
     client = ei.util.configure_generic_client(
         key=ei.API_KEY,
         host=ei.API_ENDPOINT,
@@ -62,7 +69,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 
 # Build all datasets
-def create_all_good_datasets():
+def create_all_good_datasets():  # noqa: D103
     return [
         create_dataset_images(),
         create_dataset_good_csv(),
@@ -75,7 +82,7 @@ def create_all_good_datasets():
 
 
 # Build images dataset
-def create_dataset_images():
+def create_dataset_images():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -109,7 +116,7 @@ def create_dataset_images():
 
 
 # Build good CSV dataset
-def create_dataset_good_csv():
+def create_dataset_good_csv():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -138,7 +145,7 @@ def create_dataset_good_csv():
 
 
 # Build bad CSV dataset
-def create_dataset_bad_csv():
+def create_dataset_bad_csv():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -157,7 +164,7 @@ def create_dataset_bad_csv():
 
 
 # Build wav dataset
-def create_dataset_wav():
+def create_dataset_wav():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -178,7 +185,7 @@ def create_dataset_wav():
 
 
 # Build video dataset
-def create_dataset_video():
+def create_dataset_video():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -211,7 +218,7 @@ def create_dataset_video():
 
 
 # Build object detection dataset
-def create_dataset_object_detection():
+def create_dataset_object_detection():  # noqa: D103
     # Set dataset dir
     dataset_dir = "sample_data/object_detection"
     current_dir = pathlib.Path(__file__).parent.resolve()
@@ -242,7 +249,7 @@ def create_dataset_object_detection():
 
 
 # Build JSON dataset
-def create_dataset_json():
+def create_dataset_json():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [
@@ -261,7 +268,7 @@ def create_dataset_json():
 
 
 # Helper: build CBOR dataset
-def create_dataset_cbor():
+def create_dataset_cbor():  # noqa: D103
     dataset_dir = "sample_data"
     current_dir = pathlib.Path(__file__).parent.resolve()
     dataset = [

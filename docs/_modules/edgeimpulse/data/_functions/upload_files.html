@@ -8,6 +8,7 @@
         <title>edgeimpulse.data._functions.upload_files - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.upload_files</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="n">Sample</span>
+<span></span><span class="c1"># ruff: noqa: D100</span>
+<span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="n">Sample</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -315,6 +320,25 @@
 <span class="p">]</span>
 
 
+<div class="viewcode-block" id="infer_category_and_label_from_filename"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.infer_category_and_label_from_filename">[docs]</a><span class="k">def</span> <span class="nf">infer_category_and_label_from_filename</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract label and category information from the filename and assigns them to the sample object.</span>
+
+<span class="sd">    Files should look like this myfiles/training/wave.1.cbor where wave is label and training is the category.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sample (object): The sample object to which label and category will be assigned.</span>
+<span class="sd">        file (str): The filename from which label and category information will be extracted.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sample</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">&quot;testing&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;testing&quot;</span>
+    <span class="k">elif</span> <span class="s2">&quot;training&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">sample</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;training&quot;</span></div>
+
+
 <div class="viewcode-block" id="upload_directory"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_directory">[docs]</a><span class="k">def</span> <span class="nf">upload_directory</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -322,37 +346,33 @@
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads a directory of samples to Edge Impulse. The samples can be in CBOR, JSON,</span>
-<span class="sd">    image, or WAV file formats. You can read more about the different file formats</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload a directory of files to Edge Impulse.</span>
+
+<span class="sd">    The files can be in CBOR, JSON, image, or WAV file formats. You can read more about the different file formats</span>
 <span class="sd">    accepted by the Edge Impulse ingestion service here:</span>
+
 <span class="sd">    https://docs.edgeimpulse.com/reference/ingestion-api</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        directory (str): The path to the directory containing the files to upload.</span>
-<span class="sd">        category (str): Category for the samples</span>
+<span class="sd">        directory (str): The path to the directory containing the files to upload</span>
+<span class="sd">        category (str): Category for the samples (train or split)</span>
 <span class="sd">        label (str): Label for the files</span>
-<span class="sd">        metadata (dict): Metadatada dictionary</span>
-<span class="sd">        transform (Optional[Callable[[str], str]]): A function to manipulate sample before uploading</span>
+<span class="sd">        metadata (dict): Metadata to add to the file (visible in studio)</span>
+<span class="sd">        transform (callable): A function to manipulate the sample and properties before uploading</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        FileNotFoundError: If the specified directory does not exist.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            response = ei.experimental.data.upload_directory(directory=&quot;tests/sample_data/gestures&quot;)</span>
 <span class="sd">            self.assertEqual(len(response.successes), 8)</span>
 <span class="sd">            self.assertEqual(len(response.fails), 0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;directory &#39;</span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span><span class="p">)</span>
 
@@ -380,29 +400,24 @@
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads a directory of samples to Edge Impulse. The samples can be in CBOR, JSON, image, or WAV</span>
-<span class="sd">    file formats.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload a directory of files to Edge Impulse.</span>
+
+<span class="sd">    The samples can be in CBOR, JSON, image, or WAV file formats.</span>
 
 <span class="sd">    Args:</span>
-
 <span class="sd">        directory (str): The path to the directory containing the files to upload.</span>
 <span class="sd">        category (str): Category for the samples</span>
 <span class="sd">        label (str): Label for the files</span>
-<span class="sd">        metadata (dict): Metadatada dictionary</span>
-<span class="sd">        callback (Optional[Callable[[str], str]]): A function to manipulate sample before uploading</span>
+<span class="sd">        metadata (dict): Metadata to add to the file (visible in studio)</span>
+<span class="sd">        transform (callable): A function to manipulate the sample and properties before uploading</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        FileNotFoundError: If the specified directory does not exist.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            response = ei.experimental.data.upload_directory(directory=&quot;tests/sample_data/gestures&quot;)</span>
@@ -413,11 +428,11 @@
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;directory &#39;</span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span><span class="p">)</span>
 
     <span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="p">)]</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">)]</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">f</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">ALLOWED_FILES</span><span class="p">)</span>
+        <span class="n">file</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">),</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">ALLOWED_FILES</span><span class="p">)</span>
     <span class="p">]</span>
 
     <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
@@ -446,23 +461,20 @@
 <div class="viewcode-block" id="upload_exported_dataset"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_exported_dataset">[docs]</a><span class="k">def</span> <span class="nf">upload_exported_dataset</span><span class="p">(</span>
     <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads samples from a downloaded Edge Impulse dataset and preserving the info.labels information.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload samples from a downloaded Edge Impulse dataset and preserving the `info.labels` information.</span>
+
+<span class="sd">    Use this when you&#39;ve exported your data in the studio.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        directory (str): Path to the directory containing the dataset.</span>
-<span class="sd">        transform (Optional[callable]): A function to manipulate sample before uploading</span>
+<span class="sd">        transform (callable): A function to manipulate sample before uploading</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        FileNotFoundError: If the labels file (info.labels) is not found in the specified directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;directory &#39;</span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2">&#39; not found.&quot;</span><span class="p">)</span>
 
@@ -484,11 +496,12 @@
     <span class="k">for</span> <span class="n">file</span><span class="p">,</span> <span class="n">file_info</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">file_info</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">][</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
             <span class="n">bounding_boxes</span><span class="o">=</span><span class="n">file_info</span><span class="p">[</span><span class="s2">&quot;boundingBoxes&quot;</span><span class="p">],</span>
             <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file</span><span class="p">),</span>
+            <span class="n">structured_labels</span><span class="o">=</span><span class="n">file_info</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="n">metadata</span><span class="o">=</span><span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="n">category</span><span class="o">=</span><span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">file_info</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">transform</span><span class="p">:</span>
@@ -538,5 +551,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

@@ -8,6 +8,7 @@
         <title>edgeimpulse.data._functions.util - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.util</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span></span><span class="sd">&quot;&quot;&quot;Use this module to do various tasks within Edge Impulse SDK.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
@@ -310,9 +315,7 @@
     <span class="n">api_key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given an ID for a sample in a project, return the filename associated with that</span>
-<span class="sd">    sample.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Given an ID for a sample in a project, return the filename associated with that sample.</span>
 
 <span class="sd">    Note that while multiple samples can have the same filename, each sample has a</span>
 <span class="sd">    unique sample ID that is provided by Studio when the sample is uploaded.</span>
@@ -331,7 +334,6 @@
 <span class="sd">        Optional[str]: Filename (string) if sample is found. None if no sample is found</span>
 <span class="sd">            matching the ID given.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Create API clients</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">configure_generic_client</span><span class="p">(</span>
         <span class="n">key</span><span class="o">=</span><span class="n">api_key</span> <span class="k">if</span> <span class="n">api_key</span> <span class="k">else</span> <span class="n">edgeimpulse</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">,</span>
@@ -375,10 +377,7 @@
     <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Make API calls to get sample info from a project</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make API calls to get sample info from a project.&quot;&quot;&quot;</span>
     <span class="c1"># Determine how many times to make API call</span>
     <span class="n">num_chunks</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">samples_per_thread</span> <span class="o">/</span> <span class="n">chunk_size</span><span class="p">))</span>
 
@@ -426,14 +425,12 @@
     <span class="n">num_workers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">timeout_sec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">SampleInfo</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the sample IDs and filenames for all samples in a project, filtered by category,</span>
-<span class="sd">    labels, and/or filename.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the sample IDs and filenames for all samples in a project, filtered by category, labels, and/or filename.</span>
 
 <span class="sd">    Note that filenames are given by the root of the filename when uploaded.</span>
 <span class="sd">    For example, if you upload `my-image.01.png`, it will be stored in your project with</span>
 <span class="sd">    a hash, such as `my-image.01.png.4f262n1b.json`. To find the ID(s) that match this</span>
-<span class="sd">    sample, you must provide the argument `filename=my-image.01`. Notic the lack of</span>
+<span class="sd">    sample, you must provide the argument `filename=my-image.01`. Notice the lack of</span>
 <span class="sd">    extension and hash.</span>
 
 <span class="sd">    Because of the possibility for multiple samples (i.e. different sample IDs) with the</span>
@@ -464,7 +461,6 @@
 <span class="sd">        List[SampleInfo]: List of `SampleInfo` objects containing the sample ID,</span>
 <span class="sd">            filename, category, and label for each sample matching the criteria given.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Recursively get info from all categories if no category given</span>
     <span class="k">if</span> <span class="n">category</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span> <span class="ow">or</span> <span class="n">category</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">resp_samples</span> <span class="o">=</span> <span class="p">[]</span>
@@ -579,5 +575,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

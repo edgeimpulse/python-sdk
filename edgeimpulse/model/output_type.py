@@ -1,9 +1,10 @@
+# ruff: noqa:  D100, D101
 from typing import Optional, List, Union, Literal
 
 
 class Classification(dict):
     def __init__(self, labels: Optional[List[str]] = None):
-        """Describes a classifier output with an optional list of label names.
+        """Describe a classifier output with an optional list of label names.
 
         If no list is provided then numeric labels will be assigned according to the
         order of outputs.
@@ -19,7 +20,7 @@ class Classification(dict):
 
 class Regression(dict):
     def __init__(self):
-        """Describes a regression output with a single value."""
+        """Describe a regression output with a single value."""
         self["modelType"] = "regression"
 
 
@@ -35,7 +36,7 @@ class ObjectDetection(dict):
         ],
         minimum_confidence: float,
     ):
-        """Describes an object detection output with a specific format and labels.
+        """Describe an object detection output with a specific format and labels.
 
         Args:
             labels (Optional[List[str]]): A list of label names, one per index in the

@@ -1,0 +1,7 @@
+api module
+==========
+
+.. automodule:: edgeimpulse.api
+   :members:
+   :undoc-members:
+   :show-inheritance:

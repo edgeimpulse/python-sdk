@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import unittest
 from edgeimpulse import util
 from tests.util import delete_all_samples, assert_uploaded_samples
@@ -224,7 +225,7 @@ class TestUploadPandas(unittest.TestCase):
 
     #
     # One dataframe that contains multiple samples, but is also timeseries.
-    # The group is indentified in this case by the location column
+    # The group is identified in this case by the location column
     #
     def test_upload_pandas_dataframe_timeseries_grouped(self):
         #

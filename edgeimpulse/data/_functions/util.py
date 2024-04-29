@@ -1,3 +1,4 @@
+"""Use this module to do various tasks within Edge Impulse SDK."""
 import json
 import logging
 import math
@@ -22,9 +23,7 @@ def get_filename_by_id(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> Optional[str]:
-    """
-    Given an ID for a sample in a project, return the filename associated with that
-    sample.
+    """Given an ID for a sample in a project, return the filename associated with that sample.
 
     Note that while multiple samples can have the same filename, each sample has a
     unique sample ID that is provided by Studio when the sample is uploaded.
@@ -43,7 +42,6 @@ def get_filename_by_id(
         Optional[str]: Filename (string) if sample is found. None if no sample is found
             matching the ID given.
     """
-
     # Create API clients
     client = configure_generic_client(
         key=api_key if api_key else edgeimpulse.API_KEY,
@@ -87,10 +85,7 @@ def _list_samples(
     chunk_size: int = 1000,
     timeout_sec=None,
 ):
-    """
-    Make API calls to get sample info from a project
-    """
-
+    """Make API calls to get sample info from a project."""
     # Determine how many times to make API call
     num_chunks = int(math.ceil(samples_per_thread / chunk_size))
 
@@ -138,14 +133,12 @@ def get_sample_ids(
     num_workers: Optional[int] = 4,
     timeout_sec: Optional[float] = None,
 ) -> List[SampleInfo]:
-    """
-    Get the sample IDs and filenames for all samples in a project, filtered by category,
-    labels, and/or filename.
+    """Get the sample IDs and filenames for all samples in a project, filtered by category, labels, and/or filename.
 
     Note that filenames are given by the root of the filename when uploaded.
     For example, if you upload `my-image.01.png`, it will be stored in your project with
     a hash, such as `my-image.01.png.4f262n1b.json`. To find the ID(s) that match this
-    sample, you must provide the argument `filename=my-image.01`. Notic the lack of
+    sample, you must provide the argument `filename=my-image.01`. Notice the lack of
     extension and hash.
 
     Because of the possibility for multiple samples (i.e. different sample IDs) with the
@@ -176,7 +169,6 @@ def get_sample_ids(
         List[SampleInfo]: List of `SampleInfo` objects containing the sample ID,
             filename, category, and label for each sample matching the criteria given.
     """
-
     # Recursively get info from all categories if no category given
     if category == "all" or category is None:
         resp_samples = []

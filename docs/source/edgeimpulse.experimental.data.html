@@ -3,12 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="model package" href="edgeimpulse.model.html" /><link rel="prev" title="experimental package" href="edgeimpulse.experimental.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="tuner package" href="edgeimpulse.experimental.tuner.html" /><link rel="prev" title="experimental package" href="edgeimpulse.experimental.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
         <title>data package - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -236,6 +237,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -244,6 +246,7 @@
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -252,6 +255,7 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -291,6 +295,7 @@
 <h1>data package<a class="headerlink" href="#data-package" title="Permalink to this heading">#</a></h1>
 <section id="module-edgeimpulse.experimental.data">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edgeimpulse.experimental.data" title="Permalink to this heading">#</a></h2>
+<p>Use this module to upload data to Edge Impulse.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="edgeimpulse.experimental.data.Sample">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">edgeimpulse.experimental.data.</span></span><span class="sig-name descname"><span class="pre">Sample</span></span><span class="sig-paren">(</span>
@@ -303,12 +308,13 @@
 <dd><em class="sig-param"><span class="n"><span class="pre">bounding_boxes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 <dd><em class="sig-param"><span class="n"><span class="pre">sample_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
+<dd><em class="sig-param"><span class="n"><span class="pre">structured_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>,</dd>
 </dl>
 
 <span class="sig-paren">)</span><a class="reference internal" href="../_modules/edgeimpulse/data/sample_type.html#Sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.Sample" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Wrapper class for sample data, labels, and associated metadata. Sample data should be contained
-in a file or file-like object, for example, as the return from <cite>open(…, “rb”)</cite>. The
+<p>Wrapper class for sample data, labels, and associated metadata.</p>
+<p>Sample data should be contained in a file or file-like object, for example, as the return from <cite>open(…, “rb”)</cite>. The
 <cite>upload_samples()</cite> function expects Sample objects as input.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="edgeimpulse.experimental.data.Sample.filename">
@@ -399,6 +405,21 @@ user.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="edgeimpulse.experimental.data.Sample.structured_labels">
+<span class="sig-name descname"><span class="pre">structured_labels</span></span><a class="headerlink" href="#edgeimpulse.experimental.data.Sample.structured_labels" title="Permalink to this definition">#</a></dt>
+<dd><p>Array of dictionary objects that define the labels
+in this sample at various intervals.
+&lt;<a class="reference external" href="https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label">https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label</a>&gt;`_ to
+read more. Example: <cite>[{“label”: “noise”,”startIndex”: 0,”endIndex”: 5000},
+{“label”: “water”,”startIndex”: 5000,”endIndex”: 10000}]</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[Sequence[dict]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">bounding_boxes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -433,6 +454,11 @@ user.</p>
 <span class="sig-name descname"><span class="pre">sample_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">structured_labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -446,8 +472,8 @@ user.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GenericApiResponse</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/delete.html#delete_all_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.delete_all_samples" title="Permalink to this definition">#</a></dt>
-<dd><p>Deletes all samples in a given category. If category is set to <cite>None</cite>, all samples
-in the project are deleted.</p>
+<dd><p>Delete all samples in a given category.</p>
+<p>If category is set to <cite>None</cite>, all samples in the project are deleted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -572,8 +598,8 @@ calls.</p></li>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/download.html#download_samples_by_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.download_samples_by_ids" title="Permalink to this definition">#</a></dt>
-<dd><p>Downloads samples by their associated IDs from an Edge Impulse project. Downloaded
-sample data is returned as a <cite>DownloadSample</cite> object, which contains the raw data in
+<dd><p>Download samples by their associated IDs from an Edge Impulse project.</p>
+<p>Downloaded sample data is returned as a <cite>DownloadSample</cite> object, which contains the raw data in
 a BytesIO object along with associated metadata.</p>
 <p><strong>Important!</strong> All time series data is returned as a JSON file (in BytesIO format)
 with a timestamp column. This includes files originally uploaded as CSV, JSON, and
@@ -588,13 +614,15 @@ timestamps may not be the same as the original timestamps in the uploaded file.<
 <li><p><strong>api_key</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The API key for an Edge Impulse project.
 This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</cite>, or
 the env var <cite>EI_API_KEY</cite>.</p></li>
-<li><p><strong>timeout_sec</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile
+<li><p><strong>timeout_sec</strong> (<em>float</em><em>, </em><em>optional</em>) – Number of seconds to wait for profile
 job to complete on the server. <cite>None</cite> is considered “infinite timeout” and
 will wait forever.</p></li>
-<li><p><strong>max_workers</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The maximum number of subprocesses to use when
+<li><p><strong>max_workers</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of subprocesses to use when
 making concurrent requests. If <cite>None</cite>, the number of workers will be set to
 the number of processors on the machine multiplied by 5.</p></li>
-<li><p><strong>show_progress=False</strong> – Show progress bar while uploading samples.</p></li>
+<li><p><strong>show_progress</strong> – Show progress bar while uploading samples.</p></li>
+<li><p><strong>pool_maxsize</strong> – (int, optional) Maxium size of the upload pool. Defaults to 20.</p></li>
+<li><p><strong>pool_connections</strong> – (int, optional) Maxium size of the pool connections. Defaults to 20.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -627,8 +655,7 @@ with the matching IDs are found.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/util.html#get_filename_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.get_filename_by_id" title="Permalink to this definition">#</a></dt>
-<dd><p>Given an ID for a sample in a project, return the filename associated with that
-sample.</p>
+<dd><p>Given an ID for a sample in a project, return the filename associated with that sample.</p>
 <p>Note that while multiple samples can have the same filename, each sample has a
 unique sample ID that is provided by Studio when the sample is uploaded.</p>
 <dl class="field-list simple">
@@ -671,12 +698,11 @@ the environment variable <cite>EI_API_KEY</cite>.</p></li>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.SampleInfo" title="edgeimpulse.data.sample_type.SampleInfo"><span class="pre">SampleInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/util.html#get_sample_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.get_sample_ids" title="Permalink to this definition">#</a></dt>
-<dd><p>Get the sample IDs and filenames for all samples in a project, filtered by category,
-labels, and/or filename.</p>
+<dd><p>Get the sample IDs and filenames for all samples in a project, filtered by category, labels, and/or filename.</p>
 <p>Note that filenames are given by the root of the filename when uploaded.
 For example, if you upload <cite>my-image.01.png</cite>, it will be stored in your project with
 a hash, such as <cite>my-image.01.png.4f262n1b.json</cite>. To find the ID(s) that match this
-sample, you must provide the argument <cite>filename=my-image.01</cite>. Notic the lack of
+sample, you must provide the argument <cite>filename=my-image.01</cite>. Notice the lack of
 extension and hash.</p>
 <p>Because of the possibility for multiple samples (i.e. different sample IDs) with the
 same filename, we recommend providing unique filenames for your samples when
@@ -718,6 +744,24 @@ calls.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="edgeimpulse.experimental.data.infer_category_and_label_from_filename">
+<span class="sig-prename descclassname"><span class="pre">edgeimpulse.experimental.data.</span></span><span class="sig-name descname"><span class="pre">infer_category_and_label_from_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_files.html#infer_category_and_label_from_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.infer_category_and_label_from_filename" title="Permalink to this definition">#</a></dt>
+<dd><p>Extract label and category information from the filename and assigns them to the sample object.</p>
+<p>Files should look like this myfiles/training/wave.1.cbor where wave is label and training is the category.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sample</strong> (<em>object</em>) – The sample object to which label and category will be assigned.</p></li>
+<li><p><strong>file</strong> (<em>str</em>) – The filename from which label and category information will be extracted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.experimental.data.numpy_timeseries_to_sample">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.experimental.data.</span></span><span class="sig-name descname"><span class="pre">numpy_timeseries_to_sample</span></span><span class="sig-paren">(</span>
 
@@ -728,13 +772,13 @@ calls.</p></li>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_numpy.html#numpy_timeseries_to_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.numpy_timeseries_to_sample" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts numpy values to a sample that can be uploaded to Edge Impulse</p>
+<dd><p>Convert numpy values to a sample that can be uploaded to Edge Impulse.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>array</em>) – Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</p></li>
+<li><p><strong>values</strong> (<em>array</em>) – Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</p></li>
 <li><p><strong>sensors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor" title="edgeimpulse.data.sample_type.Sensor"><em>Sensor</em></a><em>]</em>) – List of sensor objects representing the sensors used in the data.</p></li>
-<li><p><strong>sample_rate_ms</strong> (<em>int</em>) – Time interval in milliseconds between consecutive data points. Default is 50ms.</p></li>
+<li><p><strong>sample_rate_ms</strong> (<em>int</em>) – Time interval in milliseconds between consecutive data points.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -761,13 +805,13 @@ calls.</p></li>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sample" title="edgeimpulse.data.sample_type.Sample"><span class="pre">Sample</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_pandas.html#pandas_dataframe_to_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.pandas_dataframe_to_sample" title="Permalink to this definition">#</a></dt>
-<dd><p>Converts a dataframe to a single sample. Can both handle timeseries and non-timeseries data.</p>
-<p>In order to be a determiend to be a timeseries it must have:</p>
+<dd><p>Convert a dataframe to a single sample. Can handle both <em>timeseries</em> and <em>non-timeseries</em> data.</p>
+<p>In order to be inferred as timeseries it must have:</p>
 <ul class="simple">
 <li><p>More than one row</p></li>
 <li><dl class="simple">
 <dt>A sample rate or an index from which the sample rate can be inferred</dt><dd><ul>
-<li><p>Therefore must be monotonically inreasing</p></li>
+<li><p>Therefore must be monotonically increasing</p></li>
 <li><p>And int or a date</p></li>
 </ul>
 </dd>
@@ -781,10 +825,9 @@ calls.</p></li>
 <li><p><strong>sample_rate_ms</strong> (<em>int</em>) – The sampling rate of the time series data (in milliseconds).</p></li>
 <li><p><strong>label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label for the sample. Default is None.</p></li>
 <li><p><strong>filename</strong> (<em>str</em><em>, </em><em>optional</em>) – The filename for the sample. Default is None.</p></li>
-<li><p><strong>axis_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of column names representing axis if the data is
-multi-dimensional. Default is None.</p></li>
-<li><p><strong>metadata</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary containing metadata information. Default is None.</p></li>
-<li><p><strong>category</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Category or class label for the entire dataset. Default is split.</p></li>
+<li><p><strong>axis_columns</strong> (<em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of column names representing axis if the data is multi-dimensional. Default is None.</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary containing metadata information for the sample. Default is None.</p></li>
+<li><p><strong>category</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – To which category this sample belongs (training/testing/split) default is spit.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -809,28 +852,22 @@ multi-dimensional. Default is None.</p></li>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_files.html#upload_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_directory" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads a directory of samples to Edge Impulse. The samples can be in CBOR, JSON,
-image, or WAV file formats. You can read more about the different file formats
-accepted by the Edge Impulse ingestion service here:
-<a class="reference external" href="https://docs.edgeimpulse.com/reference/ingestion-api">https://docs.edgeimpulse.com/reference/ingestion-api</a></p>
+<dd><p>Upload a directory of files to Edge Impulse.</p>
+<p>The files can be in CBOR, JSON, image, or WAV file formats. You can read more about the different file formats
+accepted by the Edge Impulse ingestion service here:</p>
+<p><a class="reference external" href="https://docs.edgeimpulse.com/reference/ingestion-api">https://docs.edgeimpulse.com/reference/ingestion-api</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directory</strong> (<em>str</em>) – The path to the directory containing the files to upload.</p></li>
-<li><p><strong>category</strong> (<em>str</em>) – Category for the samples</p></li>
+<li><p><strong>directory</strong> (<em>str</em>) – The path to the directory containing the files to upload</p></li>
+<li><p><strong>category</strong> (<em>str</em>) – Category for the samples (train or split)</p></li>
 <li><p><strong>label</strong> (<em>str</em>) – Label for the files</p></li>
-<li><p><strong>metadata</strong> (<em>dict</em>) – Metadatada dictionary</p></li>
-<li><p><strong>transform</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>str</em><em>]</em><em>]</em>) – A function to manipulate sample before uploading</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em>) – Metadata to add to the file (visible in studio)</p></li>
+<li><p><strong>transform</strong> (<em>callable</em>) – A function to manipulate the sample and properties before uploading</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -857,22 +894,17 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_files.html#upload_exported_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_exported_dataset" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads samples from a downloaded Edge Impulse dataset and preserving the info.labels information.</p>
+<dd><p>Upload samples from a downloaded Edge Impulse dataset and preserving the <cite>info.labels</cite> information.</p>
+<p>Use this when you’ve exported your data in the studio.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>str</em>) – Path to the directory containing the dataset.</p></li>
-<li><p><strong>transform</strong> (<em>Optional</em><em>[</em><em>callable</em><em>]</em>) – A function to manipulate sample before uploading</p></li>
+<li><p><strong>transform</strong> (<em>callable</em>) – A function to manipulate sample before uploading</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -897,12 +929,11 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_numpy.html#upload_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_numpy" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads numpy arrays as timeseries using the Edge Impulse data acquisition format.</p>
+<dd><p>Upload numpy arrays as timeseries using the Edge Impulse data acquisition format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>any</em>) – Numpy array containing the timeseries data.
-The shape should be (num_samples, time_point, num_sensors)</p></li>
+<li><p><strong>data</strong> (<em>array</em>) – Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</p></li>
 <li><p><strong>labels</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em>) – List of labels for the data samples can also be a numpy array.</p></li>
 <li><p><strong>sensors</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.Sensor" title="edgeimpulse.data.sample_type.Sensor"><em>Sensor</em></a><em>]</em>) – List of Sensor objects representing the sensors used in the data.</p></li>
 <li><p><strong>sample_rate_ms</strong> (<em>int</em>) – Time interval in milliseconds between consecutive data points.</p></li>
@@ -911,27 +942,20 @@ The shape should be (num_samples, time_point, num_sensors)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – If the length of labels doesn’t match the number of samples.</p></li>
-<li><p><strong>ValueError</strong> – If the number of sensors doesn’t match the number of axis in the data.</p></li>
-</ul>
+<dd class="field-even"><p><strong>ValueError</strong> – If the length of labels doesn’t match the number of samples or if the number of sensors
+    doesn’t match the number of axis in the data.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">edgeimpulse</span> <span class="k">as</span> <span class="nn">ei</span>
+<span class="kn">from</span> <span class="nn">ei.experimental.data</span> <span class="kn">import</span> <span class="n">upload_numpy</span>
 
 <span class="n">ei</span><span class="o">.</span><span class="n">API_KEY</span> <span class="o">=</span> <span class="s2">&quot;your-api-key&quot;</span> <span class="c1"># set your key</span>
 
@@ -964,7 +988,7 @@ along with the error message.</p>
 <span class="p">]</span>
 
 <span class="c1"># Upload samples to your Edge Impulse project</span>
-<span class="n">resp</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">upload_numpy</span><span class="p">(</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">upload_numpy</span><span class="p">(</span>
     <span class="n">sample_rate_ms</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">data</span><span class="o">=</span><span class="n">samples</span><span class="p">,</span>
     <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
@@ -1001,13 +1025,7 @@ along with the error message.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -1064,8 +1082,7 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_pandas.html#upload_pandas_dataframe_wide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_pandas_dataframe_wide" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads a dataframe to Edge Impulse where each of columns represent a value in the
-timeseries data and the rows become the individual samples.</p>
+<dd><p>Upload a dataframe to Edge Impulse where each of columns represent a value in the timeseries data and the rows become the individual samples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1085,13 +1102,7 @@ multi-dimensional. Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -1130,7 +1141,7 @@ along with the error message.</p>
     <span class="n">sample_rate_ms</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">successes</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">resonse</span><span class="o">.</span><span class="n">fails</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">fails</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1150,8 +1161,8 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_pandas.html#upload_pandas_dataframe_with_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_pandas_dataframe_with_group" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads a dataframe where the rows contain multiple samples and timeseries data for
-those samples. It uses a <cite>group_by</cite> in order to detect what timeseries value belongs
+<dd><p>Upload a dataframe where the rows contain multiple samples and timeseries data for those samples.</p>
+<p>It uses a <cite>group_by</cite> in order to detect what timeseries value belongs
 to which sample.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1169,13 +1180,7 @@ Each group must have the same metadata. Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -1238,6 +1243,7 @@ along with the error message.</p>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_pandas.html#upload_pandas_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_pandas_sample" title="Permalink to this definition">#</a></dt>
 <dd><p>Upload a single dataframe sample.</p>
+<p>Upload a single dataframe sample to Edge Impulse.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1252,13 +1258,7 @@ multi-dimensional. Default is None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -1327,26 +1327,20 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload_files.html#upload_plain_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_plain_directory" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads a directory of samples to Edge Impulse. The samples can be in CBOR, JSON, image, or WAV
-file formats.</p>
+<dd><p>Upload a directory of files to Edge Impulse.</p>
+<p>The samples can be in CBOR, JSON, image, or WAV file formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>str</em>) – The path to the directory containing the files to upload.</p></li>
 <li><p><strong>category</strong> (<em>str</em>) – Category for the samples</p></li>
 <li><p><strong>label</strong> (<em>str</em>) – Label for the files</p></li>
-<li><p><strong>metadata</strong> (<em>dict</em>) – Metadatada dictionary</p></li>
-<li><p><strong>callback</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>str</em><em>]</em><em>]</em>) – A function to manipulate sample before uploading</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em>) – Metadata to add to the file (visible in studio)</p></li>
+<li><p><strong>transform</strong> (<em>callable</em>) – A function to manipulate the sample and properties before uploading</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>A response object that contains the results of the upload. The</dt><dd><p>response object contains two tuples: the first tuple contains the samples that were
-successfully uploaded, and the second tuple contains the samples that failed to upload
-along with the error message.</p>
-</dd>
-</dl>
-</p>
+<dd class="field-even"><p>A response object that contains the results of the upload.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse">UploadSamplesResponse</a></p>
@@ -1379,7 +1373,7 @@ along with the error message.</p>
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="edgeimpulse.data.sample_type.html#edgeimpulse.data.sample_type.UploadSamplesResponse" title="edgeimpulse.data.sample_type.UploadSamplesResponse"><span class="pre">UploadSamplesResponse</span></a></span></span><a class="reference internal" href="../_modules/edgeimpulse/data/_functions/upload.html#upload_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.experimental.data.upload_samples" title="Permalink to this definition">#</a></dt>
-<dd><p>Uploads one or more samples to an Edge Impulse project using the ingestion service.</p>
+<dd><p>Upload one or more samples to an Edge Impulse project using the ingestion service.</p>
 <p>Each sample must be wrapped in a <cite>Sample</cite> object, which contains metadata about that sample.
 Give this function a single <cite>Sample</cite> or a sequence of <cite>Sample</cite> objects to upload to your
 project. The <cite>data</cite> field of the <cite>Sample</cite> must be a raw binary stream, such as a BufferedIOBase
@@ -1449,12 +1443,12 @@ along with the error message.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="edgeimpulse.model.html">
+          <a class="next-page" href="edgeimpulse.experimental.tuner.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">model package</div>
+                <div class="title">tuner package</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -1509,6 +1503,7 @@ along with the error message.</p>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.Sample.bounding_boxes"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.Sample.metadata"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.Sample.sample_id"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.experimental.data.Sample.structured_labels"><code class="docutils literal notranslate"><span class="pre">structured_labels</span></code></a></li>
 <li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">bounding_boxes</span></code></a></li>
 <li><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">category</span></code></a></li>
 <li><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">data</span></code></a></li>
@@ -1516,6 +1511,7 @@ along with the error message.</p>
 <li><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">label</span></code></a></li>
 <li><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
 <li><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">sample_id</span></code></a></li>
+<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">structured_labels</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.delete_all_samples"><code class="docutils literal notranslate"><span class="pre">delete_all_samples()</span></code></a></li>
@@ -1524,6 +1520,7 @@ along with the error message.</p>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.download_samples_by_ids"><code class="docutils literal notranslate"><span class="pre">download_samples_by_ids()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.get_filename_by_id"><code class="docutils literal notranslate"><span class="pre">get_filename_by_id()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.get_sample_ids"><code class="docutils literal notranslate"><span class="pre">get_sample_ids()</span></code></a></li>
+<li><a class="reference internal" href="#edgeimpulse.experimental.data.infer_category_and_label_from_filename"><code class="docutils literal notranslate"><span class="pre">infer_category_and_label_from_filename()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.numpy_timeseries_to_sample"><code class="docutils literal notranslate"><span class="pre">numpy_timeseries_to_sample()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.pandas_dataframe_to_sample"><code class="docutils literal notranslate"><span class="pre">pandas_dataframe_to_sample()</span></code></a></li>
 <li><a class="reference internal" href="#edgeimpulse.experimental.data.upload_directory"><code class="docutils literal notranslate"><span class="pre">upload_directory()</span></code></a></li>
@@ -1552,5 +1549,7 @@ along with the error message.</p>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

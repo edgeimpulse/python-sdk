@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import pathlib
 import os
 import warnings
@@ -193,7 +194,7 @@ class TestDeploy(unittest.TestCase):
                 )
 
     def get_only_file(self, dirname):
-        """Returns the only file in a directory"""
+        """Return the only file in a directory."""
         files = os.listdir(dirname)
         self.assertEqual(len(files), 1)
         return os.path.join(dirname, files[0])

@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D102, D103
 import edgeimpulse_api
 import edgeimpulse as ei
 
@@ -236,7 +237,7 @@ class TestProfile(unittest.TestCase):
         self.assertTrue(profile_response.model.profile_info.table)
 
     def test_profile_bytes(self):
-        """Should be able to pass model bytes, not just a path"""
+        """Should be able to pass model bytes, not just a path."""
         model_path = sample_model_path("gestures-i8.lite")
         with open(model_path, "rb") as model_file:
             profile_response = ei.model.profile(

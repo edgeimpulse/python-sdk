@@ -3,12 +3,13 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="input_type module" href="edgeimpulse.model.input_type.html" /><link rel="prev" title="data package" href="edgeimpulse.experimental.data.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="input_type module" href="edgeimpulse.model.input_type.html" /><link rel="prev" title="tuner package" href="edgeimpulse.experimental.tuner.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
         <title>model package - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -236,6 +237,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -244,6 +246,7 @@
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">model package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -252,6 +255,7 @@
 <li class="toctree-l2"><a class="reference internal" href="edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -301,6 +305,7 @@
 </section>
 <section id="module-edgeimpulse.model">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-edgeimpulse.model" title="Permalink to this heading">#</a></h2>
+<p>Use this module to profile, and deploy your edge models.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.deploy">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">deploy</span></span><span class="sig-paren">(</span>
@@ -319,7 +324,7 @@
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BytesIO</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.deploy" title="Permalink to this definition">#</a></dt>
-<dd><p>Transforms a machine learning model into a library for an edge device</p>
+<dd><p>Transform a machine learning model into a library for an edge device.</p>
 <p>Transforms a trained model into a library, package, or firmware ready to deploy on an embedded
 device. Can optionally apply post-training quantization if a representative data sample is
 uploaded.</p>
@@ -360,7 +365,7 @@ not deploy: deploy_target: …</cite>.</p>
 computational graph. Can be <cite>Path</cite> or <cite>str</cite> denoting file path, Python <cite>bytes</cite>
 containing a model, or a Keras model instance.</p></li>
 <li><p><strong>model_output_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Classification" title="edgeimpulse.model.output_type.Classification"><em>Classification</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.Regression" title="edgeimpulse.model.output_type.Regression"><em>Regression</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.output_type.html#edgeimpulse.model.output_type.ObjectDetection" title="edgeimpulse.model.output_type.ObjectDetection"><em>ObjectDetection</em></a><em>]</em>) – Describe your
-model’s type:Classification, Regression, or ObjectDetection. The types are available in
+model’s type: Classification, Regression, or ObjectDetection. The types are available in
 the module <cite>edgeimpulse.model.output_type</cite>.</p></li>
 <li><p><strong>model_input_type</strong> (<em>Union</em><em>[</em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.ImageInput" title="edgeimpulse.model.input_type.ImageInput"><em>ImageInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.AudioInput" title="edgeimpulse.model.input_type.AudioInput"><em>AudioInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.TimeSeriesInput" title="edgeimpulse.model.input_type.TimeSeriesInput"><em>TimeSeriesInput</em></a><em>, </em><a class="reference internal" href="edgeimpulse.model.input_type.html#edgeimpulse.model.input_type.OtherInput" title="edgeimpulse.model.input_type.OtherInput"><em>OtherInput</em></a><em>]</em><em>, </em><em>optional</em>) – Determines any input preprocessing (windowing, downsampling) that should be performed by
 the resulting library. The types are available in <cite>edgeimpulse.model.input_type</cite>. The
@@ -436,8 +441,7 @@ complete on the server. <cite>None</cite> is considered “infinite timeout” a
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_deployment_targets">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_deployment_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_deployment_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_deployment_targets" title="Permalink to this definition">#</a></dt>
-<dd><p>Lists suitable deployment targets for the project associated with configured or provided api
-key.</p>
+<dd><p>List suitable deployment targets for the project associated with configured or provided api key.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>api_key</strong> (<em>str</em><em>, </em><em>optional</em>) – The API key for an Edge Impulse project.
@@ -456,7 +460,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_engines">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_engines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_engines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_engines" title="Permalink to this definition">#</a></dt>
-<dd><p>Lists all the engines that can be passed to <cite>deploy()</cite>’s <cite>engine</cite> parameter.</p>
+<dd><p>List all the engines that can be passed to <cite>deploy()</cite>’s <cite>engine</cite> parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of engines</p>
@@ -470,7 +474,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_model_types">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_model_types</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/deploy.html#list_model_types"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_model_types" title="Permalink to this definition">#</a></dt>
-<dd><p>Lists all the model types that can passed to <cite>deploy()</cite>’s <cite>deploy_model_type</cite> parameter.</p>
+<dd><p>List all the model types that can passed to <cite>deploy()</cite>’s <cite>deploy_model_type</cite> parameter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List of model types</p>
@@ -484,7 +488,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 <dl class="py function">
 <dt class="sig sig-object py" id="edgeimpulse.model.list_profile_devices">
 <span class="sig-prename descclassname"><span class="pre">edgeimpulse.model.</span></span><span class="sig-name descname"><span class="pre">list_profile_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/profile.html#list_profile_devices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.list_profile_devices" title="Permalink to this definition">#</a></dt>
-<dd><p>Lists possible values for the <cite>device</cite> field when calling <cite>edgeimpulse.model.profile()</cite>.</p>
+<dd><p>List possible values for the <cite>device</cite> field when calling <cite>edgeimpulse.model.profile()</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -514,8 +518,7 @@ This can also be set via the module-level variable <cite>edgeimpulse.API_KEY</ci
 </dl>
 
 <span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ProfileResponse</span></span></span><a class="reference internal" href="../_modules/edgeimpulse/model/_functions/profile.html#profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#edgeimpulse.model.profile" title="Permalink to this definition">#</a></dt>
-<dd><p>Profiles the performance of a trained model on a range of embedded targets, or a specific
-device.</p>
+<dd><p>Profile the performance of a trained model on a range of embedded targets, or a specific device.</p>
 <p>The response includes estimates of memory usage and latency for the model across a range of
 targets, including low-end MCU, high-end MCU, high-end MCU with accelerator, microprocessor unit
 (MPU), and a GPU or neural network accelerator. It will also include details of any conditions
@@ -563,16 +566,22 @@ most relevant information.</p>
 <span class="n">result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 
 <span class="c1"># Profile different types of models on specific devices</span>
+
+<span class="c1"># ONNX</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.onnx&quot;</span><span class="p">,</span>  <span class="c1"># ONNX</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.onnx&quot;</span><span class="p">,</span>
     <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cortex-m4f-80mhz&quot;</span>
 <span class="p">)</span>
+
+<span class="c1"># TensorFlow SavedModel (can also be a zip)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow SavedModel (can also be a zip)</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate&quot;</span><span class="p">,</span>
     <span class="n">device</span><span class="o">=</span><span class="s2">&quot;nordic-nrf9160-dk&quot;</span>
 <span class="p">)</span>
+
+<span class="c1"># TensorFlow Lite (float32 or int8)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.lite&quot;</span><span class="p">,</span>  <span class="c1"># TensorFlow Lite (float32 or int8)</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;heart_rate.lite&quot;</span><span class="p">,</span>
     <span class="n">device</span><span class="o">=</span><span class="s2">&quot;synaptics-ka10000&quot;</span>
 <span class="p">)</span>
 </pre></div>
@@ -596,14 +605,14 @@ most relevant information.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="edgeimpulse.experimental.data.html">
+          <a class="prev-page" href="edgeimpulse.experimental.tuner.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">data package</div>
+                <div class="title">tuner package</div>
                 
               </div>
             </a>
@@ -663,5 +672,7 @@ most relevant information.</p>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

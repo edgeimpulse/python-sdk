@@ -1,3 +1,4 @@
+# ruff: noqa: D100
 import logging
 from typing import Optional, Tuple
 
@@ -20,9 +21,9 @@ def delete_all_samples(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> Optional[GenericApiResponse]:
-    """
-    Deletes all samples in a given category. If category is set to `None`, all samples
-    in the project are deleted.
+    """Delete all samples in a given category.
+
+    If category is set to `None`, all samples in the project are deleted.
 
     Args:
         category (Optional[str]): Category ("training", "testing", "anomaly") from which
@@ -39,7 +40,6 @@ def delete_all_samples(
     Returns:
         Optional[GenericApiResponse]: API response
     """
-
     # Create API clients
     client = configure_generic_client(
         key=api_key if api_key else edgeimpulse.API_KEY,
@@ -75,8 +75,7 @@ def delete_sample_by_id(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> Optional[GenericApiResponse]:
-    """
-    Delete a particular sample from a project given the sample ID.
+    """Delete a particular sample from a project given the sample ID.
 
     Args:
         sample_id (id): ID of the sample to delete
@@ -92,7 +91,6 @@ def delete_sample_by_id(
         Optional[GenericApiResponse]: API response, None if no sample is found
 
     Examples:
-
         .. code-block:: python
 
             # Example of filename that has been uploaded to Studio
@@ -110,7 +108,6 @@ def delete_sample_by_id(
                 if resp is None:
                     logging.warning(f"Could not delete sample {filename_no_ext}")
     """
-
     # Create API clients
     client = configure_generic_client(
         key=api_key if api_key else edgeimpulse.API_KEY,
@@ -148,8 +145,7 @@ def delete_samples_by_filename(
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
 ) -> Optional[Tuple[GenericApiResponse]]:
-    """
-    Delete any samples from an Edge Impulse project that match the given filename.
+    """Delete any samples from an Edge Impulse project that match the given filename.
 
     Note: the `filename` argument must not include the original extension. For example,
     if you uploaded a file named `my-image.01.png`, you must provide the `filename` as
@@ -167,7 +163,6 @@ def delete_samples_by_filename(
         timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API
             calls.
     """
-
     # Get list of IDs that match the given sample filename
     infos = get_sample_ids(
         filename=filename,

@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101
 from dataclasses import dataclass
 from io import BufferedIOBase
 from typing import Optional, Sequence, Literal, List
@@ -5,8 +6,7 @@ from typing import Optional, Sequence, Literal, List
 
 @dataclass
 class Sensor:
-    """
-    Represents a sensor in the Edge Impulse data acquisition format.
+    """Represents a sensor in the Edge Impulse data acquisition format.
 
     Note:
         The units must comply with the SenML units list:
@@ -98,9 +98,9 @@ class Sensor:
 
 @dataclass
 class Payload:
-    """
-    Wrapper class for the sensor data. Information about the data acquisition format
-    can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format
+    """Wrapper class for the sensor data.
+
+    Information about the data acquisition format can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format.
 
     Attributes:
         device_type (str): - Device type, for example the exact model of the device.
@@ -118,7 +118,6 @@ class Payload:
             field is set the device shows up on the 'Devices' page in the studio.
 
     Example:
-
         .. code-block:: python
 
             from edgeimpulse.data.sample_type import Payload, Sensor
@@ -150,9 +149,9 @@ class Payload:
 
 @dataclass
 class Protected:
-    """
-    Wrapper class for information about the signature format. More information can be
-    found here: https://docs.edgeimpulse.com/reference/data-acquisition-format
+    """Wrapper class for information about the signature format.
+
+    More information can be found here: https://docs.edgeimpulse.com/reference/data-acquisition-format.
 
     Attributes:
         ver (str): Version of the signature format. Default is `"v1"`.
@@ -162,7 +161,6 @@ class Protected:
             clock. Default is `None`.
 
     Example:
-
         .. code-block:: python
 
             from edgeimpulse.data.sample_type import Protected
@@ -181,9 +179,9 @@ class Protected:
 
 @dataclass
 class DataAcquisition:
-    """
-    Wrapper class for the Edge Impulse data acquisition format. See here for more
-    information: https://docs.edgeimpulse.com/reference/data-acquisition-format
+    """Wrapper class for the Edge Impulse data acquisition format.
+
+    See here for more information: https://docs.edgeimpulse.com/reference/data-acquisition-format.
 
     Attributes:
         protected (Protected): Information about the signature format.
@@ -199,9 +197,9 @@ class DataAcquisition:
 
 @dataclass
 class Sample:
-    """
-    Wrapper class for sample data, labels, and associated metadata. Sample data should be contained
-    in a file or file-like object, for example, as the return from `open(..., "rb")`. The
+    """Wrapper class for sample data, labels, and associated metadata.
+
+    Sample data should be contained in a file or file-like object, for example, as the return from `open(..., "rb")`. The
     `upload_samples()` function expects Sample objects as input.
 
     Attributes:
@@ -224,6 +222,12 @@ class Sample:
             Edge Impulse server when the sample is uploaded. You can use this ID to retrieve the
             sample later. This value is ignored when uploading samples and should not be set by the
             user.
+        structured_labels (Optional[Sequence[dict]]): Array of dictionary objects that define the labels
+            in this sample at various intervals.
+            <https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label>`_ to
+            read more. Example: `[{"label": "noise","startIndex": 0,"endIndex": 5000},
+            {"label": "water","startIndex": 5000,"endIndex": 10000}]`
+
     """
 
     data: BufferedIOBase
@@ -233,6 +237,7 @@ class Sample:
     bounding_boxes: Optional[Sequence[dict]] = None
     metadata: Optional[dict] = None
     sample_id: Optional[int] = None
+    structured_labels: Optional[Sequence[dict]] = None
 
 
 class SampleIngestionResponse:
@@ -241,14 +246,12 @@ class SampleIngestionResponse:
         sample: Sample,
         response: dict,
     ):
-        """
-        Wrapper for the response from the Edge Impulse ingestion service when uploading
-        a sample along with the sample that was uploaded.
+        """Wrapper for the response from the Edge Impulse ingestion service when uploading a sample along with the sample that was uploaded.
 
         Args:
             sample (Sample): The sample that was uploaded.
             response (dict): The response from the server.
-        """
+        """  # noqa: D401
         self.sample = sample
         self.success = False
         self.error = None
@@ -269,8 +272,7 @@ class SampleIngestionResponse:
             self.filename = response["fileName"]
 
     def __repr__(self) -> str:
-        """
-        Returns a string providing an overview of the response.
+        """Return a string providing an overview of the response.
 
         Returns:
             str: Response from the server.
@@ -288,8 +290,7 @@ class UploadSamplesResponse:
         successes: List[SampleIngestionResponse],
         fails: List[SampleIngestionResponse],
     ):
-        """
-        Response from the Edge Impulse server when uploading multiple samples.
+        """Response from the Edge Impulse server when uploading multiple samples.
 
         Args:
             success (bool): `True` if all samples were uploaded successfully.
@@ -304,9 +305,7 @@ class UploadSamplesResponse:
         self.success = len(fails) == 0
 
     def __repr__(self) -> str:
-        """
-        Returns a string providing an overview of the number of successes and fails from
-        the responses.
+        """Return a string providing an overview of the number of successes and fails from the responses.
 
         Returns:
             str: Successful upload along with number of successes and fails.
@@ -321,9 +320,7 @@ class UploadSamplesResponse:
 
 @dataclass
 class SampleInfo:
-    """
-    Wrapper for the response from the Edge Impulse ingestion service when retrieving
-    sample information.
+    """Wrapper for the response from the Edge Impulse ingestion service when retrieving sample information.
 
     Attributes:
         sample_id (Optional[int]): The sample ID.

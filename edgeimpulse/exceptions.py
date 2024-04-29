@@ -1,3 +1,4 @@
+# ruff: noqa: D100, D101, D107
 from typing import List, Optional
 
 
@@ -13,7 +14,7 @@ class EdgeImpulseException(Exception):
 class InvalidDeviceException(EdgeImpulseException):
     """Exception raised when an invalid device is passed.
 
-    Atrributes:
+    Attributes:
         device (str): device type to profile
         profile devices (List[str]): List of devices for a project as strings.
 
@@ -27,11 +28,11 @@ class InvalidDeviceException(EdgeImpulseException):
 
 
 class InvalidTargetException(EdgeImpulseException):
-    """
-        Exception raised when an invalid target is passed.
-        For a list of valid targets use `edgeimpulse.model.list_deployment_targets()`.
+    """Exception raised when an invalid target is passed.
 
-    Atrributes:
+    For a list of valid targets use `edgeimpulse.model.list_deployment_targets()`.
+
+    Attributes:
         deploy_target (str): Target to deploy to.
         target_names (List[str]): List of targets for a project as strings.
     """
@@ -44,8 +45,8 @@ class InvalidTargetException(EdgeImpulseException):
 
 
 class InvalidEngineException(EdgeImpulseException):
-    """
-    Exception raised when an invalid engine is passed.
+    """Exception raised when an invalid engine is passed.
+
     For a list of valid engines use `edgeimpulse.model.list_engines()`.
 
     """
@@ -96,19 +97,14 @@ class UnsuccessfulRequestException(EdgeImpulseException):
 
 
 class TimeoutException(EdgeImpulseException):
-    """
-    Exception raised when a timeout has been reached.
-    """
+    """Exception raised when a timeout has been reached."""
 
     def __init__(self, msg: str):
         super().__init__(msg)
 
 
 class UnsupportedSampleType(EdgeImpulseException):
-    """
-    Exception raised when attempting to upload or download a data type that is
-    not supported by Edge Impulse.
-    """
+    """Exception raised when attempting to upload or download a data type that is not supported by Edge Impulse."""
 
     def __init__(self, error: Optional[str]):
         self.error = error

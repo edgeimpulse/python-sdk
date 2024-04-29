@@ -8,6 +8,7 @@
         <title>edgeimpulse.data._functions.upload_pandas - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.upload_pandas</h1><div class="highlight"><pre>
-<span></span><span class="c1"># NOTE: We&#39;re not importing pandas here because we want to be compatible with pandas like</span>
+<span></span><span class="c1"># ruff: noqa: D100</span>
+<span class="c1"># NOTE: We&#39;re not importing pandas here because we want to be compatible with pandas like</span>
 <span class="c1"># frameworks. I.e. Dask, Modin, Polars etc.</span>
 <span class="c1"># Please try to rely on duck typing where possible and don&#39;t make any dependencies towards</span>
 <span class="c1"># specific frameworks</span>
@@ -316,9 +321,7 @@
 
 
 <span class="k">def</span> <span class="nf">row_metadata</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">metadata_col</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the metadata from a dataframe row for a single sample.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the metadata from a dataframe row for a single sample.&quot;&quot;&quot;</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">metadata_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">metadata_col</span><span class="p">}</span>
@@ -326,9 +329,7 @@
 
 
 <span class="k">def</span> <span class="nf">ts_to_ms</span><span class="p">(</span><span class="n">timestamp</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper to convert timestamps to miliseconds for the EI data aquisition format</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert timestamps to milliseconds for the EI data aquisition format.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">timestamp</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">):</span>
@@ -346,8 +347,9 @@
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">category</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;split&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;split&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Upload a single dataframe sample.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload a single dataframe sample.</span>
+
+<span class="sd">    Upload a single dataframe sample to Edge Impulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        df (DataFrame): The input DataFrame containing data.</span>
@@ -360,10 +362,7 @@
 <span class="sd">        category (str or None, optional): Category or class label for the entire dataset. Default is split.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AttributeError: If the input object does not have a `reset_index` method.</span>
@@ -371,7 +370,6 @@
 <span class="sd">            argument is not a dictionary.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            import edgeimpulse as ei</span>
@@ -434,14 +432,13 @@
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">category</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;split&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;split&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts a dataframe to a single sample. Can both handle timeseries and non-timeseries data.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a dataframe to a single sample. Can handle both *timeseries* and *non-timeseries* data.</span>
 
-<span class="sd">    In order to be a determiend to be a timeseries it must have:</span>
+<span class="sd">    In order to be inferred as timeseries it must have:</span>
 
 <span class="sd">    - More than one row</span>
 <span class="sd">    - A sample rate or an index from which the sample rate can be inferred</span>
-<span class="sd">        - Therefore must be monotonically inreasing</span>
+<span class="sd">        - Therefore must be monotonically increasing</span>
 <span class="sd">        - And int or a date</span>
 
 <span class="sd">    Args:</span>
@@ -449,15 +446,13 @@
 <span class="sd">        sample_rate_ms (int): The sampling rate of the time series data (in milliseconds).</span>
 <span class="sd">        label (str, optional): The label for the sample. Default is None.</span>
 <span class="sd">        filename (str, optional): The filename for the sample. Default is None.</span>
-<span class="sd">        axis_columns (List[str], optional): List of column names representing axis if the data is</span>
-<span class="sd">            multi-dimensional. Default is None.</span>
-<span class="sd">        metadata (dict, optional): Dictionary containing metadata information. Default is None.</span>
-<span class="sd">        category (str or None, optional): Category or class label for the entire dataset. Default is split.</span>
+<span class="sd">        axis_columns (List[str], optional): List of column names representing axis if the data is multi-dimensional. Default is None.</span>
+<span class="sd">        metadata (dict, optional): Dictionary containing metadata information for the sample. Default is None.</span>
+<span class="sd">        category (str or None, optional): To which category this sample belongs (training/testing/split) default is spit.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Sample: A sample object containing the data from the dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Check to make sure dataframe operations are supported</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;reset_index&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;reset_index&quot;</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">MSG_NO_DF_MODULE</span><span class="p">)</span>
@@ -492,14 +487,14 @@
 
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;is_monotonic_increasing&quot;</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Index should be monotonicly increasing in order to detect sample rate. Or specify sample_rate_ms argument.&quot;</span>
+                    <span class="s2">&quot;Index should be monotonically increasing in order to detect sample rate. Or specify sample_rate_ms argument.&quot;</span>
                 <span class="p">)</span>
 
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;seconds&quot;</span><span class="p">):</span>
                 <span class="c1"># the csv ingestion services requires the timestamp to be specified</span>
                 <span class="c1"># in milliseconds. See here: https://docs.edgeimpulse.com/reference/importing-csv-data</span>
                 <span class="c1"># So here we convert the index when its timedelta index.</span>
-                <span class="c1"># Because we&#39;re duck typeing we can&#39;t check for</span>
+                <span class="c1"># Because we&#39;re duck typing we can&#39;t check for</span>
                 <span class="c1"># explicit TimeDeltaIndex</span>
                 <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">seconds</span> <span class="o">*</span> <span class="mi">1000</span>
             <span class="k">else</span><span class="p">:</span>
@@ -507,7 +502,7 @@
                 <span class="k">pass</span>
 
     <span class="c1"># We convert here to a csv since its a little bit more easy to use than the JSON ei data</span>
-    <span class="c1"># We don&#39;t need sensors here (they are automatically infered)</span>
+    <span class="c1"># We don&#39;t need sensors here (they are automatically inferred)</span>
     <span class="c1"># And we can both support timeseries and non-time series.</span>
 
     <span class="n">csv</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
@@ -549,17 +544,12 @@
     <span class="n">data_col_length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">data_axis_cols</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads a dataframe to Edge Impulse where each of columns represent a value in the</span>
-<span class="sd">    timeseries data and the rows become the individual samples.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload a dataframe to Edge Impulse where each of columns represent a value in the timeseries data and the rows become the individual samples.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        df (DataFrame):</span>
-<span class="sd">            The input DataFrame containing time series data.</span>
-<span class="sd">        data_col_start (int):</span>
-<span class="sd">            The index of the column from which the time series data begins.</span>
-<span class="sd">        sample_rate_ms (int):</span>
-<span class="sd">            The sampling rate of the time series data (in milliseconds).</span>
+<span class="sd">        df (DataFrame): The input DataFrame containing time series data.</span>
+<span class="sd">        data_col_start (int): The index of the column from which the time series data begins.</span>
+<span class="sd">        sample_rate_ms (int): The sampling rate of the time series data (in milliseconds).</span>
 <span class="sd">        label_col (str, optional): The column name containing labels for each</span>
 <span class="sd">            time series. Default is None.</span>
 <span class="sd">        category_col (str, optional): The column name containing the category for the</span>
@@ -572,10 +562,7 @@
 <span class="sd">            multi-dimensional. Default is None.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AttributeError: If the input object does not have a `iterrows` method.</span>
@@ -583,7 +570,6 @@
 <span class="sd">            argument is not an integer.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            import edgeimpulse as ei</span>
@@ -611,9 +597,8 @@
 <span class="sd">                sample_rate_ms=100,</span>
 <span class="sd">            )</span>
 <span class="sd">            self.assertEqual(len(response.successes), 2)</span>
-<span class="sd">            self.assertEqual(len(resonse.fails), 0)</span>
+<span class="sd">            self.assertEqual(len(response.fails), 0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Check to make sure dataframe operations are supported</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;iterrows&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;iterrows&quot;</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">MSG_NO_DF_MODULE</span><span class="p">)</span>
@@ -623,7 +608,7 @@
     <span class="k">if</span> <span class="n">is_single_axis</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
             <span class="c1"># We need to transpose the single wide row to a timeseries long dataframe</span>
-            <span class="c1"># We reset the index in order to make it compatible. After toframe, the column names are the index</span>
+            <span class="c1"># We reset the index in order to make it compatible. After to frame, the column names are the index</span>
             <span class="c1"># so if that is text it will break the upload</span>
 
             <span class="n">row_df</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">data_col_start</span><span class="p">:]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>  <span class="c1"># transforms from wide to long.</span>
@@ -694,8 +679,7 @@
     <span class="n">category_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">metadata_cols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Upload non-timeseries data to Edge Impulse where each dataframe row becomes a sample.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload non-timeseries data to Edge Impulse where each dataframe row becomes a sample.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        df (dataframe): The DataFrame to be uploaded.</span>
@@ -705,16 +689,12 @@
 <span class="sd">        metadata_cols (List[str], optional): Optional list of column names containing metadata</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AttributeError: If the input object does not have a `iterrows` method.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            import edgeimpulse as ei</span>
@@ -745,7 +725,6 @@
 <span class="sd">            )</span>
 <span class="sd">            assert len(response.fails) == 0, &quot;Could not upload some files&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Check to make sure dataframe operations are supported</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;iterrows&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;iterrows&quot;</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">MSG_NO_DF_MODULE</span><span class="p">)</span>
@@ -773,16 +752,20 @@
     <span class="n">category_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">metadata_cols</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads a dataframe where the rows contain multiple samples and timeseries data for</span>
-<span class="sd">    those samples. It uses a `group_by` in order to detect what timeseries value belongs</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload a dataframe where the rows contain multiple samples and timeseries data for those samples.</span>
+
+<span class="sd">    It uses a `group_by` in order to detect what timeseries value belongs</span>
 <span class="sd">    to which sample.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        df (dataframe): The DataFrame to be uploaded.</span>
-<span class="sd">        timestamp_col (str): The name of the column containing the timestamp for the data (in seconds).</span>
-<span class="sd">        group_by (str): The name of the column containing the group for the data.</span>
-<span class="sd">        feature_cols (List[str]): A list of column names containing features.</span>
+<span class="sd">        df (dataframe):</span>
+<span class="sd">            The DataFrame to be uploaded.</span>
+<span class="sd">        timestamp_col (str):</span>
+<span class="sd">            The name of the column containing the timestamp for the data (in seconds).</span>
+<span class="sd">        group_by (str):</span>
+<span class="sd">            The name of the column containing the group for the data.</span>
+<span class="sd">        feature_cols (List[str]):</span>
+<span class="sd">            A list of column names containing features.</span>
 <span class="sd">        label_col (str, optional): The name of the column containing labels for the data. Each group</span>
 <span class="sd">            must have the same label. Default is None (derived from group name).</span>
 <span class="sd">        category_col (str, optional): The name of the column containing the category for the data.</span>
@@ -791,13 +774,9 @@
 <span class="sd">            Each group must have the same metadata. Default is None.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            import edgeimpulse as ei</span>
@@ -837,7 +816,6 @@
 <span class="sd">            )</span>
 <span class="sd">            assert len(response.fails) == 0, &quot;Could not upload some files&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Check to make sure dataframe operations are supported</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">timestamp_col</span><span class="p">],</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">timestamp_col</span><span class="p">],</span> <span class="s2">&quot;apply&quot;</span><span class="p">)</span>
@@ -931,5 +909,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

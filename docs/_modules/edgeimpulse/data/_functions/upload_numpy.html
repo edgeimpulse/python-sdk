@@ -8,6 +8,7 @@
         <title>edgeimpulse.data._functions.upload_numpy - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.data._functions.upload_numpy</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="p">(</span>
+<span></span><span class="c1"># ruff: noqa: D100</span>
+<span class="kn">from</span> <span class="nn">edgeimpulse.data.sample_type</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Sample</span><span class="p">,</span>
     <span class="n">DataAcquisition</span><span class="p">,</span>
     <span class="n">Sensor</span><span class="p">,</span>
@@ -305,35 +310,6 @@
 <span class="n">DEVICE_TYPE</span> <span class="o">=</span> <span class="s2">&quot;EDGE_IMPULSE_PYTHON_SDK&quot;</span>
 
 
-<div class="viewcode-block" id="numpy_timeseries_to_sample"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.numpy_timeseries_to_sample">[docs]</a><span class="k">def</span> <span class="nf">numpy_timeseries_to_sample</span><span class="p">(</span>
-    <span class="n">values</span><span class="p">,</span> <span class="n">sensors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sensor</span><span class="p">],</span> <span class="n">sample_rate_ms</span><span class="p">:</span> <span class="nb">int</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Converts numpy values to a sample that can be uploaded to Edge Impulse</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        data (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</span>
-<span class="sd">        sensors (Sequence[Sensor]): List of sensor objects representing the sensors used in the data.</span>
-<span class="sd">        sample_rate_ms (int): Time interval in milliseconds between consecutive data points. Default is 50ms.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Sample: Sample object that can be uploaded to Edge Impulse</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">DataAcquisition</span><span class="p">(</span>
-        <span class="n">protected</span><span class="o">=</span><span class="n">Protected</span><span class="p">(),</span>
-        <span class="n">payload</span><span class="o">=</span><span class="n">Payload</span><span class="p">(</span>
-            <span class="n">device_type</span><span class="o">=</span><span class="n">DEVICE_TYPE</span><span class="p">,</span>
-            <span class="n">interval_ms</span><span class="o">=</span><span class="n">sample_rate_ms</span><span class="p">,</span>
-            <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
-            <span class="n">sensors</span><span class="o">=</span><span class="n">sensors</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span>
-        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="n">sample</span></div>
-
-
 <div class="viewcode-block" id="upload_numpy"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.upload_numpy">[docs]</a><span class="k">def</span> <span class="nf">upload_numpy</span><span class="p">(</span>
     <span class="n">data</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -342,12 +318,10 @@
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">category</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;training&quot;</span><span class="p">,</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;split&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;split&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UploadSamplesResponse</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Uploads numpy arrays as timeseries using the Edge Impulse data acquisition format.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload numpy arrays as timeseries using the Edge Impulse data acquisition format.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (any): Numpy array containing the timeseries data.</span>
-<span class="sd">            The shape should be (num_samples, time_point, num_sensors)</span>
+<span class="sd">        data (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</span>
 <span class="sd">        labels (Sequence[str]): List of labels for the data samples can also be a numpy array.</span>
 <span class="sd">        sensors (Sequence[Sensor]): List of Sensor objects representing the sensors used in the data.</span>
 <span class="sd">        sample_rate_ms (int): Time interval in milliseconds between consecutive data points.</span>
@@ -355,21 +329,18 @@
 <span class="sd">        category (str or None, optional): Category or class label for the entire dataset. Default is split.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload. The</span>
-<span class="sd">            response object contains two tuples: the first tuple contains the samples that were</span>
-<span class="sd">            successfully uploaded, and the second tuple contains the samples that failed to upload</span>
-<span class="sd">            along with the error message.</span>
+<span class="sd">        UploadSamplesResponse: A response object that contains the results of the upload.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValueError: If the length of labels doesn&#39;t match the number of samples.</span>
-<span class="sd">        ValueError: If the number of sensors doesn&#39;t match the number of axis in the data.</span>
+<span class="sd">        ValueError: If the length of labels doesn&#39;t match the number of samples or if the number of sensors</span>
+<span class="sd">            doesn&#39;t match the number of axis in the data.</span>
 
 <span class="sd">    Examples:</span>
-
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            import numpy as np</span>
 <span class="sd">            import edgeimpulse as ei</span>
+<span class="sd">            from ei.experimental.data import upload_numpy</span>
 
 <span class="sd">            ei.API_KEY = &quot;your-api-key&quot; # set your key</span>
 
@@ -402,7 +373,7 @@
 <span class="sd">            ]</span>
 
 <span class="sd">            # Upload samples to your Edge Impulse project</span>
-<span class="sd">            resp = ei.experimental.data.upload_numpy(</span>
+<span class="sd">            resp = upload_numpy(</span>
 <span class="sd">                sample_rate_ms=100,</span>
 <span class="sd">                data=samples,</span>
 <span class="sd">                labels=labels,</span>
@@ -433,6 +404,34 @@
         <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">upload_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="numpy_timeseries_to_sample"><a class="viewcode-back" href="../../../../source/edgeimpulse.experimental.data.html#edgeimpulse.experimental.data.numpy_timeseries_to_sample">[docs]</a><span class="k">def</span> <span class="nf">numpy_timeseries_to_sample</span><span class="p">(</span>
+    <span class="n">values</span><span class="p">,</span> <span class="n">sensors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Sensor</span><span class="p">],</span> <span class="n">sample_rate_ms</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sample</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert numpy values to a sample that can be uploaded to Edge Impulse.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)</span>
+<span class="sd">        sensors (Sequence[Sensor]): List of sensor objects representing the sensors used in the data.</span>
+<span class="sd">        sample_rate_ms (int): Time interval in milliseconds between consecutive data points.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sample: Sample object that can be uploaded to Edge Impulse</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">DataAcquisition</span><span class="p">(</span>
+        <span class="n">protected</span><span class="o">=</span><span class="n">Protected</span><span class="p">(),</span>
+        <span class="n">payload</span><span class="o">=</span><span class="n">Payload</span><span class="p">(</span>
+            <span class="n">device_type</span><span class="o">=</span><span class="n">DEVICE_TYPE</span><span class="p">,</span>
+            <span class="n">interval_ms</span><span class="o">=</span><span class="n">sample_rate_ms</span><span class="p">,</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span>
+            <span class="n">sensors</span><span class="o">=</span><span class="n">sensors</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span>
+        <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%08x</span><span class="s2">.json&quot;</span> <span class="o">%</span> <span class="n">random</span><span class="o">.</span><span class="n">getrandbits</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">sample</span></div>
 </pre></div>
         </article>
       </div>
@@ -469,5 +468,7 @@
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>

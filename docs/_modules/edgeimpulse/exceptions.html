@@ -8,6 +8,7 @@
         <title>edgeimpulse.exceptions - Python SDK1.0.8</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
     
     
@@ -235,6 +236,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.api.html">api module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/edgeimpulse.data.html">data package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of data package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../source/edgeimpulse.data.sample_type.html">sample_type module</a></li>
 </ul>
@@ -243,6 +245,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.exceptions.html">exceptions module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/edgeimpulse.experimental.html">experimental package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of experimental package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../source/edgeimpulse.experimental.data.html">data package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/edgeimpulse.experimental.tuner.html">tuner package</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/edgeimpulse.model.html">model package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of model package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -251,6 +254,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../source/edgeimpulse.model.output_type.html">output_type module</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.tuner.html">tuner package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source/edgeimpulse.util.html">util module</a></li>
 </ul>
 
@@ -286,7 +290,8 @@
         </div>
         <article role="main">
           <h1>Source code for edgeimpulse.exceptions</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span></span><span class="c1"># ruff: noqa: D100, D101, D107</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 
 <div class="viewcode-block" id="EdgeImpulseException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.EdgeImpulseException">[docs]</a><span class="k">class</span> <span class="nc">EdgeImpulseException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -301,7 +306,7 @@
 <div class="viewcode-block" id="InvalidDeviceException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidDeviceException">[docs]</a><span class="k">class</span> <span class="nc">InvalidDeviceException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid device is passed.</span>
 
-<span class="sd">    Atrributes:</span>
+<span class="sd">    Attributes:</span>
 <span class="sd">        device (str): device type to profile</span>
 <span class="sd">        profile devices (List[str]): List of devices for a project as strings.</span>
 
@@ -315,11 +320,11 @@
 
 
 <div class="viewcode-block" id="InvalidTargetException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidTargetException">[docs]</a><span class="k">class</span> <span class="nc">InvalidTargetException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Exception raised when an invalid target is passed.</span>
-<span class="sd">        For a list of valid targets use `edgeimpulse.model.list_deployment_targets()`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid target is passed.</span>
 
-<span class="sd">    Atrributes:</span>
+<span class="sd">    For a list of valid targets use `edgeimpulse.model.list_deployment_targets()`.</span>
+
+<span class="sd">    Attributes:</span>
 <span class="sd">        deploy_target (str): Target to deploy to.</span>
 <span class="sd">        target_names (List[str]): List of targets for a project as strings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -332,8 +337,8 @@
 
 
 <div class="viewcode-block" id="InvalidEngineException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.InvalidEngineException">[docs]</a><span class="k">class</span> <span class="nc">InvalidEngineException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when an invalid engine is passed.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an invalid engine is passed.</span>
+
 <span class="sd">    For a list of valid engines use `edgeimpulse.model.list_engines()`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -384,19 +389,14 @@
 
 
 <div class="viewcode-block" id="TimeoutException"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.TimeoutException">[docs]</a><span class="k">class</span> <span class="nc">TimeoutException</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when a timeout has been reached.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when a timeout has been reached.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="UnsupportedSampleType"><a class="viewcode-back" href="../../source/edgeimpulse.exceptions.html#edgeimpulse.exceptions.UnsupportedSampleType">[docs]</a><span class="k">class</span> <span class="nc">UnsupportedSampleType</span><span class="p">(</span><span class="n">EdgeImpulseException</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when attempting to upload or download a data type that is</span>
-<span class="sd">    not supported by Edge Impulse.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when attempting to upload or download a data type that is not supported by Edge Impulse.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
@@ -446,5 +446,7 @@
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
     </body>
 </html>
