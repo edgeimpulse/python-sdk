@@ -1,6 +1,6 @@
 # ruff: noqa: D100
 import logging
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 
 import edgeimpulse
 from edgeimpulse.data._functions.util import (
@@ -144,7 +144,7 @@ def delete_samples_by_filename(
     category: Optional[str] = None,
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
-) -> Optional[Tuple[GenericApiResponse]]:
+) -> Tuple[Optional[Any], ...]:
     """Delete any samples from an Edge Impulse project that match the given filename.
 
     Note: the `filename` argument must not include the original extension. For example,
@@ -171,13 +171,16 @@ def delete_samples_by_filename(
     )
 
     # Delete the IDs
-    resps = []
+    responses = []
     for info in infos:
+        if info.sample_id is None:
+            raise Exception("Can't find the id in infos")
+
         resp = delete_sample_by_id(
             sample_id=info.sample_id, api_key=api_key, timeout_sec=timeout_sec
         )
         if resp is None:
             logging.warning(f"Could not delete sample {filename}")
-        resps.append(resp)
+        responses.append(resp)
 
-    return tuple(resps)
+    return tuple(responses)

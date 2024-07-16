@@ -33,7 +33,7 @@ import logging
 logging.getLogger().setLevel(logging.INFO)
 
 # How long to wait (seconds) for jobs to complete
-JOB_TIMEOUT = 1200.0  # 20 min
+JOB_TIMEOUT = 3600.0  # 60 min
 
 
 def sample_model_path(model_fname):

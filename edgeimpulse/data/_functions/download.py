@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 # ruff: noqa: D100
 import json
 import logging
@@ -301,8 +302,8 @@ def download_samples_by_ids(
             making concurrent requests. If `None`, the number of workers will be set to
             the number of processors on the machine multiplied by 5.
         show_progress: Show progress bar while uploading samples.
-        pool_maxsize: (int, optional) Maxium size of the upload pool. Defaults to 20.
-        pool_connections: (int, optional) Maxium size of the pool connections. Defaults to 20.
+        pool_maxsize: (int, optional) Maximum size of the upload pool. Defaults to 20.
+        pool_connections: (int, optional) Maximum size of the pool connections. Defaults to 20.
 
     Returns:
         List[Sample]: List of Sample objects with data and metadata as downloaded from

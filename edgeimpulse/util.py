@@ -1,3 +1,5 @@
+"""Various Edge Impulse functions for working with the SDK."""
+# mypy: ignore-errors
 # noqa: D100
 import logging
 import time
@@ -48,8 +50,8 @@ def get_user_agent(add_platform_info=False):
 
 def configure_generic_client(
     key: str,
-    key_type: str = "api",
-    host: str = "https://studio.edgeimpulse.com/v1",
+    key_type: Optional[str] = "api",
+    host: Optional[str] = "https://studio.edgeimpulse.com/v1",
 ) -> ApiClient:
     """Configure generic api client which the right key.
 
@@ -194,7 +196,7 @@ def numpy_installed() -> bool:
 def tensorflow_installed() -> bool:
     """Check if tensorflow is installed returns true or false."""
     try:
-        import tensorflow as tf
+        import tensorflow as tf  # type: ignore # noqa: F401
 
         return True
     except ModuleNotFoundError:
@@ -210,7 +212,7 @@ def onnx_installed() -> bool:
 
         return True
     except ModuleNotFoundError:
-        return
+        return False
 
 
 # Try importing pandas
@@ -222,7 +224,7 @@ def pandas_installed() -> bool:
 
         return True
     except ModuleNotFoundError:
-        return
+        return False
 
 
 def is_path_to_numpy_file(path):
@@ -268,7 +270,7 @@ def is_keras_model(model):
     """Check if model is a keras model."""
     if not tensorflow_installed():
         return False
-    import tensorflow as tf
+    import tensorflow as tf  # type: ignore # noqa: F401
 
     return issubclass(type(model), tf.keras.Model)
 
@@ -664,7 +666,7 @@ def run_organization_job_until_completion(
     job_id: int,
     data_cb=None,
     client=None,
-    timeout_sec: int = 3600,
+    timeout_sec: Optional[int] = None,
 ) -> None:
     """Runs an organization job until completion.
 
@@ -673,7 +675,7 @@ def run_organization_job_until_completion(
         job_id (int): The ID of the job to run.
         data_cb (callable, optional): Callback function to handle job data.
         client (object, optional): An API client object. If None, a generic client will be configured.
-        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is None.
 
     Returns:
         None
@@ -700,8 +702,8 @@ def run_project_job_until_completion(
     job_id: int,
     data_cb=None,
     client=None,
-    project_id: int = None,
-    timeout_sec: int = 3600,
+    project_id: Optional[int] = None,
+    timeout_sec: Optional[int] = None,
 ) -> None:
     """Runs a project job until completion.
 
@@ -710,7 +712,7 @@ def run_project_job_until_completion(
         data_cb (callable, optional): Callback function to handle job data.
         client (object, optional): An API client object. If None, a generic client will be configured.
         project_id (int, optional): The ID of the project. If not provided, a default project ID will be used.
-        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is None
 
     Returns:
         None
@@ -736,14 +738,16 @@ def run_project_job_until_completion(
     )
 
 
-def run_job_until_completion(ws, job_id: int, data_cb=None, timeout_sec: int = 3600):
+def run_job_until_completion(
+    ws, job_id: int, data_cb=None, timeout_sec: Optional[int] = None
+):
     """Runs a project or organization job until completion.
 
     Args:
         ws (object): Websocket object.
         job_id (int): The ID of the job to run.
         data_cb (callable, optional): Callback function to handle job data.
-        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is 3600
+        timeout_sec (int, optional): Number of seconds before timeing out the job with an exception. Default is None.
 
     Returns:
         None
@@ -768,10 +772,12 @@ def run_job_until_completion(ws, job_id: int, data_cb=None, timeout_sec: int = 3
     ws.on("*", handle_any)
     ws.on("job-finished", handle_finished)
     while not finished[0]:
-        if timeout_sec <= 0:
-            raise Exception(f"Timeout reached while waiting for job {job_id}")
+        if isinstance(timeout_sec, int):
+            if timeout_sec <= 0:
+                raise Exception(f"Timeout reached while waiting for job {job_id}")
         time.sleep(1)
-        timeout_sec = timeout_sec - 1
+        if isinstance(timeout_sec, int):
+            timeout_sec = timeout_sec - 1
 
 
 def get_organization_websocket(

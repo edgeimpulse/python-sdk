@@ -3,14 +3,7 @@ import unittest
 from edgeimpulse import util
 import logging
 from tests.util import delete_all_samples, assert_uploaded_samples
-from edgeimpulse.datasets import load_timeseries
-from edgeimpulse.data._functions.upload import (
-    upload_samples,
-)
-from edgeimpulse.data._functions.upload_numpy import (
-    upload_numpy,
-    numpy_timeseries_to_sample,
-)
+import edgeimpulse as ei
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -23,7 +16,7 @@ class TestUploadNumpy(unittest.TestCase):
         delete_all_samples()
 
     def test_upload_single_data(self):
-        sample = numpy_timeseries_to_sample(
+        sample = ei.experimental.data.numpy_timeseries_to_sample(
             values=[
                 [8.81, 0.03, 1.21],
                 [9.83, 1.04, 1.27],
@@ -38,16 +31,16 @@ class TestUploadNumpy(unittest.TestCase):
             sample_rate_ms=100,
         )
 
-        res = upload_samples(sample, allow_duplicates=True)
+        res = ei.experimental.data.upload_samples(sample, allow_duplicates=True)
         self.assertEqual(len(res.fails), 0)
         self.assertEqual(len(res.successes), 1)
 
         assert_uploaded_samples(self, res.successes)
 
     def test_upload_numpy_timeseries_data(self):
-        (samples, labels, sensors) = load_timeseries()
+        (samples, labels, sensors) = ei.datasets.load_timeseries()
 
-        res = upload_numpy(
+        res = ei.experimental.data.upload_numpy(
             sample_rate_ms=100,
             data=samples,
             labels=labels,
@@ -63,11 +56,11 @@ class TestUploadNumpy(unittest.TestCase):
     def test_incorrect_numpy_labels(self):
         import numpy as np
 
-        (samples, labels, sensors) = load_timeseries()
+        (samples, labels, sensors) = ei.datasets.load_timeseries()
 
         with self.assertRaises(ValueError) as context:
             samples = np.delete(samples, 2)
-            upload_numpy(
+            ei.experimental.data.upload_numpy(
                 sample_rate_ms=100,
                 data=samples,
                 labels=labels,
@@ -80,11 +73,11 @@ class TestUploadNumpy(unittest.TestCase):
         )
 
     def test_incorrect_axis(self):
-        (samples, labels, sensors) = load_timeseries()
+        (samples, labels, sensors) = ei.datasets.load_timeseries()
 
         with self.assertRaises(ValueError) as context:
             sensors.append({"name": "accelZ", "units": "ms/s"})
-            upload_numpy(
+            ei.experimental.data.upload_numpy(
                 sample_rate_ms=100,
                 data=samples,
                 labels=labels,

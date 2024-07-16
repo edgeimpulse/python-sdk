@@ -3,11 +3,7 @@ import unittest
 import resource
 import logging
 from tests.util import delete_all_samples, assert_uploaded_samples
-
-from edgeimpulse.data._functions.upload_files import (
-    upload_exported_dataset,
-    upload_directory,
-)
+import edgeimpulse as ei
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -20,10 +16,10 @@ class TestUploadFiles(unittest.TestCase):
         delete_all_samples()
 
     def test_upload_directory(self):
-        res = upload_directory(
+        res = ei.experimental.data.upload_directory(
             directory="tests/sample_data/gestures",
             category="testing",
-            metadata={"name": "jan"},
+            metadata={"device": "phone"},
         )
 
         self.assertEqual(len(res.successes), 26)
@@ -31,8 +27,20 @@ class TestUploadFiles(unittest.TestCase):
 
         assert_uploaded_samples(self, res.successes)
 
+    def test_upload_directory_allow_duplicates(self):
+        ei.datasets.download_dataset("gestures")
+
+        res = ei.experimental.data.upload_directory(
+            directory="datasets/gestures", allow_duplicates=True
+        )
+        self.assertEqual(len(res.successes), 113)
+
+        assert_uploaded_samples(self, res.successes)
+
     def test_upload_directory_multi_label(self):
-        res = upload_directory(directory="tests/sample_data/coffee")
+        res = ei.experimental.data.upload_directory(
+            directory="tests/sample_data/coffee"
+        )
 
         self.assertEqual(len(res.successes), 11)
         self.assertEqual(len(res.fails), 0)
@@ -50,7 +58,7 @@ class TestUploadFiles(unittest.TestCase):
         def transform(sample, file):
             sample.label = "human"
 
-        res = upload_directory(
+        res = ei.experimental.data.upload_directory(
             directory="tests/sample_data/gestures", transform=transform
         )
 
@@ -61,7 +69,9 @@ class TestUploadFiles(unittest.TestCase):
 
     def test_upload_directory_with_labels(self):
         # should auto detect the presence of a label file
-        res = upload_directory(directory="tests/sample_data/dataset")
+        res = ei.experimental.data.upload_directory(
+            directory="tests/sample_data/dataset", batch_size=4
+        )
 
         self.assertEqual(len(res.successes), 6)
         self.assertEqual(len(res.fails), 0)
@@ -71,7 +81,9 @@ class TestUploadFiles(unittest.TestCase):
 
     def test_invalid_directory_path(self):
         with self.assertRaises(FileNotFoundError) as context:
-            upload_directory(directory="tests/sample_data/dataset2")
+            ei.experimental.data.upload_directory(
+                directory="tests/sample_data/dataset2"
+            )
         self.assertIn(
             "directory 'tests/sample_data/dataset2' not found.",
             str(context.exception),
@@ -79,8 +91,19 @@ class TestUploadFiles(unittest.TestCase):
 
     def test_no_labels_file(self):
         with self.assertRaises(FileNotFoundError) as context:
-            upload_exported_dataset(directory="tests/sample_data/")
+            ei.experimental.data.upload_exported_dataset(directory="tests/sample_data/")
         self.assertIn(
             "Labels file 'info.labels' not found in the specified directory.",
             str(context.exception),
         )
+
+    # Test upload in batches
+    def test_upload_directory_batches(self):
+        res = ei.experimental.data.upload_directory(
+            directory="tests/sample_data/gestures", batch_size=10
+        )
+
+        self.assertEqual(len(res.successes), 26)
+        self.assertEqual(len(res.fails), 0)
+
+        assert_uploaded_samples(self, res.successes)

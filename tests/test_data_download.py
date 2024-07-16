@@ -6,30 +6,18 @@ import random
 import warnings
 
 import edgeimpulse as ei
-from edgeimpulse.data._functions.delete import (
-    delete_all_samples,
-)
-from edgeimpulse.data._functions.download import (
-    download_samples_by_ids,
-)
-from edgeimpulse.data._functions.upload import (
-    upload_samples,
-)
-from edgeimpulse.data._functions.util import (
-    get_sample_ids,
-)
+
 from edgeimpulse_api.exceptions import (
     UnauthorizedException,
 )
 
 from . import util
 
-
 # just have logging enabled for dev
 logging.getLogger().setLevel(logging.INFO)
 
 # How long to wait (seconds) for uploading to complete
-TIMEOUT = 1200.0  # 20 min
+TIMEOUT = 3600.0  # 60 min
 
 
 # Helper function: upload dataset
@@ -37,7 +25,7 @@ def upload_dataset(samples):
     # Make sure there are no files in the project that match the filename
     for sample in samples:
         filename = os.path.splitext(sample.filename)[0]
-        infos = get_sample_ids(
+        infos = ei.experimental.data.get_sample_ids(
             filename=filename,
             category=sample.category,
             timeout_sec=TIMEOUT,
@@ -50,7 +38,9 @@ def upload_dataset(samples):
             )
 
     # Upload samples and get IDs
-    _ = upload_samples(samples, allow_duplicates=False, timeout_sec=TIMEOUT)
+    _ = ei.experimental.data.upload_samples(
+        samples, allow_duplicates=False, timeout_sec=TIMEOUT
+    )
     ids = [sample.sample_id for sample in samples]
 
     return ids
@@ -76,7 +66,7 @@ class TestDataDownload(unittest.TestCase):
         try:
             ei.API_KEY = "some_invalid_key"
             with self.assertRaises(UnauthorizedException):
-                _ = download_samples_by_ids(
+                _ = ei.experimental.data.download_samples_by_ids(
                     sample_ids=ids,
                     timeout_sec=TIMEOUT,
                 )
@@ -86,7 +76,7 @@ class TestDataDownload(unittest.TestCase):
             raise e
         finally:
             ei.API_KEY = original_key
-            resp = delete_all_samples(
+            resp = ei.experimental.data.delete_all_samples(
                 timeout_sec=TIMEOUT,
             )
             if resp is None:
@@ -103,7 +93,7 @@ class TestDataDownload(unittest.TestCase):
 
         # Try to download samples with manually specified API key
         try:
-            dl_samples = download_samples_by_ids(
+            dl_samples = ei.experimental.data.download_samples_by_ids(
                 sample_ids=ids,
                 api_key=original_key,
                 timeout_sec=TIMEOUT,
@@ -119,7 +109,7 @@ class TestDataDownload(unittest.TestCase):
             raise e
         finally:
             ei.API_KEY = original_key
-            resp = delete_all_samples(
+            resp = ei.experimental.data.delete_all_samples(
                 timeout_sec=TIMEOUT,
             )
             if resp is None:
@@ -136,7 +126,7 @@ class TestDataDownload(unittest.TestCase):
 
             # Try to download samples with non-integer IDs
             with self.assertRaises(TypeError):
-                _ = download_samples_by_ids(
+                _ = ei.experimental.data.download_samples_by_ids(
                     sample_ids=["1", "2", "3"],
                     timeout_sec=TIMEOUT,
                 )
@@ -145,7 +135,7 @@ class TestDataDownload(unittest.TestCase):
         except Exception as e:
             raise e
         finally:
-            resp = delete_all_samples(
+            resp = ei.experimental.data.delete_all_samples(
                 timeout_sec=TIMEOUT,
             )
             if resp is None:
@@ -170,7 +160,7 @@ class TestDataDownload(unittest.TestCase):
             logging.info(f"Bad IDs: {bad_ids}")
 
             # Try to download non-existent samples
-            dl_samples = download_samples_by_ids(
+            dl_samples = ei.experimental.data.download_samples_by_ids(
                 sample_ids=bad_ids,
                 timeout_sec=TIMEOUT,
                 show_progress=True,
@@ -183,7 +173,7 @@ class TestDataDownload(unittest.TestCase):
         except Exception as e:
             raise e
         finally:
-            resp = delete_all_samples(
+            resp = ei.experimental.data.delete_all_samples(
                 timeout_sec=TIMEOUT,
             )
             if resp is None:
@@ -201,7 +191,7 @@ class TestDataDownload(unittest.TestCase):
                 ids = upload_dataset(dataset)
 
                 # Download samples
-                dl_samples = download_samples_by_ids(
+                dl_samples = ei.experimental.data.download_samples_by_ids(
                     sample_ids=ids,
                     timeout_sec=TIMEOUT,
                 )
@@ -213,7 +203,7 @@ class TestDataDownload(unittest.TestCase):
                     self.assertNotEqual(dl_sample.metadata, "")
 
                 # Check that the samples can be re-uploaded (for symmetry)
-                resp = upload_samples(
+                resp = ei.experimental.data.upload_samples(
                     dl_samples,
                     allow_duplicates=True,
                     timeout_sec=TIMEOUT,
@@ -228,7 +218,7 @@ class TestDataDownload(unittest.TestCase):
                 # Verify that 2 files with the same name are in the project
                 for sample in dataset:
                     filename = os.path.splitext(sample.filename)[0]
-                    infos = get_sample_ids(
+                    infos = ei.experimental.data.get_sample_ids(
                         filename=filename,
                         timeout_sec=TIMEOUT,
                     )
@@ -238,7 +228,7 @@ class TestDataDownload(unittest.TestCase):
             except Exception as e:
                 raise e
             finally:
-                resp = delete_all_samples(
+                resp = ei.experimental.data.delete_all_samples(
                     timeout_sec=TIMEOUT,
                 )
                 if resp is None:

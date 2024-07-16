@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 # ruff: noqa: D100
 from typing import Union, Optional, Sequence, List
 from urllib.parse import urljoin
@@ -18,6 +19,10 @@ from edgeimpulse.data.sample_type import (
     DataAcquisition,
     SampleIngestionResponse,
     UploadSamplesResponse,
+)
+from edgeimpulse.exceptions import (
+    MissingApiIngestionEndpointException,
+    MissingApiKeyException,
 )
 
 
@@ -137,7 +142,7 @@ def _report_results(results: List[Response]) -> UploadSamplesResponse:
     # Report results
     logging.info(f"Samples uploaded: {len(successes)}, failed: {len(fails)}.")
     if len(fails) > 0:
-        [logging.warning(item) for item in fails]
+        [logging.info(item) for item in fails]
 
     # Create response object
     return UploadSamplesResponse(successes, fails)
@@ -213,6 +218,12 @@ def upload_samples(
     api_key = api_key if api_key is not None else ei.API_KEY
     endpoint = ei.INGESTION_ENDPOINT
     samples = list(samples)  # TODO: support iterators?
+
+    if not api_key:
+        raise MissingApiKeyException()
+
+    if not endpoint:
+        raise MissingApiIngestionEndpointException()
 
     if show_progress:
         print()

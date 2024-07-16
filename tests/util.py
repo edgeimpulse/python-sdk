@@ -5,9 +5,6 @@ import logging
 import os
 import pathlib
 
-from edgeimpulse.data._functions.download import (
-    download_samples_by_ids,
-)
 from edgeimpulse.data.sample_type import (
     Sample,
 )
@@ -29,7 +26,9 @@ def assert_uploaded_samples(  # noqa: D103
     test, succ, check_label=False, check_structured_labels=False, check_meta=True
 ):
     ids = ids_from_succ(succ)
-    samples = download_samples_by_ids(sample_ids=ids, show_progress=True)
+    samples = ei.experimental.data.download_samples_by_ids(
+        sample_ids=ids, show_progress=True
+    )
 
     for upload in samples:
         found = [x.sample for x in succ if x.sample_id == upload.sample_id][0]

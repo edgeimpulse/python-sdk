@@ -1,10 +1,10 @@
-"""Use this module to download sample datasets from Edge Impulse CDN."""
-import os
-import requests
-import zipfile
-import tarfile
 import logging
+import os
+import tarfile
 from typing import List
+import zipfile
+import requests
+
 
 DATASETS = [
     {
@@ -102,11 +102,6 @@ DATASETS = [
         "name": "gestures-organization",
         "description": "Dataset for organizing gestures.",
     },
-    # {
-    #     "url": "https://cdn.edgeimpulse.com/datasets/gestures.parquet",
-    #     "name": "gestures-parquet",
-    #     "description": "Dataset for gestures in Parquet format.",
-    # },
     {
         "url": "https://cdn.edgeimpulse.com/datasets/gestures.zip",
         "name": "gestures",
@@ -195,13 +190,22 @@ def list_datasets() -> List[dict]:
     return DATASETS
 
 
-def download_dataset(name, force_redownload=False, overwrite_existing=False):
-    """Download and extracts a dataset from the Edge Impulse CDN.
+def download_dataset(
+    name: str,
+    force_redownload: bool = False,
+    overwrite_existing: bool = False,
+    show_progress: bool = False,
+):
+    """Download and extracts a dataset from the Edge Impulse CDN for tutorials and quick prototyping.
+
+    Saves the dataset in the `datasets/<name>` folder.
+    Use `list_datasets` to show available datasets for download.
 
     Args:
         name (str): The name of the dataset to download.
         force_redownload (bool, optional): If True, forces re-downloading the dataset even if it exists. Defaults to False.
         overwrite_existing (bool, optional): If True, overwrites the existing dataset directory. Defaults to False.
+        show_progress (bool, optional): If True, outputs the download progress
     """
     ds = next(filter(lambda x: x["name"] == name, DATASETS), None)
     if ds is None:
@@ -211,16 +215,21 @@ def download_dataset(name, force_redownload=False, overwrite_existing=False):
 
     url = ds["url"]
 
-    _download_dataset(
+    __download_dataset(
         url=url,
         extract_dir=f"datasets/{name}",
         overwrite_existing=overwrite_existing,
         force_redownload=force_redownload,
+        show_progress=show_progress,
     )
 
 
-def _download_dataset(
-    url, extract_dir, force_redownload=False, overwrite_existing=False
+def __download_dataset(
+    url,
+    extract_dir,
+    force_redownload=False,
+    overwrite_existing=False,
+    show_progress=False,
 ):
     """Download and extract a dataset.
 
@@ -229,10 +238,8 @@ def _download_dataset(
         extract_dir (str): The directory to extract the dataset into.
         force_redownload (bool, optional): If True, forces re-downloading the dataset even if it exists. Defaults to False.
         overwrite_existing (bool, optional): If True, overwrites the existing dataset directory. Defaults to False.
+        show_progress (bool, optional): If True, outputs the download progress
     """
-    logging.basicConfig(level=logging.DEBUG)
-    logger = logging.getLogger(__name__)
-
     cache_dir = os.path.join(os.path.expanduser("~"), ".cache/edgeimpulse/datasets")
     os.makedirs(cache_dir, exist_ok=True)  # Ensure cache directory exists
 
@@ -240,12 +247,12 @@ def _download_dataset(
     cache_path = os.path.join(cache_dir, filename)
 
     if os.path.exists(cache_path) and not force_redownload:
-        logger.info(f"Using cached file {cache_path}")
+        logging.info(f"Using cached file {cache_path}")
     else:
-        logger.info(f"Downloading file from {url} to {cache_path}")
+        logging.info(f"Downloading file from {url} to {cache_path}")
         response = requests.get(url, stream=True)
         if response.status_code != 200:
-            logger.error(
+            logging.error(
                 f"Failed to download file from {url}. Status code: {response.status_code}"
             )
             raise Exception(
@@ -262,68 +269,67 @@ def _download_dataset(
                 file.write(data)
                 downloaded_size += len(data)
                 progress = int(50 * downloaded_size / total_size)
-                print(
-                    "\r[{}{}] {:.2f}%".format(
-                        "=" * progress,
-                        " " * (50 - progress),
-                        downloaded_size / total_size * 100,
-                    ),
-                    end="",
-                    flush=True,
-                )
+                if show_progress:
+                    print(
+                        "\r[{}{}] {:.2f}%".format(
+                            "=" * progress,
+                            " " * (50 - progress),
+                            downloaded_size / total_size * 100,
+                        ),
+                        end="",
+                        flush=True,
+                    )
 
-        logger.info("Download complete")
+        logging.info("Download complete")
 
     if cache_path.endswith(".zip"):
-        _extract_zip_file(cache_path, extract_dir, overwrite_existing, logger)
+        __extract_zip_file(cache_path, extract_dir, overwrite_existing)
     elif cache_path.endswith(".tar.gz"):
-        _extract_tar_gz_file(cache_path, extract_dir, overwrite_existing, logger)
+        __extract_tar_gz_file(cache_path, extract_dir, overwrite_existing)
     else:
-        logger.error(f"Unsupported file format for extraction: {cache_path}")
+        logging.error(f"Unsupported file format for extraction: {cache_path}")
 
 
-def _extract_zip_file(zip_file_path, extract_dir, overwrite_existing, logger):
+def __extract_zip_file(zip_file_path, extract_dir, overwrite_existing):
     """Extract a zip file.
 
     Args:
         zip_file_path (str): The path to the zip file.
         extract_dir (str): The directory to extract the zip file into.
         overwrite_existing (bool): If True, overwrites the existing files. Defaults to False.
-        logger (Logger): Logger instance for logging messages.
     """
     if not os.path.exists(extract_dir) or overwrite_existing:
-        logger.info(f"Extracting zip file to {extract_dir}")
+        logging.info(f"Extracting zip file to {extract_dir}")
         with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
             zip_ref.extractall(extract_dir)
-        logger.info("Extraction complete")
+        logging.info("Extraction complete")
     else:
-        logger.info(
+        logging.info(
             f"Extract directory '{extract_dir}' already exists. Skipping extraction."
         )
 
 
-def _extract_tar_gz_file(tar_gz_file_path, extract_dir, overwrite_existing, logger):
+def __extract_tar_gz_file(tar_gz_file_path, extract_dir, overwrite_existing):
     """Extract a tar.gz file.
 
     Args:
         tar_gz_file_path (str): The path to the tar.gz file.
         extract_dir (str): The directory to extract the tar.gz file into.
         overwrite_existing (bool): If True, overwrites the existing files. Defaults to False.
-        logger (Logger): Logger instance for logging messages.
     """
     if not os.path.exists(extract_dir) or overwrite_existing:
-        logger.info(f"Extracting tar.gz file to {extract_dir}")
+        logging.info(f"Extracting tar.gz file to {extract_dir}")
         with tarfile.open(tar_gz_file_path, "r:gz") as tar_ref:
             tar_ref.extractall(extract_dir)
-        logger.info("Extraction complete")
+        logging.info("Extraction complete")
     else:
-        logger.info(
+        logging.info(
             f"Extract directory '{extract_dir}' already exists. Skipping extraction."
         )
 
 
 # ruff: noqa: F821
-def load_timeseries() -> "np.array":
+def load_timeseries() -> "np.array":  # type: ignore
     """Load the timeseries dataset."""
     import numpy as np
 

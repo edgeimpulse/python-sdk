@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 # ruff: noqa: D100
 from edgeimpulse.data.sample_type import (
     Sample,
@@ -10,7 +11,7 @@ from edgeimpulse.data.sample_type import (
 from edgeimpulse.data._functions.upload import (
     upload_samples,
 )
-from typing import Literal, Sequence
+from typing import Optional, Literal, Sequence
 import random
 import json
 from dataclasses import asdict
@@ -23,8 +24,8 @@ def upload_numpy(
     labels: Sequence[str],
     sensors: Sequence[Sensor],
     sample_rate_ms: int,
-    metadata: dict = None,
-    category: Literal["training", "testing", "split"] = "split",
+    metadata: Optional[dict] = None,
+    category: Literal["training", "testing", "split", "anomaly"] = "split",
 ) -> UploadSamplesResponse:
     """Upload numpy arrays as timeseries using the Edge Impulse data acquisition format.
 

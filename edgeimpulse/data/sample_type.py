@@ -1,7 +1,7 @@
 # ruff: noqa: D100, D101
 from dataclasses import dataclass
-from io import BufferedIOBase
-from typing import Optional, Sequence, Literal, List
+from io import BufferedIOBase, StringIO
+from typing import Optional, Sequence, Literal, List, Union
 
 
 @dataclass
@@ -141,8 +141,8 @@ class Payload:
     """
 
     device_type: str
-    sensors: List[Sensor]
-    values: List[List[float]]
+    sensors: Sequence[Sensor]
+    values: Sequence[Sequence[float]]
     interval_ms: Optional[int] = 0
     device_name: Optional[str] = None
 
@@ -192,7 +192,7 @@ class DataAcquisition:
 
     protected: Protected
     payload: Payload
-    signature: str = None
+    signature: Optional[str] = None
 
 
 @dataclass
@@ -214,7 +214,7 @@ class Sample:
             tasks.
         bounding_boxes (Optional[dict]): Array of dictionary objects that define the bounding boxes
             for a given sample (object detection projects only). See `our image annotation guide
-            <https://docs.edgeimpulse.com/reference/image-dataset-annotation-formats>`_ for how to
+            <https://docs.edgeimpulse.com/docs/edge-impulse-studio/data-acquisition/uploader#understanding-image-dataset-annotation-formats>`_ for how to
             format bounding box dictionaries.
         metadata (Optional[dict]): Dictionary of optional metadata that you would like to include
             for your particular sample (example: `{"source": "microphone", "timestamp": "120"}`)
@@ -223,14 +223,14 @@ class Sample:
             sample later. This value is ignored when uploading samples and should not be set by the
             user.
         structured_labels (Optional[Sequence[dict]]): Array of dictionary objects that define the labels
-            in this sample at various intervals.
+            in this sample at various intervals. See `the multi label guide
             <https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label>`_ to
             read more. Example: `[{"label": "noise","startIndex": 0,"endIndex": 5000},
             {"label": "water","startIndex": 5000,"endIndex": 10000}]`
 
     """
 
-    data: BufferedIOBase
+    data: Union[BufferedIOBase, StringIO, str]
     filename: Optional[str] = None
     category: Optional[Literal["training", "testing", "anomaly", "split"]] = "split"
     label: Optional[str] = None
@@ -316,6 +316,24 @@ class UploadSamplesResponse:
         msg += f"  number of fails: {len(self.fails)}"
 
         return msg
+
+    def extend(
+        self,
+        successes: List[SampleIngestionResponse],
+        fails: List[SampleIngestionResponse],
+    ):
+        """Add new responses to the existing responses.
+
+        Args:
+            successes (List[SampleIngestionResponse]): List of
+                SampleIngestionResponse objects for each sample that were successfully
+                uploaded.
+            fails (List[SampleIngestionResponse]): List of SampleIngestionResponse
+                objects for each sample that failed to upload.
+        """
+        self.successes.extend(successes)
+        self.fails.extend(fails)
+        self.success = len(self.fails) == 0
 
 
 @dataclass

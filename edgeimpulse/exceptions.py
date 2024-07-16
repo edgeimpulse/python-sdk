@@ -5,7 +5,12 @@ from typing import List, Optional
 class EdgeImpulseException(Exception):
     def __init__(self, message):
         super().__init__(
-            message
+            "\r\n"
+            + "----------------"
+            + "\r\n"
+            + message
+            + "\r\n"
+            + "----------------"
             + "\r\n\r\nFor more information see https://docs.edgeimpulse.com/reference/python-sdk"
             + " or ask a question at https://forum.edgeimpulse.com/"
         )
@@ -70,10 +75,20 @@ class MissingApiKeyException(EdgeImpulseException):
     def __init__(self):
         super().__init__(
             (
-                "API key was None, ensure you have set module level "
+                "API key was `None`, ensure you have set module level "
                 "variable `edgeimpulse.API_KEY` or the environment "
-                "variable `EI_API_KEY`. For help finding your "
+                "variable `EI_API_KEY`. \r\nFor help finding your "
                 "API keys see https://docs.edgeimpulse.com/reference/edge-impulse-api/edge-impulse-api#api-key."
+            )
+        )
+
+
+class MissingApiIngestionEndpointException(EdgeImpulseException):
+    def __init__(self):
+        super().__init__(
+            (
+                "INGESTION_ENDPOINT was `None`, ensure you have set module level "
+                "variable `edgeimpulse.INGESTION_ENDPOINT` or the environment variable `EI_INGESTION_ENDPOINT`"
             )
         )
 

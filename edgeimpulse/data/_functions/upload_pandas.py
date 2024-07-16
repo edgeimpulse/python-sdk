@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 # ruff: noqa: D100
 # NOTE: We're not importing pandas here because we want to be compatible with pandas like
 # frameworks. I.e. Dask, Modin, Polars etc.
@@ -37,7 +38,7 @@ def row_metadata(row, metadata_col):
 
 
 def ts_to_ms(timestamp):
-    """Convert timestamps to milliseconds for the EI data aquisition format."""
+    """Convert timestamps to milliseconds for the EI data acquisition format."""
     if isinstance(timestamp, (int, float)):
         return int(timestamp * 1000)
     elif hasattr(timestamp, "timestamp"):
@@ -48,9 +49,9 @@ def ts_to_ms(timestamp):
 
 def upload_pandas_sample(
     df,
-    label: str = None,
-    sample_rate_ms: int = None,
-    filename: str = None,
+    label: Optional[str] = None,
+    sample_rate_ms: Optional[int] = None,
+    filename: Optional[str] = None,
     axis_columns: Optional[List[str]] = None,
     metadata: Optional[dict] = None,
     category: Literal["training", "testing", "split"] = "split",
@@ -162,7 +163,7 @@ def pandas_dataframe_to_sample(
         Sample: A sample object containing the data from the dataframe.
     """
     # Check to make sure dataframe operations are supported
-    if not hasattr(df, "reset_index") or not callable(getattr(df, "reset_index")):
+    if not hasattr(df, "reset_index") or not callable(df.reset_index):
         raise AttributeError(MSG_NO_DF_MODULE)
 
     if axis_columns is not None:
@@ -248,9 +249,9 @@ def upload_pandas_dataframe_wide(
     data_col_start: Optional[int] = None,
     label_col: Optional[str] = None,
     category_col: Optional[str] = None,
-    metadata_cols: List[str] = None,
+    metadata_cols: Optional[List[str]] = None,
     data_col_length: Optional[int] = None,
-    data_axis_cols: List[str] = None,
+    data_axis_cols: Optional[List[str]] = None,
 ) -> UploadSamplesResponse:
     """Upload a dataframe to Edge Impulse where each of columns represent a value in the timeseries data and the rows become the individual samples.
 
@@ -308,7 +309,7 @@ def upload_pandas_dataframe_wide(
             self.assertEqual(len(response.fails), 0)
     """
     # Check to make sure dataframe operations are supported
-    if not hasattr(df, "iterrows") or not callable(getattr(df, "iterrows")):
+    if not hasattr(df, "iterrows") or not callable(df.iterrows):
         raise AttributeError(MSG_NO_DF_MODULE)
 
     samples = []
@@ -383,7 +384,7 @@ def upload_pandas_dataframe_wide(
 def upload_pandas_dataframe(
     df,
     feature_cols: List[str],
-    label_col: str = None,
+    label_col: Optional[str] = None,
     category_col: Optional[str] = None,
     metadata_cols: Optional[List[str]] = None,
 ) -> UploadSamplesResponse:
@@ -434,7 +435,7 @@ def upload_pandas_dataframe(
             assert len(response.fails) == 0, "Could not upload some files"
     """
     # Check to make sure dataframe operations are supported
-    if not hasattr(df, "iterrows") or not callable(getattr(df, "iterrows")):
+    if not hasattr(df, "iterrows") or not callable(df.iterrows):
         raise AttributeError(MSG_NO_DF_MODULE)
 
     samples = []
@@ -525,18 +526,31 @@ def upload_pandas_dataframe_with_group(
             assert len(response.fails) == 0, "Could not upload some files"
     """
     # Check to make sure dataframe operations are supported
-    if not hasattr(df[timestamp_col], "apply") or not callable(
-        getattr(df[timestamp_col], "apply")
-    ):
+    if not hasattr(df[timestamp_col], "apply") or not callable(df[timestamp_col].apply):
         raise AttributeError(MSG_NO_DF_MODULE)
 
+    # Convert timestamps to milliseconds
     samples = []
     df[timestamp_col] = df[timestamp_col].apply(ts_to_ms)
+
+    # If the timestamp column is not labeled "timestamp", rename it
+    hard_timestamp_col = "timestamp"
+    if timestamp_col != hard_timestamp_col:
+        # Append 4 random hex digits to columns named "timestamp" to avoid conflicts
+        while hard_timestamp_col in df.columns:
+            col_name = f"{hard_timestamp_col}_{random.getrandbits(16):04x}"
+            df.rename(columns={hard_timestamp_col: col_name}, inplace=True)
+
+        # Rename the timestamp column
+        df.rename(columns={timestamp_col: hard_timestamp_col}, inplace=True)
+
+    # Get unique groups
     groups = df[group_by].unique()
 
+    # Iterate over groups
     for group in groups:
-        group_df = df[df[group_by] == group][[timestamp_col, *feature_cols]]
-        group_df = group_df.sort_values(by=timestamp_col)
+        group_df = df[df[group_by] == group][[hard_timestamp_col, *feature_cols]]
+        group_df = group_df.sort_values(by=hard_timestamp_col)
 
         # Extract category
         category = None

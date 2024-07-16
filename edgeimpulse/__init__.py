@@ -1,14 +1,17 @@
-# Import the subpackages here to expose them to the user
+# Import the sub packages here to expose them to the user
 # ruff: noqa: F401,D104
+# mypy: ignore-errors
 import os
 import edgeimpulse.model
+import edgeimpulse.datasets
 import edgeimpulse.exceptions
 import edgeimpulse.experimental
+
 from edgeimpulse.util import configure_generic_client, default_project_id_for
 
 import edgeimpulse_api
 
-__version__ = "1.0.9"
+__version__ = "1.0.12"
 
 try:
     API_KEY = os.environ["EI_API_KEY"]
@@ -34,5 +37,3 @@ try:
     INGESTION_ENDPOINT = os.environ["EI_INGESTION_ENDPOINT"]
 except KeyError:
     INGESTION_ENDPOINT = "https://ingestion.edgeimpulse.com"
-
-from .api import EdgeImpulseApi

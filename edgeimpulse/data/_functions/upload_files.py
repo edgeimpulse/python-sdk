@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 # ruff: noqa: D100
 from edgeimpulse.data.sample_type import Sample
 from typing import Optional
@@ -28,33 +29,42 @@ ALLOWED_FILES = [
 ]
 
 
-def infer_category_and_label_from_filename(sample, file) -> None:
+def infer_category_and_label_from_filename(sample: Sample, file: str) -> None:
     """Extract label and category information from the filename and assigns them to the sample object.
 
-    Files should look like this myfiles/training/wave.1.cbor where wave is label and training is the category.
+    Files should look like this "my-dataset/training/wave.1.cbor" where "wave" is label and "training" is the category.
+    It checks if there is "training", "testing" or "anomaly" in the filename to determine the sample category.
 
     Args:
-        sample (object): The sample object to which label and category will be assigned.
+        sample (Sample): The sample object to which label and category will be assigned.
         file (str): The filename from which label and category information will be extracted.
 
     Returns:
         None
     """
     sample.label = os.path.basename(file).split(".")[0]
+
     if "testing" in file:
         sample.category = "testing"
+    elif "anomaly" in file:
+        sample.category = "anomaly"
     elif "training" in file:
         sample.category = "training"
 
 
 def upload_directory(
     directory: str,
-    category: str = None,
-    label: str = None,
-    metadata: dict = None,
+    category: Optional[str] = None,
+    label: Optional[str] = None,
+    metadata: Optional[dict] = None,
     transform: Optional[callable] = None,
+    allow_duplicates: Optional[bool] = False,
+    show_progress: Optional[bool] = False,
+    batch_size: Optional[int] = 1024,
 ) -> UploadSamplesResponse:
     """Upload a directory of files to Edge Impulse.
+
+    Tries to autodetect whether its an Edge Impulse exported dataset, or a standard directory.
 
     The files can be in CBOR, JSON, image, or WAV file formats. You can read more about the different file formats
     accepted by the Edge Impulse ingestion service here:
@@ -63,10 +73,16 @@ def upload_directory(
 
     Args:
         directory (str): The path to the directory containing the files to upload
-        category (str): Category for the samples (train or split)
-        label (str): Label for the files
-        metadata (dict): Metadata to add to the file (visible in studio)
+        category (str): Category for the samples "training", "testing", "anomaly", "split"
+        label (str): Label for the samples
+        metadata (dict): Metadata to add to the samples (visible in studio)
         transform (callable): A function to manipulate the sample and properties before uploading
+        allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
+            uploaded. If `False`, the ingestion service will perform a hash of the data and compare
+            it to the hashes of the data already in the project. If a match is found, the service
+            will reject the incoming sample (uploading for other samples will continue).
+        show_progress (Optional[bool]): Show progress bar while uploading samples. Default is `False`.
+        batch_size (Optional[int]): The number of samples to upload in a single batch. Default is 1024.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
@@ -88,25 +104,41 @@ def upload_directory(
     has_labels = os.path.exists(label_path)
 
     if has_labels:
-        logging.debug("Label file found so using upload_dataset")
-        return upload_exported_dataset(directory=directory, transform=transform)
+        logging.debug(
+            "Edge Impulse label file found so using `upload_exported_dataset`"
+        )
+        return upload_exported_dataset(
+            directory=directory,
+            transform=transform,
+            allow_duplicates=allow_duplicates,
+            show_progress=show_progress,
+            batch_size=batch_size,
+        )
     else:
-        logging.debug("Label file not found so using upload_plain_directory")
+        logging.debug(
+            "No Edge Impulse label file found so using `upload_plain_directory`"
+        )
         return upload_plain_directory(
             directory=directory,
             category=category,
             label=label,
             metadata=metadata,
             transform=transform,
+            allow_duplicates=allow_duplicates,
+            show_progress=show_progress,
+            batch_size=batch_size,
         )
 
 
 def upload_plain_directory(
     directory: str,
-    category: str = None,
-    label: str = None,
-    metadata: dict = None,
+    category: Optional[str] = None,
+    label: Optional[str] = None,
+    metadata: Optional[dict] = None,
     transform: Optional[callable] = None,
+    allow_duplicates: Optional[bool] = False,
+    show_progress: Optional[bool] = False,
+    batch_size: Optional[int] = 1024,
 ) -> UploadSamplesResponse:
     """Upload a directory of files to Edge Impulse.
 
@@ -114,10 +146,16 @@ def upload_plain_directory(
 
     Args:
         directory (str): The path to the directory containing the files to upload.
-        category (str): Category for the samples
-        label (str): Label for the files
-        metadata (dict): Metadata to add to the file (visible in studio)
+        category (str): Category for the samples "training", "testing", "anomaly", "split"
+        label (str): Label for the samples
+        metadata (dict): Metadata to add to the samples (visible in studio)
         transform (callable): A function to manipulate the sample and properties before uploading
+        allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
+            uploaded. If `False`, the ingestion service will perform a hash of the data and compare
+            it to the hashes of the data already in the project. If a match is found, the service
+            will reject the incoming sample (uploading for other samples will continue).
+        show_progress (Optional[bool]): Show progress bar while uploading samples. Default is `False`.
+        batch_size (Optional[int]): The number of samples to upload in a single batch. Default is 1024.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
@@ -143,31 +181,48 @@ def upload_plain_directory(
         if any(fnmatch(os.path.basename(file), pattern) for pattern in ALLOWED_FILES)
     ]
 
-    samples = []
-    for file in files:
-        sample = Sample(
-            data=open(file, "rb"),
-            filename=os.path.basename(file),
-            metadata=metadata,
-            category=category,
-            label=label,
+    # Upload samples in batches
+    results = None
+    for i in range(0, len(files), batch_size):
+        batch = files[i : i + batch_size]
+        samples = []
+        for file in batch:
+            sample = Sample(
+                data=open(file, "rb"),
+                filename=os.path.basename(file),
+                metadata=metadata,
+                category=category,
+                label=label,
+            )
+
+            if transform:
+                transform(sample, file)
+
+            samples.append(sample)
+
+        res = upload_samples(
+            samples, allow_duplicates=allow_duplicates, show_progress=show_progress
         )
 
-        if transform:
-            transform(sample, file)
+        # Merge results
+        if results is None:
+            results = res
+        else:
+            results.extend(res.successes, res.fails)
 
-        samples.append(sample)
+        # Close file handles
+        for sample in samples:
+            sample.data.close()
 
-    res = upload_samples(samples)
-
-    for sample in samples:
-        sample.data.close()
-
-    return res
+    return results
 
 
 def upload_exported_dataset(
-    directory: str, transform: Optional[callable] = None
+    directory: str,
+    transform: Optional[callable] = None,
+    allow_duplicates: Optional[bool] = False,
+    show_progress: Optional[bool] = False,
+    batch_size: Optional[int] = 1024,
 ) -> UploadSamplesResponse:
     """Upload samples from a downloaded Edge Impulse dataset and preserving the `info.labels` information.
 
@@ -176,6 +231,12 @@ def upload_exported_dataset(
     Args:
         directory (str): Path to the directory containing the dataset.
         transform (callable): A function to manipulate sample before uploading
+        allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
+            uploaded. If `False`, the ingestion service will perform a hash of the data and compare
+            it to the hashes of the data already in the project. If a match is found, the service
+            will reject the incoming sample (uploading for other samples will continue).
+        show_progress (Optional[bool]): Show progress bar while uploading samples. Default is `False`.
+        batch_size (Optional[int]): The number of samples to upload in a single batch. Default is 1024.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
@@ -199,27 +260,39 @@ def upload_exported_dataset(
             os.path.join(directory, file["path"]): file for file in labels["files"]
         }
 
-    samples = []
+    # Upload samples in batches
+    results = None
+    for i in range(0, len(labels), batch_size):
+        batch = list(labels.items())[i : i + batch_size]
+        samples = []
+        for file, file_info in batch:
+            sample = Sample(
+                data=open(file, "rb"),
+                bounding_boxes=file_info["boundingBoxes"],
+                filename=os.path.basename(file),
+                structured_labels=file_info["label"].get("labels", None),
+                metadata=file_info.get("metadata", None),
+                category=file_info.get("category", None),
+                label=file_info["label"].get("label", None),
+            )
 
-    for file, file_info in labels.items():
-        sample = Sample(
-            data=open(file, "rb"),
-            bounding_boxes=file_info["boundingBoxes"],
-            filename=os.path.basename(file),
-            structured_labels=file_info["label"].get("labels", None),
-            metadata=file_info.get("metadata", None),
-            category=file_info.get("category", None),
-            label=file_info["label"].get("label", None),
+            if transform:
+                transform(sample, file)
+
+            samples.append(sample)
+
+        res = upload_samples(
+            samples, allow_duplicates=allow_duplicates, show_progress=show_progress
         )
 
-        if transform:
-            transform(sample, file)
+        # Merge results
+        if results is None:
+            results = res
+        else:
+            results.extend(res.successes, res.fails)
 
-        samples.append(sample)
+        # Close file handles
+        for sample in samples:
+            sample.data.close()
 
-    res = upload_samples(samples)
-
-    for sample in samples:
-        sample.data.close()
-
-    return res
+    return results

@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 """Use this module to do various tasks within Edge Impulse SDK."""
 import json
 import logging
@@ -90,7 +91,7 @@ def _list_samples(
     num_chunks = int(math.ceil(samples_per_thread / chunk_size))
 
     # Make API calls to list sample information
-    resps = []
+    responses = []
     for i in range(num_chunks):
         # Determine offset and limit for this chunk
         chunk_offset = i * chunk_size
@@ -113,7 +114,7 @@ def _list_samples(
 
         # Parse and combine responses
         for sample in resp.samples:
-            resps.append(
+            responses.append(
                 SampleInfo(
                     sample_id=sample.id,
                     filename=sample.filename,
@@ -122,7 +123,7 @@ def _list_samples(
                 )
             )
 
-    return resps
+    return responses
 
 
 def get_sample_ids(

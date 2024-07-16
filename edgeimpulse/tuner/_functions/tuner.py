@@ -21,9 +21,11 @@ from edgeimpulse_api import (
     ListTunerRunsResponse,
 )
 
+from typing import Any, Dict, List, Optional, Union
+
 
 def list_tuner_runs() -> ListTunerRunsResponse:
-    """List the tuner runs done in the current project.
+    """List the tuner runs that have been done in the current project.
 
     Returns:
         ListTunerRunsResponse: An object containing all the tuner runs
@@ -115,12 +117,12 @@ def print_job_logs(job_id: str, limit: int = 500) -> None:
     ]
 
 
-def get_tuner_url(project_id: str, tuner_coordinator_job_id: str) -> str:
+def get_tuner_url(project_id: int, tuner_coordinator_job_id: int) -> str:
     """Generate the URL to view tuner results for a specific project and tuner job.
 
     Args:
-        project_id (str): The ID of the project.
-        tuner_coordinator_job_id (str): The ID of the tuner coordinator job (see the `state` object)
+        project_id (int): The ID of the project.
+        tuner_coordinator_job_id (int): The ID of the tuner coordinator job (see the `state` object)
 
     Returns:
         str: The URL to view the tuner results.
@@ -133,8 +135,8 @@ def start_tuner(
     classification_type: str,
     dataset_category: str,
     target_latency: int,
-    tuning_max_trials: int = None,
-    name: str = None,
+    tuning_max_trials: Optional[int] = None,
+    name: Optional[str] = None,
 ) -> StartJobResponse:
     """Start the EON tuner with default settings. Use `start_custom_tuner` to specify config.
 
@@ -204,11 +206,13 @@ def start_custom_tuner(config: OptimizeConfig) -> StartJobResponse:
     return res
 
 
-def check_tuner(timeout_sec=60, wait_for_completion=True) -> OptimizeStateResponse:
+def check_tuner(
+    timeout_sec: Optional[int] = None, wait_for_completion: bool = True
+) -> OptimizeStateResponse:
     """Check the current state of the tuner and optionally waits until the tuner has completed.
 
     Args:
-        timeout_sec (int, optional): The maximum time to wait for the tuner to start trials, in seconds. Defaults to 60.
+        timeout_sec (int, optional): The maximum time to wait for the tuner to start trials, in seconds. Defaults to None.
         wait_for_completion (bool, optional): If True, waits for the tuner to complete; if False, returns immediately
             after checking the tuner state. Defaults to True.
 
@@ -252,13 +256,14 @@ def check_tuner(timeout_sec=60, wait_for_completion=True) -> OptimizeStateRespon
         time.sleep(5)
         state = optimize_api.get_state(project_id)  ## add guard here
         print_tuner(state)
-        timeout_sec -= 5
-        if timeout_sec <= 0:
-            raise Exception(
-                f"Timeout waiting for trials to start for project id: {project_id}. Check the coordinator logs  "
-                + "via get_tuner_coordinator_logs()`. Usually it means that we can't find a model close to your latency, "
-                + "try to make your latency smaller."
-            )
+        if isinstance(timeout_sec, int):
+            timeout_sec -= 5
+            if timeout_sec <= 0:
+                raise Exception(
+                    f"Timeout waiting for trials to start for project id: {project_id}. Check the coordinator logs  "
+                    + "via get_tuner_coordinator_logs()`. Usually it means that we can't find a model close to your latency, "
+                    + "try to make your latency smaller."
+                )
 
     tuner_job_id = state.tuner_job_id
     if tuner_job_id is None:
@@ -312,7 +317,7 @@ def get_tuner_state() -> OptimizeStateResponse:
 
 
 def set_impulse_from_trial(trial_id: str) -> StartJobResponse:
-    """Replace the current impulse configuration with the one used by the trial.
+    """Replace the current Impulse configuration with one found in a trial fromm the tuner.
 
     Args:
         trial_id (string): The trial id
@@ -449,7 +454,7 @@ def _to_underscore(key: str) -> str:
     return re.sub(r"(?<!^)(?=[A-Z])|[^a-zA-Z0-9]", "_", key).lower()
 
 
-def _underscore_keys(obj: dict) -> dict:
+def _underscore_keys(obj: Union[Dict[Any, Any], List[Any]]) -> Union[dict, List[Any]]:
     """Convert keys of a dictionary from camelCase to snake_case in a recursive manner."""
     if isinstance(obj, dict):
         new_dict = {}

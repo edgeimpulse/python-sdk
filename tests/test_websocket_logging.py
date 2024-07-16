@@ -10,7 +10,7 @@ from edgeimpulse.util import (
     run_project_job_until_completion,
 )
 
-import edgeimpulse
+import edgeimpulse as ei
 
 from tests.util import delete_all_samples
 
@@ -18,10 +18,6 @@ from edgeimpulse_api import (
     OrganizationDataApi,
     JobsApi,
     ExportOriginalDataRequest,
-)
-
-from edgeimpulse.data._functions.upload_files import (
-    upload_directory,
 )
 
 logging.getLogger().setLevel(logging.INFO)
@@ -36,16 +32,14 @@ class TestWebsocketLogging(unittest.TestCase):
     def test_project_job(self):
         delete_all_samples()
 
-        res = upload_directory(
+        res = ei.experimental.data.upload_directory(
             directory="tests/sample_data/gestures", category="testing"
         )
 
         self.assertEqual(len(res.successes), 26)
         self.assertEqual(len(res.fails), 0)
 
-        client = configure_generic_client(
-            key=edgeimpulse.API_KEY, host=edgeimpulse.API_ENDPOINT
-        )
+        client = configure_generic_client(key=ei.API_KEY, host=ei.API_ENDPOINT)
 
         project_id = default_project_id_for(client)
         jobs = JobsApi(client)
@@ -82,9 +76,7 @@ class TestWebsocketLogging(unittest.TestCase):
         org_id = int(os.environ.get("EI_ORGANIZATION_ID"))
         org_api_key = os.environ.get("EI_ORGANIZATION_API_KEY")
 
-        client = configure_generic_client(
-            key=org_api_key, host=edgeimpulse.API_ENDPOINT
-        )
+        client = configure_generic_client(key=org_api_key, host=ei.API_ENDPOINT)
 
         data_api = OrganizationDataApi(client)
         res = data_api.organization_bulk_update_metadata(
@@ -94,7 +86,7 @@ class TestWebsocketLogging(unittest.TestCase):
         )
 
         run_organization_job_until_completion(
-            organization_id=org_id, job_id=res.id, timeout_sec=120 * 2, client=client
+            organization_id=org_id, job_id=res.id, client=client
         )
 
         print(res)

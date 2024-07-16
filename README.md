@@ -41,4 +41,4 @@ To learn about the full functionality, see the resources below.
 
 - [Overview and getting started](https://docs.edgeimpulse.com/docs/edge-impulse-python-sdk/overview)
 - [Tutorial demonstrating how to profile and deploy a model](https://docs.edgeimpulse.com/docs/edge-impulse-python-sdk/01-python-sdk-with-tf-keras)
-- [API reference guide](https://edgeimpulse.github.io/python-sdk/)
+- [API reference guide](https://docs.edgeimpulse.com/reference/python-sdk/overview)
