@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgeimpulse"
-version = "1.0.12"
+version = "1.0.13"
 description = "Python SDK for Edge Impulse."
 authors = ["EdgeImpulse Inc. <hello@edgeimpulse.com>"]
 license = "Apache-2.0"
@@ -15,7 +15,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
+edgeimpulse-api = "1.53.13"
 requests = "^2.23.0"
 python-socketio = {extras = ["client"], version = "^5.8.0"}
 
@@ -23,13 +23,7 @@ python-socketio = {extras = ["client"], version = "^5.8.0"}
 pandas = "^2.0.3"
 numpy = "^1.22"
 onnx = "^1.12"
-#sphinx = "7.1.2"
 pdoc3 = "0.10.0"
-furo = "2023.7.26"
-myst-parser = "2.0.0"
-m2r2 = "0.3.3.post2"
-pyYAML = "6.0.1"
-sphinx-copybutton = "^0.5.2"
 
 [tool.poetry.group.lint.dependencies]
 ruff = "^0.1.3"

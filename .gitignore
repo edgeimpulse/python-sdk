@@ -8,4 +8,4 @@ venv/
 .ruff_cache/
 .ipynb_checkpoints/
 .mypy_cache/
-./datasets
+./datasets/

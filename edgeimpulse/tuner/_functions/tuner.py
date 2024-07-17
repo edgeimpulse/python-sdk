@@ -9,6 +9,7 @@ from edgeimpulse.util import (
     configure_generic_client,
     default_project_id_for,
     pandas_installed,
+    poll,
 )
 
 from edgeimpulse_api import (
@@ -19,6 +20,10 @@ from edgeimpulse_api import (
     TunerTrial,
     StartJobResponse,
     ListTunerRunsResponse,
+)
+
+from edgeimpulse.exceptions import (
+    TimeoutException,
 )
 
 from typing import Any, Dict, List, Optional, Union
@@ -316,11 +321,20 @@ def get_tuner_state() -> OptimizeStateResponse:
     return state
 
 
-def set_impulse_from_trial(trial_id: str) -> StartJobResponse:
+def set_impulse_from_trial(
+    trial_id: str,
+    timeout_sec: Optional[float] = None,
+    wait_for_completion: Optional[bool] = True,
+) -> StartJobResponse:
     """Replace the current Impulse configuration with one found in a trial fromm the tuner.
 
     Args:
         trial_id (string): The trial id
+        timeout_sec (float, optional): The maximum time to wait for the tuner to complete, in seconds. Defaults to None.
+        wait_for_completion (bool, optional): If True, waits for the tuner to complete; if False, returns immediately
+
+    Returns:
+        StartJobResponse: The response object indicating the status of the job.
     """
     client = configure_generic_client(
         key=edgeimpulse.API_KEY, host=edgeimpulse.API_ENDPOINT
@@ -330,6 +344,22 @@ def set_impulse_from_trial(trial_id: str) -> StartJobResponse:
     res = jobs_api.set_tuner_primary_job(project_id=project_id, trial_id=trial_id)
     if not res or not res.success:
         raise ValueError("Failed set current impulse", res.error)
+
+    # Wait for the job to complete
+    if wait_for_completion:
+        job_id = res.id
+        try:
+            job_response = poll(
+                jobs_client=jobs_api,
+                project_id=project_id,
+                job_id=job_id,
+                timeout_sec=timeout_sec,
+            )
+        except TimeoutException as te:
+            raise te
+        except Exception as e:
+            raise e
+        logging.info(job_response)
 
     return res
 

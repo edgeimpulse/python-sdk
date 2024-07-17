@@ -11,7 +11,7 @@ from edgeimpulse.util import configure_generic_client, default_project_id_for
 
 import edgeimpulse_api
 
-__version__ = "1.0.12"
+__version__ = "1.0.13"
 
 try:
     API_KEY = os.environ["EI_API_KEY"]

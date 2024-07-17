@@ -1,6 +1,4 @@
 import logging
-import re
-import os
 import tempfile
 import io
 from pathlib import Path
@@ -8,8 +6,10 @@ from pathlib import Path
 from typing import Union, Optional, Any, List
 
 import edgeimpulse
-import pydantic
 
+from edgeimpulse.experimental.impulse import (
+    build,
+)
 from edgeimpulse.model.output_type import (
     Classification,
     Regression,
@@ -22,7 +22,6 @@ from edgeimpulse.model.input_type import (
     OtherInput,
 )
 from edgeimpulse.exceptions import (
-    InvalidTargetException,
     InvalidEngineException,
     InvalidDeployParameterException,
     EdgeImpulseException,
@@ -32,18 +31,14 @@ from edgeimpulse.exceptions import (
 
 from edgeimpulse.util import (
     configure_generic_client,
-    poll,
     default_project_id_for,
     get_project_deploy_targets,
     upload_pretrained_model_and_data,
     check_response_errors,
 )
-from edgeimpulse_api import JobsApi, DeploymentApi, LearnApi
+from edgeimpulse_api import LearnApi
 from edgeimpulse_api.models.save_pretrained_model_request import (
     SavePretrainedModelRequest,
-)
-from edgeimpulse_api.models.build_on_device_model_request import (
-    BuildOnDeviceModelRequest,
 )
 from edgeimpulse_api.models.deployment_target_engine import DeploymentTargetEngine
 from edgeimpulse_api.models.keras_model_type_enum import KerasModelTypeEnum
@@ -208,8 +203,6 @@ def deploy(
             raise e
 
     learn = LearnApi(client)
-    jobs = JobsApi(client)
-    deploy = DeploymentApi(client)
 
     # Start fetching model job
     try:
@@ -247,76 +240,15 @@ def deploy(
         logging.debug(f"Exception calling save_pretrained_model_parameters [{str(e)}]")
         raise e
 
-    target_names = get_project_deploy_targets(client, project_id=project_id)
-    if deploy_target not in target_names:
-        raise InvalidTargetException(deploy_target, target_names)
-
-    try:
-        request = BuildOnDeviceModelRequest.from_dict(
-            {"engine": engine, "modelType": deploy_model_type}
-        )
-    except pydantic.error_wrappers.ValidationError as e:
-        if "Validation error for BuildOnDeviceModelRequest\nengine\n" in str(e):
-            raise InvalidEngineException(e) from e
-        raise e
-
-    # Start deployment job
-    try:
-        response = jobs.build_on_device_model_job(
-            project_id=project_id,
-            type=deploy_target,
-            build_on_device_model_request=request,
-        )
-        check_response_errors(response)
-        job_id = response.id
-    except Exception as e:
-        logging.debug(f"Exception starting build job [{str(e)}]")
-        raise e
-
-    # Wait for deploy job to complete
-    try:
-        job_response = poll(
-            jobs_client=jobs,
-            project_id=project_id,
-            job_id=job_id,
-            timeout_sec=timeout_sec,
-        )
-    except TimeoutException as te:
-        raise te
-    except Exception as e:
-        raise e
-    logging.info(job_response)
-
-    try:
-        response = deploy.download_build(
-            project_id=project_id,
-            type=deploy_target,
-            engine=engine,
-            model_type=deploy_model_type,
-            _preload_content=False,
-        )
-        logging.info(f"Deployment is {len(response.data)} bytes")
-    except Exception as e:
-        logging.debug(f"Exception downloading output [{str(e)}]")
-        raise e
-
-    # Write, as binary, to specified file.
-    # Derive sensible name if none was provided
-    if output_directory is not None:
-        d = response.headers["Content-Disposition"]
-        output_filename = re.findall(r"filename\*?=(.+)", d)[0].replace("utf-8''", "")
-        output_path = os.path.join(output_directory, output_filename)
-        try:
-            if not os.path.exists(output_directory):
-                os.makedirs(output_directory)
-            logging.info(f"Writing out to {output_path}")
-            with open(output_path, "wb") as f:
-                f.write(response.data)
-        except Exception as e:
-            logging.debug(f"Exception saving output to '{output_path}' [{str(e)}]")
-            raise e
-
-    return io.BytesIO(response.data)
+    # Build and download the impulse
+    return build(
+        deploy_model_type=deploy_model_type,
+        engine=engine,
+        deploy_target=deploy_target,
+        output_directory=output_directory,
+        api_key=api_key if api_key else edgeimpulse.API_KEY,
+        timeout_sec=timeout_sec,
+    )
 
 
 def list_deployment_targets(api_key: Optional[str] = None) -> List[str]:

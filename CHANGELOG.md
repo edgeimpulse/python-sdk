@@ -4,6 +4,13 @@ Description of notable changes to the [Edge Impulse Python SDK](https://pypi.org
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.13] - 2024-07-16
+
+- Added optional polling to tuner.set_impulse_from_trial() to allow the funtion to block until the job is done.
+- Added impulse.build() to build and deploy an existing/trained impulse in a project.
+- Refactored model.deploy() to use the impulse.build() function.
+- Changed from Sphinx to pdoc3 for API doc generation
+
 ## [1.0.12] - 2024-07-06
 
 - Fixed bug where `upload_pandas_dataframe_with_group` would fail if `timestamp_col` was named something other than `"timstamp"`
