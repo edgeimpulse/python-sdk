@@ -1,4 +1,5 @@
 """Various Edge Impulse functions for working with the SDK."""
+
 # mypy: ignore-errors
 # noqa: D100
 import logging
@@ -12,6 +13,7 @@ import zipfile
 import socketio
 import platform
 import re
+import json
 
 import edgeimpulse as ei
 import edgeimpulse

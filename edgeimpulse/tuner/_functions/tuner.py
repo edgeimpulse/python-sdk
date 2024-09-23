@@ -1,4 +1,5 @@
 """Use this module to work with the Edge Impulse EON tuner."""
+
 from copy import deepcopy
 import edgeimpulse
 import time
@@ -20,6 +21,8 @@ from edgeimpulse_api import (
     TunerTrial,
     StartJobResponse,
     ListTunerRunsResponse,
+    TunerSpaceImpulse,
+    OptimizeConfigSearchSpaceTemplate,
 )
 
 from edgeimpulse.exceptions import (
@@ -136,9 +139,8 @@ def get_tuner_url(project_id: int, tuner_coordinator_job_id: int) -> str:
 
 
 def start_tuner(
+    space: List[TunerSpaceImpulse],
     target_device: str,
-    classification_type: str,
-    dataset_category: str,
     target_latency: int,
     tuning_max_trials: Optional[int] = None,
     name: Optional[str] = None,
@@ -146,12 +148,9 @@ def start_tuner(
     """Start the EON tuner with default settings. Use `start_custom_tuner` to specify config.
 
     Args:
+        space (List[TunerSpaceImpulse]): The search space for the tuner.
         target_device (str): The target device for optimization. Use `get_profile_devices() to
             get the the available devices.
-        classification_type (str): The type of classification task.
-            Can be any of classification, regression
-        dataset_category (str): The category of the dataset. Can be any of speech_keyword, speech_continuous,
-            audio_event, audio_continuous, transfer_learning, motion_event, motion_continuous, audio_syntiant
         target_latency (int): The target latency for the model in ms.
         tuning_max_trials (int, optional): The maximum number of tuning trials.
             None means let tuner decide. Defaults to None.
@@ -162,9 +161,39 @@ def start_tuner(
     """
     config = OptimizeConfig(
         name=name,
+        space=space,
         target_device={"name": target_device},
-        classification_type=classification_type,
-        dataset_category=dataset_category,
+        target_latency=target_latency,
+        tuning_max_trials=tuning_max_trials,
+    )
+    return start_custom_tuner(config)
+
+
+def start_tuner_template(
+    template: OptimizeConfigSearchSpaceTemplate,
+    target_device: str,
+    target_latency: int,
+    tuning_max_trials: Optional[int] = None,
+    name: Optional[str] = None,
+) -> StartJobResponse:
+    """Start the EON tuner with default settings. Use `start_custom_tuner` to specify config.
+
+    Args:
+        template (OptimizeConfigSearchSpaceTemplate): The search space template for the tuner.
+        target_device (str): The target device for optimization. Use `get_profile_devices() to
+            get the the available devices.
+        target_latency (int): The target latency for the model in ms.
+        tuning_max_trials (int, optional): The maximum number of tuning trials.
+            None means let tuner decide. Defaults to None.
+        name (str, optional): Name to give this run. Default is None.
+
+    Returns:
+        StartJobResponse: The response containing information about the started job.
+    """
+    config = OptimizeConfig(
+        name=name,
+        search_space_template=template,
+        target_device={"name": target_device},
         target_latency=target_latency,
         tuning_max_trials=tuning_max_trials,
     )
@@ -403,10 +432,7 @@ def get_trial_metrics(trial: TunerTrial) -> dict:
                 new_data[f"{t}_{k}"] = old_dict[k]
 
         flatten = _flatten_dict(new_data)
-        flatten = {
-            **flatten,
-            **block["estimatedPerformance"],
-        }
+        flatten = {**flatten}
 
         for precision in types:
             flatten[f"test_{precision}_accuracy"] = block["metrics"]["test"][precision][

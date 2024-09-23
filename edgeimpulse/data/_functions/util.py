@@ -6,6 +6,7 @@ import math
 from typing import Optional, List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+
 import edgeimpulse
 from edgeimpulse.util import (
     configure_generic_client,

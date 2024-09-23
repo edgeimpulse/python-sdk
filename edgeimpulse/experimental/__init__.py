@@ -21,6 +21,9 @@ import edgeimpulse.experimental.tuner
 # ruff: noqa: F401
 import edgeimpulse.experimental.impulse
 
+# ruff: noqa: F401
+import edgeimpulse.experimental.util
+
 __all__ = [
     "EdgeImpulseApi",
 ]

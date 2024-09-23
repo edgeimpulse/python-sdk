@@ -2,9 +2,10 @@
 # ruff: noqa: D100
 import json
 import logging
+import concurrent.futures
 import os
 from io import BytesIO
-from typing import Optional, Sequence, Union, List
+from typing import Optional, Sequence, Union, List, Generator
 from urllib.parse import urljoin
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict
@@ -267,6 +268,97 @@ def _download_sample_with_progress(
         progress_callback()
 
     return sample
+
+
+def stream_samples_by_ids(
+    sample_ids: Union[int, Sequence[int]],
+    api_key: Optional[str] = None,
+    timeout_sec: Optional[float] = None,
+    max_workers: Optional[int] = None,
+    show_progress: Optional[bool] = False,
+    pool_maxsize: Optional[int] = 20,
+    pool_connections: Optional[int] = 20,
+) -> Generator[Sample, None, None]:
+    """Download samples by their associated IDs from an Edge Impulse project.
+
+    Args:
+        sample_ids (Union[int, Sequence[int]]): IDs of the samples to download
+        api_key (Optional[str]): The API key for an Edge Impulse project.
+        timeout_sec (float, optional): Number of seconds to wait for profile
+            job to complete on the server. `None` is considered "infinite timeout".
+        max_workers (int, optional): The maximum number of subprocesses to use.
+        show_progress: Show progress bar while uploading samples.
+        pool_maxsize: (int, optional) Maximum size of the upload pool.
+        pool_connections: (int, optional) Maximum size of the pool connections.
+
+    Yields:
+        Sample: A Sample object with data and metadata as downloaded from
+        the Edge Impulse project. Will yield `None` if a sample with the
+        matching ID is not found.
+    """
+    if isinstance(sample_ids, int):
+        sample_ids = [sample_ids]
+
+    sample_ids = list(sample_ids)
+    if not all(isinstance(sample_id, int) for sample_id in sample_ids):
+        raise TypeError("All sample IDs must be integers")
+
+    api_key = api_key if api_key is not None else ei.API_KEY
+    endpoint = ei.API_ENDPOINT
+
+    client = configure_generic_client(key=api_key, host=endpoint)
+    project_id = default_project_id_for(client)
+
+    if show_progress:
+        print()
+
+    with Session() as session:
+        adapter = HTTPAdapter(
+            pool_connections=pool_connections, pool_maxsize=pool_maxsize
+        )
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
+
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            total_samples = len(sample_ids)
+
+            if show_progress:
+                print(f"Looking for {total_samples} samples to download...")
+
+                def progress_callback():
+                    nonlocal total_samples
+                    total_samples -= 1
+                    percent_complete = 100 - (total_samples / len(sample_ids)) * 100
+                    print(f"Progress: {percent_complete:.2f}%")
+
+            else:
+                progress_callback = None
+
+            futures = {
+                executor.submit(
+                    _download_sample_with_progress,
+                    session,
+                    project_id,
+                    sample_id,
+                    api_key,
+                    endpoint,
+                    timeout_sec,
+                    progress_callback,
+                ): sample_id
+                for sample_id in sample_ids
+            }
+
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    result = future.result()
+                    yield result
+                except Exception as e:
+                    print(f"An error occurred: {e}")
+                    raise
+
+    logging.info(
+        f"Downloaded {total_samples} samples of the requested {len(sample_ids)} IDs"
+    )
 
 
 def download_samples_by_ids(

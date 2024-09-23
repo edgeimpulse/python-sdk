@@ -239,6 +239,16 @@ class Sample:
     sample_id: Optional[int] = None
     structured_labels: Optional[Sequence[dict]] = None
 
+    def __str__(self) -> str:
+        """Sample representation."""
+        return (
+            f"Sample(filename={self.filename!r}, "
+            f"category={self.category!r}, "
+            f"label={self.label!r}, "
+            f"metadata={self.metadata!r}, "
+            f"sample_id={self.sample_id!r})"
+        )
+
 
 class SampleIngestionResponse:
     def __init__(

@@ -1,4 +1,5 @@
 """Use this module to upload data to Edge Impulse."""
+
 from edgeimpulse.data._functions.delete import (
     delete_all_samples,
     delete_sample_by_id,
@@ -7,6 +8,7 @@ from edgeimpulse.data._functions.delete import (
 
 from edgeimpulse.data._functions.download import (
     download_samples_by_ids,
+    stream_samples_by_ids,
 )
 
 from edgeimpulse.data._functions.upload_files import (
@@ -56,6 +58,7 @@ __all__ = [
     "upload_numpy",
     "numpy_timeseries_to_sample",
     "download_samples_by_ids",
+    "stream_samples_by_ids",
     "infer_category_and_label_from_filename",
     "Sample",
 ]

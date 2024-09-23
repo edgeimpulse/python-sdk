@@ -4,16 +4,20 @@ Description of notable changes to the [Edge Impulse Python SDK](https://pypi.org
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.14] - 2024-08-29
+
+- Added support for `fetch_samples`, `convert_sample_to_dataframe` under `edgeimpulse.experimental.util` 
+
 ## [1.0.13] - 2024-07-16
 
-- Added optional polling to tuner.set_impulse_from_trial() to allow the funtion to block until the job is done.
+- Added optional polling to tuner.set_impulse_from_trial() to allow the function to block until the job is done.
 - Added impulse.build() to build and deploy an existing/trained impulse in a project.
 - Refactored model.deploy() to use the impulse.build() function.
 - Changed from Sphinx to pdoc3 for API doc generation
 
 ## [1.0.12] - 2024-07-06
 
-- Fixed bug where `upload_pandas_dataframe_with_group` would fail if `timestamp_col` was named something other than `"timstamp"`
+- Fixed bug where `upload_pandas_dataframe_with_group` would fail if `timestamp_col` was named something other than `"timestamp"`
 - Fixed `Too many open files` bug when trying to upload a directory. Added `batch_size` parameter in `upload_directory()` to address this.
 - Updated link in README to point to new API docs location.
 
@@ -41,7 +45,7 @@ Work in progress: adding EON Tuner functionality to the Python SDK.
 
 - Added `run_project_job_until_completion` and `run_organization_job_until_completion` in the `util` module to stream job logs over websockets.
 - Multi-label upload support for Edge Impulse upload format.
-- Added Mypy static type checker.
+- Added MyPy static type checker.
 - `EdgeImpulseApi()` in the `edgeimpulse.experimental` module for conveniently accessing all Edge Impulse APIs.
 - `experimental.tuner` submodule for working with the eon tuner for hyperparameter optimization for your models.
 - `infer_category_and_label_from_filename` upload transform under `experimental.data`. It will autodetect the category from the file path if it

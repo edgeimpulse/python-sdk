@@ -59,11 +59,6 @@ class EdgeImpulseApi:
         return self.__export
 
     @property
-    def feature_flags(self) -> edge_api.FeatureFlagsApi:
-        """Enable and disable feature flags."""
-        return self.__feature_flags
-
-    @property
     def impulse(self) -> edge_api.ImpulseApi:
         """Work and manage your Impulse (on-device feature extraction and classification pipeline)."""
         return self.__impulse
@@ -270,7 +265,6 @@ class EdgeImpulseApi:
         self.__devices = edge_api.DevicesApi(client)
         self.__dsp = edge_api.DSPApi(client)
         self.__export = edge_api.ExportApi(client)
-        self.__feature_flags = edge_api.FeatureFlagsApi(client)
         self.__impulse = edge_api.ImpulseApi(client)
         self.__jobs = edge_api.JobsApi(client)
         self.__learn = edge_api.LearnApi(client)
