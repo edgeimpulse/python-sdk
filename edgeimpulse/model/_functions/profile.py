@@ -113,31 +113,39 @@ def profile(
         TimeoutException: Timeout waiting for result
 
     Examples:
-        .. code-block:: python
+        Profile a model on device
 
-            # Profile a Keras model across a range of devices
-            result = ei.model.profile(model=keras_model)
-            result.summary()
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Profile different types of models on specific devices
 
-            # ONNX
-            result = ei.model.profile(
-                model="heart_rate.onnx",
-                device="cortex-m4f-80mhz"
-            )
+        from edgeimpulse import model
 
-            # TensorFlow SavedModel (can also be a zip)
-            result = ei.model.profile(
-                model="heart_rate",
-                device="nordic-nrf9160-dk"
-            )
+        # Profile a Keras model across a range of devices
+        result = model.profile(model=keras_model) # noqa: F821
+        result.summary()
 
-            # TensorFlow Lite (float32 or int8)
-            result = ei.model.profile(
-                model="heart_rate.lite",
-                device="synaptics-ka10000"
-            )
+        # Profile different types of models on specific devices
+
+        # ONNX
+        result = model.profile(
+            model="heart_rate.onnx",
+            device="cortex-m4f-80mhz"
+        )
+
+        # TensorFlow SavedModel (can also be a zip)
+        result = model.profile(
+            model="heart_rate",
+            device="nordic-nrf9160-dk"
+        )
+
+        # TensorFlow Lite (float32 or int8)
+        result = model.profile(
+            model="heart_rate.lite",
+            device="synaptics-ka10000"
+        )
+        ```
 
     """
     client = configure_generic_client(
@@ -205,7 +213,7 @@ def profile(
     profile_response = ProfileResponse.from_dict(
         get_pretrained_model_response.to_dict()
     )
-    logging.info(f"profile_response = {profile_response}")
+    logging.debug(f"profile_response = {profile_response}")
     return profile_response
 
 

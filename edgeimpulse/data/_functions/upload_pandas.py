@@ -12,6 +12,8 @@ import random
 import logging
 import csv
 
+from edgeimpulse.experimental import util
+
 from edgeimpulse.data.sample_type import (
     Sample,
     UploadSamplesResponse,
@@ -54,6 +56,7 @@ def upload_pandas_sample(
     filename: Optional[str] = None,
     axis_columns: Optional[List[str]] = None,
     metadata: Optional[dict] = None,
+    label_col: Optional[str] = None,
     category: Literal["training", "testing", "split"] = "split",
 ) -> UploadSamplesResponse:
     """Upload a single dataframe sample.
@@ -63,11 +66,12 @@ def upload_pandas_sample(
     Args:
         df (DataFrame): The input DataFrame containing data.
         label (str, optional): The label for the sample. Default is None.
-        sample_rate_ms (int, optional): The sampling rate of the time series data (in milliseconds)
+        sample_rate_ms (int, optional): The sampling rate of the time series data (in milliseconds).
         filename (str, optional): The filename for the sample. Default is None.
         axis_columns (List[str], optional): List of column names representing axis if the data is
             multi-dimensional. Default is None.
         metadata (dict, optional): Dictionary containing metadata information. Default is None.
+        label_col (str, optional): When given, this is used for the multi-label
         category (str or None, optional): Category or class label for the entire dataset. Default is split.
 
     Returns:
@@ -79,46 +83,33 @@ def upload_pandas_sample(
             argument is not a dictionary.
 
     Examples:
-        .. code-block:: python
+        Uploads a pandas dataframe as single sample
 
-            import edgeimpulse as ei
-            ei.API_KEY = "your-api-key" # set your key
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Uncomment one of the following
-            # import pandas as pd
-            # import dask.dataframe as pd
-            # import polars as pd
+        from edgeimpulse import data
+        import pandas as pd
 
-            # Construct one dataframe for each sample (multidimensional, non-time series)
-            df_1 = pd.DataFrame([[-9.81, 0.03, 0.21]], columns=["accX", "accY", "accZ"])
-            df_2 = pd.DataFrame([[-9.56, 5.34, 1.21]], columns=["accX", "accY", "accZ"])
+        # Construct one dataframe for each sample (multidimensional, non-time series)
+        df = pd.DataFrame([[-9.81, 0.03, 0.21]], columns=["accX", "accY", "accZ"])
 
-            # Optional metadata for all samples being uploaded
-            metadata = {
-                "source": "accelerometer",
-                "collection site": "desk",
-            }
+        # Optional metadata for all samples being uploaded
+        metadata = {
+            "source": "accelerometer",
+            "collection site": "desk",
+        }
 
-            # Upload the first sample
-            ids = []
-            response = ei.experimental.data.upload_pandas_sample(
-                df_1,
-                label="One",
-                filename="001",
-                metadata=metadata,
-                category="training",
-            )
-            assert len(response.fails) == 0, "Could not upload some files"
-
-            # Upload the second sample
-            response = ei.experimental.data.upload_pandas_sample(
-                df_2,
-                label="Two",
-                filename="002",
-                metadata=metadata,
-                category="training",
-            )
-            assert len(response.fails) == 0, "Could not upload some files"
+        # Upload the sample
+        response = data.upload_pandas_sample(
+            df,
+            label="One",
+            filename="001",
+            metadata=metadata,
+            category="training",
+        )
+        ```
     """
     sample = pandas_dataframe_to_sample(
         df,
@@ -126,6 +117,7 @@ def upload_pandas_sample(
         sample_rate_ms=sample_rate_ms,
         filename=filename,
         axis_columns=axis_columns,
+        label_col=label_col,
         metadata=metadata,
         category=category,
     )
@@ -139,6 +131,7 @@ def pandas_dataframe_to_sample(
     filename: Optional[str] = None,
     axis_columns: Optional[List[str]] = None,
     metadata: Optional[dict] = None,
+    label_col: Optional[str] = None,
     category: Literal["training", "testing", "split"] = "split",
 ) -> Sample:
     """Convert a dataframe to a single sample. Can handle both *timeseries* and *non-timeseries* data.
@@ -157,7 +150,8 @@ def pandas_dataframe_to_sample(
         filename (str, optional): The filename for the sample. Default is None.
         axis_columns (List[str], optional): List of column names representing axis if the data is multi-dimensional. Default is None.
         metadata (dict, optional): Dictionary containing metadata information for the sample. Default is None.
-        category (str or None, optional): To which category this sample belongs (training/testing/split) default is spit.
+        label_col (str, optional): When timeseries and multilabel, specify the column here to mark the dataset as multilabel
+        category (str or None, optional): To which category this sample belongs (training/testing/split). Default is split.
 
     Returns:
         Sample: A sample object containing the data from the dataframe.
@@ -183,8 +177,16 @@ def pandas_dataframe_to_sample(
     is_time_series = len(df) > 1
 
     # if we have more than one row, we can assume we're with timeseries according
-    # the csv ingestion docs https://docs.edgeimpulse.com/reference/importing-csv-data
+    # to the csv ingestion docs https://docs.edgeimpulse.com/reference/importing-csv-data
+    structured_labels = None
+
     if is_time_series:
+        if label_col:
+            structured_labels = util.generate_labels_from_dataframe(
+                df, label_col=label_col
+            )
+            df = df.drop(columns=[label_col])
+
         if sample_rate_ms:
             # we build our own index column based on the sample rate since csv
             # upload needs a column named timestamp thats increasing monotonically when
@@ -210,7 +212,7 @@ def pandas_dataframe_to_sample(
                 # Must be a normal range based index, so we can use that.
                 pass
 
-    # We convert here to a csv since its a little bit more easy to use than the JSON ei data
+    # We convert here to a csv since it's a little bit easier to use than the JSON ei data
     # We don't need sensors here (they are automatically inferred)
     # And we can both support timeseries and non-time series.
 
@@ -237,6 +239,7 @@ def pandas_dataframe_to_sample(
         metadata=metadata,
         label=label,
         data=csv,
+        structured_labels=structured_labels,
         category=category,
     )
 
@@ -253,7 +256,7 @@ def upload_pandas_dataframe_wide(
     data_col_length: Optional[int] = None,
     data_axis_cols: Optional[List[str]] = None,
 ) -> UploadSamplesResponse:
-    """Upload a dataframe to Edge Impulse where each of columns represent a value in the timeseries data and the rows become the individual samples.
+    """Upload a dataframe to Edge Impulse where each column represents a value in the timeseries data and the rows become the individual samples.
 
     Args:
         df (DataFrame): The input DataFrame containing time series data.
@@ -267,8 +270,8 @@ def upload_pandas_dataframe_wide(
             information. Default is None.
         data_col_length (int, optional): The number of columns that represent a single
             time series. Default is None.
-        data_axis_cols (List[str], optional): List of column names representing axis if the data is
-            multi-dimensional. Default is None.
+        data_axis_cols (List[str], optional): List of column names representing the axis if the data is
+            multidimensional. Default is None.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
@@ -279,34 +282,35 @@ def upload_pandas_dataframe_wide(
             argument is not an integer.
 
     Examples:
-        .. code-block:: python
+        Uploads a panda dataframe
 
-            import edgeimpulse as ei
-            ei.API_KEY = "your-api-key" # set your key
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Uncomment one of the following
-            # import pandas as pd
-            # import dask.dataframe as pd
-            # import polars as pd
+        from edgeimpulse import data
 
-            data = [
-                [1, "idle", 0.8, 0.7, 0.8, 0.9, 0.8, 0.8, 0.7, 0.8],  # ...continued
-                [2, "motion", 0.3, 0.9, 0.4, 0.6, 0.8, 0.9, 0.5, 0.4],  # ...continued
-            ]
+        import pandas as pd
 
-            df = pd.DataFrame(
-                data, columns=["id", "label", "0", "1", "2", "3", "4", "5", "6", "7"]
-            )
+        values = [
+            [1, "idle", 0.8, 0.7, 0.8, 0.9, 0.8, 0.8, 0.7, 0.8],  # ...continued
+            [2, "motion", 0.3, 0.9, 0.4, 0.6, 0.8, 0.9, 0.5, 0.4],  # ...continued
+        ]
 
-            response = ei.experimental.data.upload_pandas_dataframe_wide(
-                df,
-                label_col="label",
-                metadata_col=["id"],
-                data_col_start=2,
-                sample_rate_ms=100,
-            )
-            self.assertEqual(len(response.successes), 2)
-            self.assertEqual(len(response.fails), 0)
+        df = pd.DataFrame(
+            values, columns=["id", "label", "0", "1", "2", "3", "4", "5", "6", "7"]
+        )
+
+        response = data.upload_pandas_dataframe_wide(
+            df,
+            label_col="label",
+            metadata_col=["id"],
+            data_col_start=2,
+            sample_rate_ms=100,
+        )
+        assert(len(response.successes)==2)
+        assert(len(response.fails)==0)
+        ```
     """
     # Check to make sure dataframe operations are supported
     if not hasattr(df, "iterrows") or not callable(df.iterrows):
@@ -392,47 +396,46 @@ def upload_pandas_dataframe(
 
     Args:
         df (dataframe): The DataFrame to be uploaded.
-        feature_cols (List[str]): A list of column names containing features
+        feature_cols (List[str]): A list of column names containing features.
         label_col (str, optional): The name of the column containing labels for the data.
         category_col (str, optional): The name of the column containing the category for the data.
-        metadata_cols (List[str], optional): Optional list of column names containing metadata
+        metadata_cols (List[str], optional): Optional list of column names containing metadata.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
 
     Raises:
-        AttributeError: If the input object does not have a `iterrows` method.
+        AttributeError: If the input object does not have an `iterrows` method.
 
     Examples:
-        .. code-block:: python
+        Uploads a Pandas dataframe
 
-            import edgeimpulse as ei
-            ei.API_KEY = "your-api-key" # set your key
+        ```python
+        import pandas as pd
 
-            # Uncomment one of the following
-            # import pandas as pd
-            # import dask.dataframe as pd
-            # import polars as pd
+        from edgeimpulse import data
 
-            # Construct non-time series data, where each row is a different sample
-            data = [
-                ["desk", "training", "One", -9.81, 0.03, 0.21],
-                ["field", "training", "Two", -9.56, 5.34, 1.21],
-            ]
-            columns = ["loc", "category", "label", "accX", "accY", "accZ"]
+        # Construct non-time series data, where each row is a different sample
+        sample_data = [
+            ["desk", "training", "One", -9.81, 0.03, 0.21],
+            ["field", "training", "Two", -9.56, 5.34, 1.21],
+        ]
+        columns = ["location", "category", "label", "accX", "accY", "accZ"]
 
-            # Wrap the data in a DataFrame
-            df = pd.DataFrame(data, columns=columns)
+        # Wrap the data in a DataFrame
+        df = pd.DataFrame(sample_data, columns=columns)
 
-            # Upload non-time series DataFrame (with multiple samples) to the project
-            response = ei.experimental.data.upload_pandas_dataframe(
-                df,
-                feature_col=["accX", "accY", "accZ"],
-                label_col="label",
-                category_col="category",
-                metadata_col=["loc"],
-            )
-            assert len(response.fails) == 0, "Could not upload some files"
+        # Upload non-time series DataFrame (with multiple samples) to the project
+        response = data.upload_pandas_dataframe(
+            df,
+            feature_cols=["accX", "accY", "accZ"],
+            label_col="label",
+            category_col="category",
+            metadata_cols=["location"],
+        )
+
+        assert len(response.fails) == 0, "Could not upload some files"
+        ```
     """
     # Check to make sure dataframe operations are supported
     if not hasattr(df, "iterrows") or not callable(df.iterrows):
@@ -486,44 +489,41 @@ def upload_pandas_dataframe_with_group(
         UploadSamplesResponse: A response object that contains the results of the upload.
 
     Examples:
-        .. code-block:: python
+        Uploads a dataframe
 
-            import edgeimpulse as ei
-            ei.API_KEY = "your-api-key" # set your key
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Uncomment one of the following
-            # import pandas as pd
-            # import dask.dataframe as pd
-            # import polars as pd
+        from edgeimpulse import data
+        import pandas as pd
 
-            # Create samples
-            sample_data = [
-                ["desk", "sample 1", "training", "idle", 0, -9.81, 0.03, 0.21],
-                ["desk", "sample 1", "training", "idle", 0.01, -9.83, 0.04, 0.27],
-                ["desk", "sample 1", "training", "idle", 0.02, -9.12, 0.03, 0.23],
-                ["desk", "sample 1", "training", "idle", 0.03, -9.14, 0.01, 0.25],
-                ["field", "sample 2", "training", "wave", 0, -9.56, 5.34, 1.21],
-                ["field", "sample 2", "training", "wave", 0.01, -9.43, 1.37, 1.27],
-                ["field", "sample 2", "training", "wave", 0.02, -9.22, -4.03, 1.23],
-                ["field", "sample 2", "training", "wave", 0.03, -9.50, -0.98, 1.25],
-            ]
-            columns = ["loc", "sample_name", "category", "label", "timestamp", "accX", "accY", "accZ"]
+        sample_data = [
+            ["desk", "sample 1", "training", "idle", 0, -9.81, 0.03, 0.21],
+            ["desk", "sample 1", "training", "idle", 0.01, -9.83, 0.04, 0.27],
+            ["desk", "sample 1", "training", "idle", 0.02, -9.12, 0.03, 0.23],
+            ["desk", "sample 1", "training", "idle", 0.03, -9.14, 0.01, 0.25],
+            ["field", "sample 2", "training", "wave", 0, -9.56, 5.34, 1.21],
+            ["field", "sample 2", "training", "wave", 0.01, -9.43, 1.37, 1.27],
+            ["field", "sample 2", "training", "wave", 0.02, -9.22, -4.03, 1.23],
+            ["field", "sample 2", "training", "wave", 0.03, -9.50, -0.98, 1.25],
+        ]
 
-            # Wrap the data in a DataFrame
-            df = pd.DataFrame(sample_data, columns=columns)
+        columns = ["location", "sample_name", "category", "label", "timestamp", "accX", "accY", "accZ"]
+        df = pd.DataFrame(sample_data, columns=columns)
 
-            # Upload time series DataFrame (with multiple samples and multiple dimensions) to the project
-            ids = []
-            response = ei.experimental.data.upload_pandas_dataframe_with_group(
-                df,
-                group_by="sample_name",
-                timestamp_col="timestamp",
-                feature_cols=["accX", "accY", "accZ"],
-                label_col="label",
-                category_col="category",
-                metadata_cols=["loc"]
-            )
-            assert len(response.fails) == 0, "Could not upload some files"
+        # Upload time series DataFrame (with multiple samples and multiple dimensions) to the project
+        response = data.upload_pandas_dataframe_with_group(
+            df,
+            group_by="sample_name",
+            timestamp_col="timestamp",
+            feature_cols=["accX", "accY", "accZ"],
+            label_col="label",
+            category_col="category",
+            metadata_cols=["location"]
+        )
+        assert len(response.fails) == 0, "Could not upload some files"
+        ```
     """
     # Check to make sure dataframe operations are supported
     if not hasattr(df[timestamp_col], "apply") or not callable(df[timestamp_col].apply):

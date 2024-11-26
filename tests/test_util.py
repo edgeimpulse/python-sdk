@@ -45,8 +45,7 @@ class TestEasyApi(unittest.TestCase):
         res = api.login.login({"username": ei.EI_USERNAME, "password": ei.EI_PASSWORD})
         api = ei.experimental.EdgeImpulseApi(host=ei.API_ENDPOINT)
         api.authenticate(key=res.token, key_type="jwt_http")
-        user = api.user.get_current_user()
-        print(user)
+        api.user.get_current_user()
 
 
 class TestConfigureGenericClient(unittest.TestCase):
@@ -173,6 +172,7 @@ class TestUtilHelperLists(unittest.TestCase):
             host=ei.API_ENDPOINT,
         )
         devices = util.get_profile_devices(client)
+
         #  assert stable ones and the fact we have some number, though don't peg to an exact value
         self.assertTrue("cortex-m4f-80mhz" in devices)
         self.assertTrue("jetson-nano" in devices)
@@ -184,6 +184,7 @@ class TestUtilHelperLists(unittest.TestCase):
             host=ei.API_ENDPOINT,
         )
         targets = util.get_project_deploy_targets(client)
+
         #  assert stable ones and the fact we have some number, though don't peg to an exact value
         self.assertTrue("zip" in targets)
         self.assertTrue("brickml" in targets)

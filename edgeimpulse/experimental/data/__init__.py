@@ -15,8 +15,12 @@ from edgeimpulse.data._functions.upload_files import (
     upload_plain_directory,
     upload_exported_dataset,
     upload_directory,
-    infer_category_and_label_from_filename,
 )
+
+from edgeimpulse.data._functions.upload_files import (
+    infer_from_filename as infer_category_and_label_from_filename,
+)
+
 
 from edgeimpulse.data._functions.upload import upload_samples
 

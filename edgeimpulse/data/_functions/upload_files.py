@@ -29,14 +29,14 @@ ALLOWED_FILES = [
 ]
 
 
-def infer_category_and_label_from_filename(sample: Sample, file: str) -> None:
+def infer_from_filename(sample: Sample, file: str) -> None:
     """Extract label and category information from the filename and assigns them to the sample object.
 
-    Files should look like this "my-dataset/training/wave.1.cbor" where "wave" is label and "training" is the category.
-    It checks if there is "training", "testing" or "anomaly" in the filename to determine the sample category.
+    Files should look like this `my-dataset/training/wave.1.cbor` where `wave` is the label and `training` is the category.
+    It checks if there is `training`, `testing` or `anomaly` in the filename to determine the sample category.
 
     Args:
-        sample (Sample): The sample object to which label and category will be assigned.
+        sample (Sample): The sample object to which the label and category will be assigned.
         file (str): The filename from which label and category information will be extracted.
 
     Returns:
@@ -64,10 +64,8 @@ def upload_directory(
 ) -> UploadSamplesResponse:
     """Upload a directory of files to Edge Impulse.
 
-    Tries to autodetect whether its an Edge Impulse exported dataset, or a standard directory.
-
-    The files can be in CBOR, JSON, image, or WAV file formats. You can read more about the different file formats
-    accepted by the Edge Impulse ingestion service here:
+    Tries to autodetect whether it's an Edge Impulse exported dataset, or a standard directory. The files can be in CBOR, JSON, image, or
+    WAV file formats. You can read more about the different file formats accepted by the Edge Impulse ingestion service here:
 
     https://docs.edgeimpulse.com/reference/ingestion-api
 
@@ -91,11 +89,18 @@ def upload_directory(
         FileNotFoundError: If the specified directory does not exist.
 
     Examples:
-        .. code-block:: python
+        Upload a directory
 
-            response = ei.experimental.data.upload_directory(directory="tests/sample_data/gestures")
-            self.assertEqual(len(response.successes), 8)
-            self.assertEqual(len(response.fails), 0)
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
+
+        from edgeimpulse import data
+        response = data.upload_directory(directory="tests/sample_data/gestures")
+
+        print(len(response.successes) == 8)
+        print(len(response.fails) == 0)
+        ```
     """
     if not os.path.exists(directory) or not os.path.isdir(directory):
         raise FileNotFoundError(f"directory '{directory}' not found.")
@@ -146,16 +151,16 @@ def upload_plain_directory(
 
     Args:
         directory (str): The path to the directory containing the files to upload.
-        category (str): Category for the samples "training", "testing", "anomaly", "split"
-        label (str): Label for the samples
-        metadata (dict): Metadata to add to the samples (visible in studio)
-        transform (callable): A function to manipulate the sample and properties before uploading
+        category (str): The category for the samples "training", "testing", "anomaly", "split".
+        label (str): The label for the samples.
+        metadata (dict): Metadata to add to the samples (visible in studio).
+        transform (callable): A function to manipulate the sample and properties before uploading.
         allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
             uploaded. If `False`, the ingestion service will perform a hash of the data and compare
             it to the hashes of the data already in the project. If a match is found, the service
             will reject the incoming sample (uploading for other samples will continue).
-        show_progress (Optional[bool]): Show progress bar while uploading samples. Default is `False`.
-        batch_size (Optional[int]): The number of samples to upload in a single batch. Default is 1024.
+        show_progress (Optional[bool]): Show the progress bar while uploading samples. Default is `False`.
+        batch_size (Optional[int]): The number of samples to upload in a single batch. The default is 1024.
 
     Returns:
         UploadSamplesResponse: A response object that contains the results of the upload.
@@ -164,11 +169,18 @@ def upload_plain_directory(
         FileNotFoundError: If the specified directory does not exist.
 
     Examples:
-        .. code-block:: python
+        Uploads a plain directory
 
-            response = ei.experimental.data.upload_directory(directory="tests/sample_data/gestures")
-            self.assertEqual(len(response.successes), 8)
-            self.assertEqual(len(response.fails), 0)
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
+
+        from edgeimpulse import data
+
+        response = data.upload_directory(directory="tests/sample_data/gestures")
+        assert(len(response.successes )== 8)
+        assert(len(response.fails) == 0)
+        ```
     """
     if not os.path.exists(directory) or not os.path.isdir(directory):
         raise FileNotFoundError(f"directory '{directory}' not found.")
@@ -224,13 +236,13 @@ def upload_exported_dataset(
     show_progress: Optional[bool] = False,
     batch_size: Optional[int] = 1024,
 ) -> UploadSamplesResponse:
-    """Upload samples from a downloaded Edge Impulse dataset and preserving the `info.labels` information.
+    """Upload samples from a downloaded Edge Impulse dataset and preserve the `info.labels` information.
 
-    Use this when you've exported your data in the studio.
+    Use this when you've exported your data in the studio, via the `export` functionality.
 
     Args:
         directory (str): Path to the directory containing the dataset.
-        transform (callable): A function to manipulate sample before uploading
+        transform (callable): A function to manipulate sample before uploading.
         allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
             uploaded. If `False`, the ingestion service will perform a hash of the data and compare
             it to the hashes of the data already in the project. If a match is found, the service
@@ -245,7 +257,7 @@ def upload_exported_dataset(
         FileNotFoundError: If the labels file (info.labels) is not found in the specified directory.
     """
     if not os.path.exists(directory) or not os.path.isdir(directory):
-        raise FileNotFoundError(f"directory '{directory}' not found.")
+        raise FileNotFoundError(f"Directory '{directory}' not found.")
 
     label_path = os.path.join(directory, LABEL_FILE)
     if not os.path.exists(label_path):

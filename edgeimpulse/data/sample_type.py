@@ -1,7 +1,7 @@
 # ruff: noqa: D100, D101
 from dataclasses import dataclass
 from io import BufferedIOBase, StringIO
-from typing import Optional, Sequence, Literal, List, Union
+from typing import Optional, List, Literal, Union
 
 
 @dataclass
@@ -141,8 +141,8 @@ class Payload:
     """
 
     device_type: str
-    sensors: Sequence[Sensor]
-    values: Sequence[Sequence[float]]
+    sensors: List[Sensor]
+    values: List[List[float]]
     interval_ms: Optional[int] = 0
     device_name: Optional[str] = None
 
@@ -222,7 +222,7 @@ class Sample:
             Edge Impulse server when the sample is uploaded. You can use this ID to retrieve the
             sample later. This value is ignored when uploading samples and should not be set by the
             user.
-        structured_labels (Optional[Sequence[dict]]): Array of dictionary objects that define the labels
+        structured_labels (Optional[List[dict]]): Array of dictionary objects that define the labels
             in this sample at various intervals. See `the multi label guide
             <https://edge-impulse.gitbook.io/docs/edge-impulse-studio/data-acquisition/multi-label>`_ to
             read more. Example: `[{"label": "noise","startIndex": 0,"endIndex": 5000},
@@ -234,10 +234,10 @@ class Sample:
     filename: Optional[str] = None
     category: Optional[Literal["training", "testing", "anomaly", "split"]] = "split"
     label: Optional[str] = None
-    bounding_boxes: Optional[Sequence[dict]] = None
+    bounding_boxes: Optional[List[dict]] = None
     metadata: Optional[dict] = None
     sample_id: Optional[int] = None
-    structured_labels: Optional[Sequence[dict]] = None
+    structured_labels: Optional[List[dict]] = None
 
     def __str__(self) -> str:
         """Sample representation."""

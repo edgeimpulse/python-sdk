@@ -126,7 +126,7 @@ def poll(
             check_response_errors(job_response)
             logging.info(f"Waiting for job {job_id} to finish...")
             if job_response.job.finished:
-                logging.info(f"job_response = {job_response}")
+                logging.debug(f"job_response = {job_response}")
                 logs = jobs_client.get_jobs_logs(project_id, job_id)
                 # TODO: parse logs so each stdout entry appears on new line
                 logging.debug(
@@ -156,7 +156,7 @@ def poll(
         if timeout is not None and time.time() > timeout:
             # Log message
             err_msg = f"Timeout waiting for result for job_id {job_id}"
-            logging.info(err_msg)
+            logging.error(err_msg)
 
             # Cancel job
             try:
@@ -181,52 +181,80 @@ def poll(
             raise TimeoutException(err_msg)
 
 
-# Try importing numpy (even if it isn't used, which triggers F401 in linting)
+# Constants for installed libraries
+NUMPY_INSTALLED = False
+TENSORFLOW_INSTALLED = False
+ONNX_INSTALLED = False
+PANDAS_INSTALLED = False
+KERAS_INSTALLED = False
+KERAS_VERSION = None
+
+# Try importing numpy
 # ruff: noqa: F401
-def numpy_installed() -> bool:
-    """Check if numpy is installed returns true or false."""
-    try:
-        import numpy as np
+try:
+    import numpy as np  # noqa: F401
 
-        return True
-    except ModuleNotFoundError:
-        return False
+    NUMPY_INSTALLED = True
+except ModuleNotFoundError:
+    pass
 
-
-# Try importing tensorflow (even if it isn't used, which triggers F401 in linting)
+# Try importing tensorflow
 # ruff: noqa: F401
-def tensorflow_installed() -> bool:
-    """Check if tensorflow is installed returns true or false."""
-    try:
-        import tensorflow as tf  # type: ignore # noqa: F401
+try:
+    import tensorflow as tf  # noqa: F401
 
-        return True
-    except ModuleNotFoundError:
-        return False
+    TENSORFLOW_INSTALLED = True
+except ModuleNotFoundError:
+    pass
 
 
-# Try importing onnx (even if it isn't used, which triggers F401 in linting)
+# Try importing keras
 # ruff: noqa: F401
-def onnx_installed() -> bool:
-    """Check if onnx is installed returns true or false."""
-    try:
-        import onnx
+try:
+    import keras  # noqa: F401
 
-        return True
-    except ModuleNotFoundError:
-        return False
+    KERAS_VERSION = keras.__version__
+    KERAS_INSTALLED = True
+except ModuleNotFoundError:
+    pass
 
+# Try importing onnx
+# ruff: noqa: F401
+try:
+    import onnx  # noqa: F401
+
+    ONNX_INSTALLED = True
+except ModuleNotFoundError:
+    pass
 
 # Try importing pandas
 # ruff: noqa: F401
-def pandas_installed() -> bool:
-    """Check if pandas is installed returns true or false."""
-    try:
-        import pandas
+try:
+    import pandas  # noqa: F401
 
-        return True
-    except ModuleNotFoundError:
-        return False
+    PANDAS_INSTALLED = True
+except ModuleNotFoundError:
+    pass
+
+
+def numpy_installed() -> bool:
+    """Return True if NumPy is installed, otherwise False."""
+    return NUMPY_INSTALLED
+
+
+def tensorflow_installed() -> bool:
+    """Return True if TensorFlow is installed, otherwise False."""
+    return TENSORFLOW_INSTALLED
+
+
+def onnx_installed() -> bool:
+    """Return True if ONNX is installed, otherwise False."""
+    return ONNX_INSTALLED
+
+
+def pandas_installed() -> bool:
+    """Return True if pandas is installed, otherwise False."""
+    return PANDAS_INSTALLED
 
 
 def is_path_to_numpy_file(path):
@@ -263,7 +291,7 @@ def is_path_to_tf_saved_model_directory(model_dir):
 
 
 def encode_file_as_base64(filename: str):
-    """Envode a file as base64."""
+    """Encode a file as base64."""
     with open(filename, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
@@ -335,7 +363,14 @@ def save_model(model: Union[Path, str, bytes], directory: str) -> str:
         # Note: this needs to exactly match the format studio
         # expects for unpacking
         saved_model_path = os.path.join(directory, "saved_model")
-        model.save(saved_model_path, save_format="tf")
+
+        if KERAS_VERSION.startswith("2"):
+            model.save(saved_model_path, save_format="tf")
+        elif KERAS_VERSION.startswith("3"):
+            model.export(saved_model_path, format="tf_saved_model")
+        else:
+            raise Exception(f"Unsupported version of keras {KERAS_VERSION}")
+
         zip_path = make_zip_archive(saved_model_path)
         return zip_path
     if onnx_installed() and is_onnx_model(model):
@@ -647,7 +682,7 @@ def upload_pretrained_model_and_data(
         raise e
 
     # Write out response
-    logging.info(job_response)
+    logging.debug(job_response)
 
     return job_response
 
@@ -833,7 +868,7 @@ def connect_websocket(token, host: str = None) -> socketio.Client:
         host = host.replace("/v1", "/")
 
     sio = socketio.Client(ssl_verify="wss://" in host)
-    sio.on("error", lambda: logging.info("Error"))
+    sio.on("error", lambda: logging.error("Error"))
     sio.on("connect", lambda: logging.info("Websocket connected to server"))
     sio.on("disconnect", lambda: logging.info("Websocket disconnected from server"))
 

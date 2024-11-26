@@ -11,6 +11,71 @@ from edgeimpulse.experimental import data
 import edgeimpulse as ei
 
 
+def generate_labels_from_dataframe(df, label_col="label", file_name=None):
+    """Generates structured labels from a DataFrame based on transitions in the specified label column.
+
+    This function iterates over the rows of a pandas DataFrame and detects changes in the values of
+    a specified label column. It groups consecutive rows with the same label value, and for each group,
+    it returns a dictionary containing the start index, end index, and the label. Optionally, the result
+    can be returned in a dictionary format, compatible with file saving, including the file name.
+
+    Args:
+        df (pandas.DataFrame): The input DataFrame containing the data.
+        label_col (str, optional): The column name that contains the labels. Defaults to 'label'.
+        file_name (str, optional): If provided, the result is returned in a dictionary that can be used
+                                   for saving structured labels to a file. Defaults to None.
+
+    Returns:
+        Union[list[dict],dict]: If `file_name` is not provided, a list of dictionaries is returned, where each
+                           dictionary contains 'startIndex', 'endIndex', and 'label'. If `file_name` is provided,
+                           a dictionary is returned in the format:
+                           {
+                               "version": 1,
+                               "type": "structured-labels",
+                               "structuredLabels": {
+                                   file_name: [structured_labels]
+                               }
+                           }
+
+    Raises:
+        Exception: If either Numpy or Pandas is not installed.
+    """
+    if not (numpy_installed() and pandas_installed()):
+        raise Exception(
+            "Both Numpy and Pandas need to be installed in order to convert to a dataframe (pip install pandas numpy)"
+        )
+
+    structured_labels = []
+    start_index = 0
+
+    for i in range(1, len(df)):
+        if df.iloc[i][label_col] != df.iloc[i - 1][label_col]:
+            end_index = i - 1
+            label = df.iloc[i - 1][label_col]
+            structured_labels.append(
+                {"startIndex": start_index, "endIndex": end_index, "label": label}
+            )
+            start_index = i
+
+    structured_labels.append(
+        {
+            "startIndex": start_index,
+            "endIndex": len(df) - 1,
+            "label": df.iloc[-1][label_col],
+        }
+    )
+
+    if not file_name:
+        return structured_labels
+
+    result = {
+        "version": 1,
+        "type": "structured-labels",
+        "structuredLabels": {file_name: structured_labels},
+    }
+    return result
+
+
 def fetch_samples(
     filename: Optional[str] = None,
     category: Optional[str] = None,
@@ -58,15 +123,31 @@ def convert_sample_to_dataframe(
         )
 
     data = json.loads(sample.data)
-    df = _convert_cbor_to_df(data, ts_col_name=ts_col_name)
+    df = convert_json_cbor_to_dataframe(data, ts_col_name=ts_col_name)
     if sample.structured_labels is not None:
-        _add_labels_to_dataframe(df, sample.structured_labels, label_col_name)
+        add_labels_to_dataframe(df, sample.structured_labels, label_col_name)
 
     return df
 
 
-def _add_labels_to_dataframe(df, labels, label_col_name="label"):
+def add_labels_to_dataframe(df, labels, label_col_name="label"):
+    """Adds labels to a DataFrame based on provided label information.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame to which labels will be added.
+        labels (list of dict): A list of dictionaries where each dictionary contains
+            'label', 'startIndex', and 'endIndex' keys.
+        label_col_name (str, optional): The name of the column where labels will be added.
+            Defaults to "label".
+
+    Returns:
+        pandas.DataFrame: The DataFrame with the added labels.
+    """
+    if not isinstance(labels, list):
+        raise ValueError("labels must be a list of dictionaries.")
+
     df[label_col_name] = None
+
     for label_dict in labels:
         label = label_dict["label"]
         start_idx = label_dict["startIndex"]
@@ -75,9 +156,23 @@ def _add_labels_to_dataframe(df, labels, label_col_name="label"):
     return df
 
 
-def _convert_cbor_to_df(data, ts_col_name=None):
+def convert_json_cbor_to_dataframe(data, ts_col_name=None):
+    """Converts JSON CBOR data to a pandas DataFrame.
+
+    Args:
+        data (dict): The JSON CBOR data containing payload information with 'interval_ms',
+            'sensors', and 'values' keys.
+        ts_col_name (str, optional): The name of the column to be used for time series data.
+            If not provided, the DataFrame index will be used for time series data.
+
+    Returns:
+        pandas.DataFrame: A DataFrame with sensor values and optional time series data.
+    """
     import pandas as pd
     import numpy as np
+
+    if not isinstance(data, dict):
+        raise ValueError("data must be a dict.")
 
     interval_ms = data["payload"]["interval_ms"]
     sensors = [sensor["name"] for sensor in data["payload"]["sensors"]]
@@ -95,4 +190,7 @@ def _convert_cbor_to_df(data, ts_col_name=None):
 __all__ = [
     "convert_sample_to_dataframe",
     "fetch_samples",
+    "convert_json_cbor_to_dataframe",
+    "add_labels_to_dataframe",
+    "generate_labels_from_dataframe",
 ]

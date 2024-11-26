@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgeimpulse"
-version = "1.0.14"
+version = "1.0.18"
 description = "Python SDK for Edge Impulse."
 authors = ["EdgeImpulse Inc. <hello@edgeimpulse.com>"]
 license = "Apache-2.0"
@@ -15,7 +15,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
-edgeimpulse-api = "^1.57.7"
+edgeimpulse-api = {path = "../../api-bindings/python/library", develop = true}
 requests = "^2.23.0"
 python-socketio = {extras = ["client"], version = "^5.8.0"}
 

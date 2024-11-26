@@ -1,6 +1,6 @@
 # mypy: ignore-errors
 # ruff: noqa: D100
-from typing import Union, Optional, Sequence, List
+from typing import Union, Optional, List
 from urllib.parse import urljoin
 from requests import Response, Session
 from requests.adapters import HTTPAdapter
@@ -149,7 +149,7 @@ def _report_results(results: List[Response]) -> UploadSamplesResponse:
 
 
 def upload_samples(
-    samples: Union[Sample, Sequence[Sample]],
+    samples: Union[Sample, List[Sample]],
     allow_duplicates: Optional[bool] = False,
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
@@ -161,12 +161,12 @@ def upload_samples(
     """Upload one or more samples to an Edge Impulse project using the ingestion service.
 
     Each sample must be wrapped in a `Sample` object, which contains metadata about that sample.
-    Give this function a single `Sample` or a sequence of `Sample` objects to upload to your
+    Give this function a single `Sample` or a List of `Sample` objects to upload to your
     project. The `data` field of the `Sample` must be a raw binary stream, such as a BufferedIOBase
     object (which you can create with the `open(..., "rb")` function).
 
     Args:
-        samples (Union[Sample, Sequence[Sample]]): One or more `Sample` objects that contain data
+        samples (Union[Sample, List[Sample]]): One or more `Sample` objects that contain data
             for that sample along with associated metadata.
         allow_duplicates (Optional[bool]): Set to `True` to allow samples with the same data to be
             uploaded. If `False`, the ingestion service will perform a hash of the data and compare
@@ -194,22 +194,30 @@ def upload_samples(
             along with the error message.
 
     Examples:
-        .. code-block:: python
+        Upload samples
 
-            # Create a dataset (with a single Sample)
-            samples = (
-                Sample(
-                    filename="wave.01.csv",
-                    data=open("path/to/wave.01.csv", "rb"),
-                    category="split",
-                    label="wave",
-                ),
-            )
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Upload samples and print responses
-            response = ei.data.upload_samples(samples)
-            print(response.successes)
-            print(response.fails)
+        from edgeimpulse import data
+        from edgeimpulse.data import Sample
+
+        # Create a dataset (with a single Sample)
+        samples = (
+            Sample(
+                filename="wave.01.csv",
+                data=open("path/to/wave.01.csv", "rb"),
+                category="split",
+                label="wave",
+            ),
+        )
+
+        # Upload samples and print responses
+        response = data.upload_samples(samples)
+        print(response.successes)
+        print(response.fails)
+        ```
     """
     # Turn a single sample into a 1-element list
     if isinstance(samples, Sample):

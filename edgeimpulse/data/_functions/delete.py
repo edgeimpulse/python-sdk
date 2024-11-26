@@ -35,7 +35,7 @@ def delete_all_samples(
         timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API calls.
 
     Raises:
-        e: Unhandled exception from api
+        e: Unhandled exception from API
 
     Returns:
         Optional[GenericApiResponse]: API response
@@ -78,35 +78,45 @@ def delete_sample_by_id(
     """Delete a particular sample from a project given the sample ID.
 
     Args:
-        sample_id (id): ID of the sample to delete
+        sample_id (int): ID of the sample to delete
         api_key (Optional[str]): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
             the environment variable `EI_API_KEY`.
         timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API calls.
 
     Raises:
-        e: Unhandled exception from api
+        e: Unhandled exception from API
 
     Returns:
         Optional[GenericApiResponse]: API response, None if no sample is found
 
     Examples:
-        .. code-block:: python
+        Deleting an sample
 
-            # Example of filename that has been uploaded to Studio
-            filename = "my-image.01.png"
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Remove extension on the filename when querying the dataset in Studio
-            filename_no_ext = os.path.splitext(filename)[0]
+        from edgeimpulse import data
 
-            # Get list of IDs that match the given sample filename
-            infos = ei.experimental.data.get_sample_ids(filename_no_ext)
+        import os
+        import logging
 
-            # Delete the IDs
-            for info in infos:
-                resp = ei.experimental.data.delete_sample_by_id(info.sample_id)
-                if resp is None:
-                    logging.warning(f"Could not delete sample {filename_no_ext}")
+        # Example of filename that has been uploaded to Studio
+        filename = "my-image.01.png"
+
+        # Remove extension on the filename when querying the dataset in Studio
+        filename_no_ext = os.path.splitext(filename)[0]
+
+        # Get list of IDs that match the given sample filename
+        infos = data.get_sample_ids(filename_no_ext)
+
+        # Delete the IDs
+        for info in infos:
+            resp = data.delete_sample_by_id(info.sample_id)
+            if resp is None:
+                logging.warning(f"Could not delete sample {filename_no_ext}")
+        ```
     """
     # Create API clients
     client = configure_generic_client(

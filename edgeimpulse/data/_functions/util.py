@@ -15,6 +15,7 @@ from edgeimpulse.util import (
 from edgeimpulse.data.sample_type import (
     SampleInfo,
 )
+
 from edgeimpulse_api import (
     RawDataApi,
 )
@@ -31,14 +32,14 @@ def get_filename_by_id(
     unique sample ID that is provided by Studio when the sample is uploaded.
 
     Args:
-        sample_id (int): Sample ID to look up
+        sample_id (int): Sample ID to look up.
         api_key (Optional[str]): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
             the environment variable `EI_API_KEY`.
         timeout_sec (Optional[float], optional): Optional timeout (in seconds) for API calls.
 
     Raises:
-        e: Unhandled exception from api
+        e: Unhandled exception from api.
 
     Returns:
         Optional[str]: Filename (string) if sample is found. None if no sample is found
@@ -135,15 +136,15 @@ def get_sample_ids(
     num_workers: Optional[int] = 4,
     timeout_sec: Optional[float] = None,
 ) -> List[SampleInfo]:
-    """Get the sample IDs and filenames for all samples in a project, filtered by category, labels, and/or filename.
+    """Get the sample IDs and filenames for all samples in a project, filtered by category, labels, or filename.
 
     Note that filenames are given by the root of the filename when uploaded.
     For example, if you upload `my-image.01.png`, it will be stored in your project with
-    a hash, such as `my-image.01.png.4f262n1b.json`. To find the ID(s) that match this
+    a hash such as `my-image.01.png.4f262n1b.json`. To find the ID(s) that match this
     sample, you must provide the argument `filename=my-image.01`. Notice the lack of
     extension and hash.
 
-    Because of the possibility for multiple samples (i.e. different sample IDs) with the
+    Because of the potential for multiple samples (i.e., different sample IDs) with the
     same filename, we recommend providing unique filenames for your samples when
     uploading.
 
@@ -165,13 +166,13 @@ def get_sample_ids(
             calls.
 
     Raises:
-        e: Unhandled exception from api
+        e: Unhandled exception from API.
 
     Returns:
         List[SampleInfo]: List of `SampleInfo` objects containing the sample ID,
             filename, category, and label for each sample matching the criteria given.
     """
-    # Recursively get info from all categories if no category given
+    # Recursively get info from all categories if no category is given
     if category == "all" or category is None:
         resp_samples = []
         for category in edgeimpulse.util.DATA_CATEGORIES:
@@ -210,7 +211,7 @@ def get_sample_ids(
     if isinstance(labels, str):
         labels = [labels]
 
-    # Get number of samples with an API call
+    # Get the number of samples with an API call
     resp = raw_data.count_samples(
         project_id=project_id,
         category=category,

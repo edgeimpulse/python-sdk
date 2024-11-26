@@ -3,6 +3,8 @@ import pickle
 import unittest
 import logging
 import edgeimpulse as ei
+from edgeimpulse import tuner, datasets, data
+
 from edgeimpulse.util import configure_generic_client, default_project_id_for
 
 from edgeimpulse_api import (
@@ -10,7 +12,7 @@ from edgeimpulse_api import (
     ProjectsApi,
     ImpulseApi,
     GetJWTRequest,
-    Impulse,
+    CreateImpulseRequest,
     ApiClient,
     LoginApi,
     Configuration,
@@ -31,11 +33,11 @@ def set_advanced_tuner_experiment():
 
     project_id = default_project_id_for(client)
     projects_api = ProjectsApi(client)
-    x = projects_api.get_project_info(project_id=project_id)
+    info = projects_api.get_project_info(project_id=project_id)
 
     experiment = "tuner_advanced"
 
-    exps = list(exp.type for exp in x.experiments)
+    exps = list(exp.type for exp in info.experiments)
     if experiment in exps:
         return
 
@@ -74,7 +76,7 @@ def set_impulse() -> None:
     project_id = default_project_id_for(client)
     impulse_api = ImpulseApi(client)
 
-    impulse = Impulse.from_json(
+    impulse = CreateImpulseRequest.from_json(
         """
         {
         "inputBlocks": [
@@ -124,9 +126,9 @@ def set_impulse() -> None:
 
 
 def upload_gestures():
-    ei.experimental.data.upload_directory(
+    data.upload_directory(
         directory="datasets/gestures",
-        transform=ei.experimental.data.infer_category_and_label_from_filename,
+        transform=data.infer_from_filename,
     )
 
 
@@ -142,16 +144,69 @@ class TestTuner(unittest.TestCase):
     def test_tuner(self):
         set_advanced_tuner_experiment()
 
-        ei.datasets.download_dataset("gestures")
+        datasets.download_dataset("gestures")
         upload_gestures()
 
         set_impulse()
 
-        ei.experimental.tuner.start_tuner(
+        tuner.start_tuner(
             name="Simple classification",
+            space=[
+                {
+                    "inputBlocks": [
+                        {
+                            "type": "time-series",
+                            "window": [
+                                {"windowSizeMs": 1000, "windowIncreaseMs": 1000},
+                                {"windowSizeMs": 2000, "windowIncreaseMs": 1000},
+                                {"windowSizeMs": 1000, "windowIncreaseMs": 500},
+                                {"windowSizeMs": 1000, "windowIncreaseMs": 250},
+                                {"windowSizeMs": 2000, "windowIncreaseMs": 500},
+                                {"windowSizeMs": 2000, "windowIncreaseMs": 2000},
+                                {"windowSizeMs": 4000, "windowIncreaseMs": 4000},
+                                {"windowSizeMs": 4000, "windowIncreaseMs": 1000},
+                                {"windowSizeMs": 4000, "windowIncreaseMs": 2000},
+                            ],
+                            "frequencyHz": [62.5],
+                            "padZeros": [True],
+                        }
+                    ],
+                    "dspBlocks": [
+                        {
+                            "type": "spectral-analysis",
+                            "analysis-type": ["FFT"],
+                            "fft-length": [16, 64],
+                            "scale-axes": [1],
+                            "filter-type": ["none"],
+                            "filter-cutoff": [3],
+                            "filter-order": [6],
+                            "do-log": [True],
+                            "do-fft-overlap": [True],
+                        },
+                        {
+                            "type": "spectral-analysis",
+                            "analysis-type": ["Wavelet"],
+                            "wavelet": ["haar", "bior1.3"],
+                            "wavelet-level": [1, 2],
+                        },
+                        {"type": "raw", "scale-axes": [1]},
+                    ],
+                    "learnBlocks": [
+                        [
+                            {
+                                "type": "keras",
+                                "dimension": ["dense"],
+                                "denseBaseNeurons": [40, 20],
+                                "denseLayers": [2, 3],
+                                "dropout": [0.25, 0.5],
+                                "learningRate": [0.0005],
+                                "trainingCycles": [30],
+                            }
+                        ]
+                    ],
+                }
+            ],
             target_device="jetson-nano",
-            classification_type="classification",
-            dataset_category="motion_continuous",
             target_latency=1,
             tuning_max_trials=3,
         )
@@ -159,7 +214,7 @@ class TestTuner(unittest.TestCase):
         state = None
 
         try:
-            state = ei.experimental.tuner.check_tuner(
+            state = tuner.check_tuner(
                 timeout_sec=TUNER_TIMEOUT_SEC, wait_for_completion=True
             )
             print(state)
@@ -170,19 +225,19 @@ class TestTuner(unittest.TestCase):
         print("COORDINATOR LOGS")
         print("--------------------------")
 
-        ei.experimental.tuner.print_tuner_coordinator_logs()
+        tuner.print_tuner_coordinator_logs()
 
         print("--------------------------")
         print("JOB LOGS")
         print("--------------------------")
 
-        ei.experimental.tuner.print_tuner_job_logs()
+        tuner.print_tuner_job_logs()
 
         print("--------------------------")
         print("REPORT AS DF")
         print("--------------------------")
 
-        df = ei.experimental.tuner.tuner_report_as_df(state)
+        df = tuner.tuner_report_as_df(state)
 
         print("--------------------------")
         print(df)
@@ -190,13 +245,14 @@ class TestTuner(unittest.TestCase):
         df = df.sort_values(by="val_float32_accuracy", ascending=False)
 
         trial_id = df.iloc[0].trial_id
-        ei.experimental.tuner.set_impulse_from_trial(trial_id=trial_id)
+        tuner.set_impulse_from_trial(trial_id=trial_id)
 
-        res = ei.experimental.tuner.list_tuner_runs()
+        res = tuner.list_tuner_runs()
         tuner_coordinator_job_id = res.runs[0].tuner_coordinator_job_id
-        state = ei.experimental.tuner.get_tuner_run_state(
+        state = tuner.get_tuner_run_state(
             tuner_coordinator_job_id=tuner_coordinator_job_id
         )
-        df = ei.experimental.tuner.tuner_report_as_df(state)
+
+        df = tuner.tuner_report_as_df(state)
 
         print(df)

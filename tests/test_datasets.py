@@ -1,21 +1,30 @@
 # ruff: noqa: D100, D101, D102, D103
 import unittest
-import logging
 import os
-import edgeimpulse as ei
+import shutil
+from edgeimpulse import datasets
 
-logging.getLogger().setLevel(logging.INFO)
+# logging.getLogger().setLevel(logging.INFO)
 
 
 class TestDatasets(unittest.TestCase):
+    def setUp(self):
+        shutil.rmtree("datasets", ignore_errors=True)
+
+    def tearDown(self):
+        shutil.rmtree("datasets", ignore_errors=True)
+
+    def test_list_datasets(self):
+        datasets.list_datasets()
+
     def test_download_dataset(self):
-        ei.datasets.download_dataset("gestures")
+        datasets.download_dataset("gestures")
         self.assertTrue(os.path.exists("datasets/gestures"))
 
     def test_download_dataset_tar_gz(self):
-        ei.datasets.download_dataset("visual-xs")
-        self.assertTrue(os.path.exists("datasets/gestures"))
+        datasets.download_dataset("visual-xs")
+        self.assertTrue(os.path.exists("datasets/visual-xs"))
 
     def test_download_non_existing_dataset(self):
         with self.assertRaises(ValueError):
-            ei.datasets.download_dataset("faucets2")
+            datasets.download_dataset("faucets2")

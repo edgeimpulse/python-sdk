@@ -11,6 +11,7 @@ from edgeimpulse.util import (
 )
 
 import edgeimpulse as ei
+from edgeimpulse import data
 
 from tests.util import delete_all_samples
 
@@ -32,7 +33,7 @@ class TestWebsocketLogging(unittest.TestCase):
     def test_project_job(self):
         delete_all_samples()
 
-        res = ei.experimental.data.upload_directory(
+        res = data.upload_directory(
             directory="tests/sample_data/gestures", category="testing"
         )
 

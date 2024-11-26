@@ -4,18 +4,11 @@ import json
 import logging
 import os
 import pathlib
+from edgeimpulse import data
 
-from edgeimpulse.data.sample_type import (
-    Sample,
-)
-
-from edgeimpulse_api import (
-    RawDataApi,
-)
-
-from edgeimpulse.util import (
-    default_project_id_for,
-)
+from edgeimpulse.data import Sample
+from edgeimpulse_api import RawDataApi
+from edgeimpulse.util import default_project_id_for
 
 
 def ids_from_succ(succ):  # noqa: D103
@@ -26,9 +19,7 @@ def assert_uploaded_samples(  # noqa: D103
     test, succ, check_label=False, check_structured_labels=False, check_meta=True
 ):
     ids = ids_from_succ(succ)
-    samples = ei.experimental.data.download_samples_by_ids(
-        sample_ids=ids, show_progress=True
-    )
+    samples = data.download_samples_by_ids(sample_ids=ids, show_progress=True)
 
     for upload in samples:
         found = [x.sample for x in succ if x.sample_id == upload.sample_id][0]

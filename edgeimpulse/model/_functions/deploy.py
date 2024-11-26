@@ -130,33 +130,40 @@ def deploy(
         Exception: Unhandled exception from API
 
     Examples:
-        .. code-block:: python
+        Deploys a model
 
-            # Turn a Keras model into a C++ library and write to disk
-            ei.model.deploy(model=keras_model,
-                            model_output_type=ei.model.output_type.Classification(),
-                            model_input_type=ei.model.input_type.OtherInput(),
-                            output_directory=".")
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            # Convert various types of serialized models:
-            ei.model.deploy(model="heart_rate.onnx", # ONNX
-                            model_output_type=ei.model.output_type.Regression())
-            ei.model.deploy(model="heart_rate", # TensorFlow SavedModel (can also be a zip)
-                            model_output_type=ei.model.output_type.Regression())
-            ei.model.deploy(model="heart_rate.lite", # TensorFlow Lite
-                            model_output_type=ei.model.output_type.Regression())
+        from edgeimpulse import model
 
-            # Quantize a model to int8 during deployment by passing a numpy array of data
-            ei.model.deploy(model=keras_model,
-                            representative_data_for_quantization=x_test,
-                            model_output_type=ei.model.output_type.Classification(),
-                            output_directory=".")
+        # Turn a Keras model into a C++ library and write to disk
+        model.deploy(model=keras_model, # noqa: F821
+                        model_output_type=model.output_type.Classification(),
+                        model_input_type=model.input_type.OtherInput(),
+                        output_directory=".")
 
-            # The function returns a BytesIO which can be written as desired
-            output = ei.model.deploy(model=keras_model,
-                                     model_output_type=ei.model.output_type.Classification())
-            with open('destination.zip', 'wb') as f:
-                f.write(output.read())
+        # Convert various types of serialized models:
+        model.deploy(model="heart_rate.onnx", # ONNX
+                        model_output_type=model.output_type.Regression())
+        model.deploy(model="heart_rate", # TensorFlow SavedModel (can also be a zip)
+                        model_output_type=model.output_type.Regression())
+        model.deploy(model="heart_rate.lite", # TensorFlow Lite
+                        model_output_type=model.output_type.Regression())
+
+        # Quantize a model to int8 during deployment by passing a numpy array of data
+        model.deploy(model=keras_model, # noqa: F821
+                        representative_data_for_quantization=x_test, # noqa: F821
+                        model_output_type=model.output_type.Classification(),
+                        output_directory=".")
+
+        # The function returns a BytesIO which can be written as desired
+        output = model.deploy(model=keras_model, # noqa: F821
+                                 model_output_type=model.output_type.Classification())
+        with open('destination.zip', 'wb') as f:
+            f.write(output.read())
+        ```
 
     """
     if model_input_type is None:

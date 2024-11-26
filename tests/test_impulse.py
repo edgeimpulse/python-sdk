@@ -6,12 +6,9 @@ import unittest
 import zipfile
 
 import edgeimpulse as ei
-from edgeimpulse.experimental.data import (
-    upload_directory,
-)
-from edgeimpulse.experimental.impulse import (
-    build,
-)
+
+from edgeimpulse import data
+from edgeimpulse.experimental.impulse import build
 
 from edgeimpulse.exceptions import (
     TimeoutException,
@@ -80,7 +77,7 @@ class TestImpulse(unittest.TestCase):
 
     def test_build(self):
         # Upload a dataset
-        res = upload_directory(
+        res = data.upload_directory(
             directory="tests/sample_data/gestures",
             metadata={"device": "phone"},
         )
@@ -103,6 +100,7 @@ class TestImpulse(unittest.TestCase):
         # Create an impulse
         dsp_id = 2
         learn_id = 3
+
         impulse = Impulse.from_dict(
             {
                 "inputBlocks": [
@@ -143,6 +141,7 @@ class TestImpulse(unittest.TestCase):
         update_project_request = UpdateProjectRequest.from_dict(
             {"inPretrainedModelFlow": False}
         )
+
         response = projects_api.update_project(
             project_id=project_id,
             update_project_request=update_project_request,
@@ -209,6 +208,7 @@ class TestImpulse(unittest.TestCase):
             learn_id=learn_id,
             set_keras_parameter_request=keras_parameter_request,
         )
+
         if not hasattr(response, "success") or getattr(response, "success") is False:
             raise RuntimeError("Could not start feature generation job.")
         job_id = response.id

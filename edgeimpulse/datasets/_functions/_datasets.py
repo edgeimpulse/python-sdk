@@ -1,7 +1,7 @@
 import logging
 import os
 import tarfile
-from typing import List
+from typing import List, Optional
 import zipfile
 import requests
 
@@ -182,6 +182,101 @@ DATASETS = [
         "name": "visual",
         "description": "Visual dataset (tar.gz).",
     },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Audio+Classification+-+Keyword+Spotting.zip",
+        "name": "keyword-spotting",
+        "description": "Dataset for keyword spotting.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Sensor+Fusion+Classification+-+Coffee+machine+stages.zip",
+        "name": "coffee-machine-stages-sensor-fusion",
+        "description": "Sensor fusion dataset for coffee machine stages.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Cans+on+conveyor+belt.zip",
+        "name": "cans-on-conveyor-belt",
+        "description": "Object detection dataset for cans on a conveyor belt.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Visual+Anomaly+Detection+-+Flat+washers.zip",
+        "name": "flat-washers",
+        "description": "Visual anomaly detection dataset for flat washers.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Audio+Classification+-+Faucet+vs+noise.zip",
+        "name": "faucet-vs-noise",
+        "description": "Dataset for classifying faucet sounds vs noise.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Motion+Classification+-+Continuous+motion+recognition.zip",
+        "name": "continuous-motion-recognition",
+        "description": "Dataset for continuous motion recognition.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Self+Attention+-+Cubes+on+conveyor+belt.zip",
+        "name": "self-attention-cubes-on-conveyor-belt",
+        "description": "Object detection dataset with self-attention for cubes on a conveyor belt.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Cubes+colors+on+conveyor+belt.zip",
+        "name": "cubes-colors-on-conveyor-belt",
+        "description": "Object detection dataset for colored cubes on a conveyor belt.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Visual+Anomaly+Detection+-+Capsule.zip",
+        "name": "capsule",
+        "description": "Visual anomaly detection dataset for capsules.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Image+Classification+-+Microscope.zip",
+        "name": "microscope",
+        "description": "Image classification dataset for microscope images.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Vibration+Classification+-+Coffee+machine+stages.zip",
+        "name": "coffee-machine-stages-vibration",
+        "description": "Vibration classification dataset for coffee machine stages.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Audio+Classification+-+Glass+breaking.zip",
+        "name": "glass-breaking",
+        "description": "Audio classification dataset for glass breaking sounds.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Bottles+rack.zip",
+        "name": "bottles-rack",
+        "description": "Object detection dataset for bottles in a rack.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Dice.zip",
+        "name": "dice",
+        "description": "Object detection dataset for dice.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Visual+Anomaly+Detection+-+DHT11.zip",
+        "name": "dht11",
+        "description": "Visual anomaly detection dataset for DHT11 sensors.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Visual+Anomaly+Detection+-+Thermostatic+valves.zip",
+        "name": "thermostatic-valves",
+        "description": "Visual anomaly detection dataset for thermostatic valves.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Object+Detection+-+Dice+colors.zip",
+        "name": "dice-colors",
+        "description": "Object detection dataset for colored dice.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Image+Classification+-+Fire+extinguisher+safety+pin.zip",
+        "name": "fire-extinguisher-safety-pin",
+        "description": "Image classification dataset for fire extinguisher safety pins.",
+    },
+    {
+        "url": "https://cdn.edgeimpulse.com/datasets/Visual+Anomaly+Detection+-+Fire+extinguisher+head+thread.zip",
+        "name": "fire-extinguisher-head-thread",
+        "description": "Visual anomaly detection dataset for fire extinguisher head threads.",
+    },
 ]
 
 
@@ -195,15 +290,16 @@ def download_dataset(
     force_redownload: bool = False,
     overwrite_existing: bool = False,
     show_progress: bool = False,
+    extract_dir: Optional[str] = None,
 ):
-    """Download and extracts a dataset from the Edge Impulse CDN for tutorials and quick prototyping.
+    """Download and extract a dataset from the Edge Impulse CDN for tutorials, and quick prototyping.
 
     Saves the dataset in the `datasets/<name>` folder.
     Use `list_datasets` to show available datasets for download.
 
     Args:
         name (str): The name of the dataset to download.
-        force_redownload (bool, optional): If True, forces re-downloading the dataset even if it exists. Defaults to False.
+        force_redownload (bool, optional): If True, forces the re-download of the dataset, even if it exists. Defaults to False.
         overwrite_existing (bool, optional): If True, overwrites the existing dataset directory. Defaults to False.
         show_progress (bool, optional): If True, outputs the download progress
     """
@@ -215,9 +311,11 @@ def download_dataset(
 
     url = ds["url"]
 
+    extract_dir = extract_dir or f"datasets/{name}"
+
     __download_dataset(
         url=url,
-        extract_dir=f"datasets/{name}",
+        extract_dir=extract_dir,
         overwrite_existing=overwrite_existing,
         force_redownload=force_redownload,
         show_progress=show_progress,
@@ -326,54 +424,3 @@ def __extract_tar_gz_file(tar_gz_file_path, extract_dir, overwrite_existing):
         logging.info(
             f"Extract directory '{extract_dir}' already exists. Skipping extraction."
         )
-
-
-# ruff: noqa: F821
-def load_timeseries() -> "np.array":  # type: ignore
-    """Load the timeseries dataset."""
-    import numpy as np
-
-    # create 5 samples, with 3 axis (sensors)
-    samples = np.array(
-        [
-            [  # sample 1
-                [8.81, 0.03, 1.21],
-                [9.83, 1.04, 1.27],
-                [9.12, 0.03, 1.23],
-                [9.14, 2.01, 1.25],
-            ],
-            [  # sample 2
-                [8.81, 0.03, 1.21],
-                [9.12, 0.03, 1.23],
-                [9.14, 2.01, 1.25],
-                [9.14, 2.01, 1.25],
-            ],
-            [  # sample 3
-                [8.81, 0.03, 1.21],
-                [8.81, 0.03, 1.21],
-                [9.83, 1.04, 1.27],
-                [9.14, 2.01, 1.25],
-            ],
-            [  # sample 4
-                [9.81, 0.03, 1.21],
-                [8.81, 0.03, 1.21],
-                [9.83, 1.04, 1.27],
-                [9.14, 2.01, 1.25],
-            ],
-            [  # sample 5
-                [10.81, 0.03, 1.21],
-                [8.81, 0.03, 1.21],
-                [9.83, 1.04, 1.27],
-                [9.14, 2.01, 1.25],
-            ],
-        ]
-    )
-
-    sensors = [
-        {"name": "accelX", "units": "ms/s"},
-        {"name": "accelY", "units": "ms/s"},
-        {"name": "accelZ", "units": "ms/s"},
-    ]
-
-    labels = ["up", "down", "down", "up", "down"]
-    return (samples, labels, sensors)

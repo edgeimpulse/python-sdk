@@ -11,7 +11,7 @@ from edgeimpulse.data.sample_type import (
 from edgeimpulse.data._functions.upload import (
     upload_samples,
 )
-from typing import Optional, Literal, Sequence
+from typing import Optional, Literal, List
 import random
 import json
 from dataclasses import asdict
@@ -21,8 +21,8 @@ DEVICE_TYPE = "EDGE_IMPULSE_PYTHON_SDK"
 
 def upload_numpy(
     data,
-    labels: Sequence[str],
-    sensors: Sequence[Sensor],
+    labels: List[str],
+    sensors: List[Sensor],
     sample_rate_ms: int,
     metadata: Optional[dict] = None,
     category: Literal["training", "testing", "split", "anomaly"] = "split",
@@ -31,8 +31,8 @@ def upload_numpy(
 
     Args:
         data (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)
-        labels (Sequence[str]): List of labels for the data samples can also be a numpy array.
-        sensors (Sequence[Sensor]): List of Sensor objects representing the sensors used in the data.
+        labels (List[str]): List of labels for the data samples can also be a numpy array.
+        sensors (List[Sensor]): List of Sensor objects representing the sensors used in the data.
         sample_rate_ms (int): Time interval in milliseconds between consecutive data points.
         metadata (dict, optional): Metadata for all samples being uploaded. Default is None.
         category (str or None, optional): Category or class label for the entire dataset. Default is split.
@@ -42,63 +42,65 @@ def upload_numpy(
 
     Raises:
         ValueError: If the length of labels doesn't match the number of samples or if the number of sensors
-            doesn't match the number of axis in the data.
+            doesn't match the number of axes in the data.
 
     Examples:
-        .. code-block:: python
+        Uploads numpy data
 
-            import numpy as np
-            import edgeimpulse as ei
-            from ei.experimental.data import upload_numpy
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
 
-            ei.API_KEY = "your-api-key" # set your key
+        import numpy as np
+        from edgeimpulse import data
 
-            # Create 2 samples, each with 3 axes of accelerometer data
-            samples = np.array(
-                [
-                    [  # sample 1
-                        [8.81, 0.03, 1.21],
-                        [9.83, 1.04, 1.27],
-                        [9.12, 0.03, 1.23],
-                        [9.14, 2.01, 1.25],
-                    ],
-                    [  # sample 2
-                        [8.81, 0.03, 1.21],
-                        [9.12, 0.03, 1.23],
-                        [9.14, 2.01, 1.25],
-                        [9.14, 2.01, 1.25],
-                    ],
-                ]
-            )
-
-            # The labels for each sample
-            labels = ["up", "down"]
-
-            # The sensors used in the samples
-            sensors = [
-                {"name": "accelX", "units": "ms/s"},
-                {"name": "accelY", "units": "ms/s"},
-                {"name": "accelZ", "units": "ms/s"},
+        # Create 2 samples, each with 3 axes of accelerometer data
+        values = np.array(
+            [
+                [  # sample 1
+                    [8.81, 0.03, 1.21],
+                    [9.83, 1.04, 1.27],
+                    [9.12, 0.03, 1.23],
+                    [9.14, 2.01, 1.25],
+                ],
+                [  # sample 2
+                    [8.81, 0.03, 1.21],
+                    [9.12, 0.03, 1.23],
+                    [9.14, 2.01, 1.25],
+                    [9.14, 2.01, 1.25],
+                ],
             ]
+        )
 
-            # Upload samples to your Edge Impulse project
-            resp = upload_numpy(
-                sample_rate_ms=100,
-                data=samples,
-                labels=labels,
-                category="training",
-                sensors=sensors,
-            )
-            print(resp)
+        # The labels for each sample
+        labels = ["up", "down"]
+
+        # The sensors used in the samples
+        sensors = [
+            {"name": "accelX", "units": "ms/s"},
+            {"name": "accelY", "units": "ms/s"},
+            {"name": "accelZ", "units": "ms/s"},
+        ]
+
+        # Upload samples to your Edge Impulse project
+        resp = data.upload_numpy(
+            sample_rate_ms=100,
+            data=values,
+            labels=labels,
+            category="training",
+            sensors=sensors,
+        )
+        print(resp)
+        ```
     """
     if len(data) != len(labels):
         raise ValueError(
-            f"Labels length ({len(labels)}) must be equal length of samples given ({len(data)})"
+            f"Labels length ({len(labels)}) must be equal to the number of samples given ({len(data)})"
         )
 
     if len(data[0][0]) != len(sensors):
         raise ValueError(
-            f"Number of sensors ({len(sensors)}) doesn't match number of axis in the data ({len(data[0][0])})"
+            f"Number of sensors ({len(sensors)}) doesn't match the number of axes in the data ({len(data[0][0])})"
         )
 
     samples = []
@@ -116,13 +118,13 @@ def upload_numpy(
 
 
 def numpy_timeseries_to_sample(
-    values, sensors: Sequence[Sensor], sample_rate_ms: int
+    values, sensors: List[Sensor], sample_rate_ms: int
 ) -> Sample:
     """Convert numpy values to a sample that can be uploaded to Edge Impulse.
 
     Args:
         values (array): Numpy array containing the timeseries data. The shape should be (num_samples, time_point, num_sensors)
-        sensors (Sequence[Sensor]): List of sensor objects representing the sensors used in the data.
+        sensors (List[Sensor]): List of sensor objects representing the sensors used in the data.
         sample_rate_ms (int): Time interval in milliseconds between consecutive data points.
 
     Returns:

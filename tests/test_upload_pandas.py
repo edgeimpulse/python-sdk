@@ -9,7 +9,7 @@ import logging
 # import polars as pd
 
 import pandas as pd
-import edgeimpulse as ei
+from edgeimpulse import data
 
 logging.getLogger().setLevel(logging.DEBUG)
 
@@ -36,7 +36,7 @@ class TestUploadPandas(unittest.TestCase):
         # Is this a timeseries? Since it will be using a range index here
 
         df = pd.DataFrame([40, 2, 3, 2])
-        res = ei.experimental.data.upload_pandas_sample(df=df)
+        res = data.upload_pandas_sample(df=df)
         self.assertEqual(len(res.successes), 1)
 
     #
@@ -44,7 +44,7 @@ class TestUploadPandas(unittest.TestCase):
     #
     def test_upload_pandas_sample2(self):
         df = pd.DataFrame([30, 2, 3, 20])
-        res = ei.experimental.data.upload_pandas_sample(
+        res = data.upload_pandas_sample(
             df=df, sample_rate_ms=100, label="UP", metadata={"test": "true"}
         )
 
@@ -56,7 +56,7 @@ class TestUploadPandas(unittest.TestCase):
     #
     def test_upload_pandas_sample_axis(self):
         df = pd.DataFrame([[1, 1, 2], [1, 3, 5], [1, 6, 1]], columns=["X", "Y", "Z"])
-        res = ei.experimental.data.upload_pandas_sample(
+        res = data.upload_pandas_sample(
             df=df, filename="ODP200", axis_columns=["X", "Y"], sample_rate_ms=100
         )
 
@@ -73,7 +73,7 @@ class TestUploadPandas(unittest.TestCase):
             [1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1],
             index=pd.timedelta_range(0, periods=11, freq="1T"),
         )
-        res = ei.experimental.data.upload_pandas_sample(df=df, filename="ODP300")
+        res = data.upload_pandas_sample(df=df, filename="ODP300")
 
         self.assertEqual(len(res.successes), 1)
         assert_uploaded_samples(self, res.successes)
@@ -83,7 +83,7 @@ class TestUploadPandas(unittest.TestCase):
     #
     def test_upload_pandas_sample_single_sample_non_timeseries(self):
         df = pd.DataFrame([[1, 4, 2]], columns=["A", "B", "C"])
-        res = ei.experimental.data.upload_pandas_sample(df=df, filename="ODP400")
+        res = data.upload_pandas_sample(df=df, filename="ODP400")
 
         self.assertEqual(len(res.successes), 1)
         assert_uploaded_samples(self, res.successes)
@@ -97,14 +97,14 @@ class TestUploadPandas(unittest.TestCase):
     # data that doesn't have a timeseries component to it.
     #
     def test_upload_pandas_sample_per_row(self):
-        data = [
+        values = [
             [1, "nominal", 45, 80, 0.3, 0.7, 0.2, "amsterdam"],
             [2, "nominal", 50, 76, 0.4, 0.7, 0.3, "utrecht"],
             [3, "anomaly", 75, 40, 0.8, 0.5, 0.6, "delft"],
         ]
 
         df = pd.DataFrame(
-            data,
+            values,
             columns=[
                 "id",
                 "label",
@@ -117,7 +117,7 @@ class TestUploadPandas(unittest.TestCase):
             ],
         )
 
-        res = ei.experimental.data.upload_pandas_dataframe(
+        res = data.upload_pandas_dataframe(
             df,
             label_col="label",
             metadata_cols=["location"],
@@ -142,16 +142,16 @@ class TestUploadPandas(unittest.TestCase):
         # 200,       0.8
         # ....
 
-        data = [
+        values = [
             [1, "idle", 0.8, 0.7, 0.8, 0.9, 0.8, 0.8, 0.7, 0.8],  # ...continued
             [2, "motion", 0.3, 0.9, 0.4, 0.6, 0.8, 0.9, 0.5, 0.4],  # ...continued
         ]
 
         df = pd.DataFrame(
-            data, columns=["id", "label", "0", "1", "2", "3", "4", "5", "6", "7"]
+            values, columns=["id", "label", "0", "1", "2", "3", "4", "5", "6", "7"]
         )
 
-        res = ei.experimental.data.upload_pandas_dataframe_wide(
+        res = data.upload_pandas_dataframe_wide(
             df,
             label_col="label",
             sample_rate_ms=100,
@@ -179,14 +179,14 @@ class TestUploadPandas(unittest.TestCase):
         # 200,       0.8,   07,     0.8
         #
 
-        data = [
+        values = [
             [1, "idle", 0.8, 0.7, 0.8, 0.9, 0.8, 0.8, 0.7, 0.8, 0.8],  # ...continued
             [2, "idle", 0.7, 0.8, 0.8, 0.8, 0.7, 0.8, 0.8, 0.9, 0.8],  # ...continued
             [3, "motion", 0.2, 0.8, 0.8, 0.8, 0.7, 0.8, 0.8, 0.9, 0.8],  # ...continued
         ]
 
         df = pd.DataFrame(
-            data,
+            values,
             columns=[
                 "id",
                 "label",
@@ -203,7 +203,7 @@ class TestUploadPandas(unittest.TestCase):
         )
 
         # In this case we can specify the axis names, allowing studio to parse the data properly.
-        res = ei.experimental.data.upload_pandas_dataframe_wide(
+        res = data.upload_pandas_dataframe_wide(
             df,
             label_col="label",
             metadata_cols=["id"],
@@ -243,7 +243,7 @@ class TestUploadPandas(unittest.TestCase):
         df.rename(columns={"date": "timestamp"}, inplace=True)
 
         # upload samples
-        res = ei.experimental.data.upload_pandas_dataframe_with_group(
+        res = data.upload_pandas_dataframe_with_group(
             df=df,
             group_by="location",
             timestamp_col="time",
@@ -258,16 +258,16 @@ class TestUploadPandas(unittest.TestCase):
     def test_upload_pandas_non_dataframe(self):
         # Check exception message from upload_pandas_dataframe
         with self.assertRaises(AttributeError) as context:
-            ei.experimental.data.upload_pandas_dataframe(
+            data.upload_pandas_dataframe(
                 df=3, feature_cols=["a", "b"], label_col="label"
             )
         self.assertTrue(
             str(context.exception).startswith("DataFrame methods on input object")
         )
 
-        # Check exception message from ei.experimental.data.upload_pandas_dataframe_wide
+        # Check exception message from data.upload_pandas_dataframe_wide
         with self.assertRaises(AttributeError) as context:
-            ei.experimental.data.upload_pandas_dataframe_wide(
+            data.upload_pandas_dataframe_wide(
                 df=3,
                 data_col_start=2,
                 data_col_length=8,
@@ -278,16 +278,16 @@ class TestUploadPandas(unittest.TestCase):
             str(context.exception).startswith("DataFrame methods on input object")
         )
 
-        # Check exception message from ei.experimental.data.upload_pandas_sample
+        # Check exception message from data.upload_pandas_sample
         with self.assertRaises(AttributeError) as context:
-            ei.experimental.data.upload_pandas_sample(df=3, sample_rate_ms=100)
+            data.upload_pandas_sample(df=3, sample_rate_ms=100)
         self.assertTrue(
             str(context.exception).startswith("DataFrame methods on input object")
         )
 
-        # Check exception message from ei.experimental.data.upload_pandas_dataframe_with_group
+        # Check exception message from data.upload_pandas_dataframe_with_group
         with self.assertRaises(AttributeError) as context:
-            ei.experimental.data.upload_pandas_dataframe_with_group(
+            data.upload_pandas_dataframe_with_group(
                 df={"timestamp": 3},
                 group_by="loc",
                 timestamp_col="timestamp",

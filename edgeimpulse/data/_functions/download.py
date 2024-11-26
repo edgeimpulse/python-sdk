@@ -362,7 +362,7 @@ def stream_samples_by_ids(
 
 
 def download_samples_by_ids(
-    sample_ids: Union[int, Sequence[int]],
+    sample_ids: Union[int, List[int]],
     api_key: Optional[str] = None,
     timeout_sec: Optional[float] = None,
     max_workers: Optional[int] = None,
@@ -377,13 +377,13 @@ def download_samples_by_ids(
 
     **Important!** All time series data is returned as a JSON file (in BytesIO format)
     with a timestamp column. This includes files originally uploaded as CSV, JSON, and
-    CBOR. Edge Impulse Studio removes the timestamp column in any uploaded CSV
+    CBOR. Edge Impulse Studio removes the timestamp column from any uploaded CSV
     files and computes an estimated sample rate. The timestamps are computed based on
     the sample rate, will always start at 0, and will be in milliseconds. These
     timestamps may not be the same as the original timestamps in the uploaded file.
 
     Args:
-        sample_ids (Union[int, Sequence[int]]): IDs of the samples to download
+        sample_ids (Union[int, List[int]]): IDs of the samples to download
         api_key (Optional[str]): The API key for an Edge Impulse project.
             This can also be set via the module-level variable `edgeimpulse.API_KEY`, or
             the env var `EI_API_KEY`.
@@ -403,10 +403,15 @@ def download_samples_by_ids(
             with the matching IDs are found.
 
     Example:
-        .. code-block:: python
+        Download a sample by id
 
-            sample = ei.data.download_samples_by_ids(12345)
-            print(sample)
+        ```python
+        import edgeimpulse as ei #noqa: F401
+        # ei.API_KEY = "<YOUR-KEY>" # or from env EI_API_KEY
+
+        sample = ei.data.download_samples_by_ids(12345)
+        print(sample)
+        ```
     """
     # Turn single or multiple IDs into list
     if isinstance(sample_ids, int):

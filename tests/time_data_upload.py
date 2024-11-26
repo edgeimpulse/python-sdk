@@ -3,11 +3,8 @@ import logging
 import os
 import pathlib
 import time
-import edgeimpulse as ei
-
-from edgeimpulse.data.sample_type import (
-    Sample,
-)
+from edgeimpulse import data
+from edgeimpulse.data import Sample
 
 # Settings
 DATASET_PATH = os.path.join("sample_data", "gestures", "training")
@@ -33,7 +30,7 @@ for filename in os.listdir(os.path.join(current_dir, DATASET_PATH)):
 
 # Upload dataset
 timestamp = time.time()
-resp = ei.experimental.data.upload_samples(
+resp = data.upload_samples(
     dataset,
     allow_duplicates=False,
     max_workers=4,
@@ -43,6 +40,7 @@ resp = ei.experimental.data.upload_samples(
 print(f"Uploaded {len(dataset)} samples in {time.time() - timestamp:.2f} seconds")
 
 # Delete data
-resp = ei.experimental.data.delete_all_samples(timeout_sec=TIMEOUT)
+
+resp = data.delete_all_samples(timeout_sec=TIMEOUT)
 if resp is None:
     logging.warning("Could not delete samples")

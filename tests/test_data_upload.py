@@ -5,10 +5,9 @@ import os
 import warnings
 
 import edgeimpulse as ei
+from edgeimpulse import data
 
-from edgeimpulse.data.sample_type import (
-    Sample,
-)
+from edgeimpulse.data import Sample
 
 from . import util
 
@@ -34,7 +33,7 @@ class TestDataUpload(unittest.TestCase):
         original_key = ei.API_KEY
         ei.API_KEY = "some_invalid_key"
         samples = util.create_dataset_images()
-        resp = ei.experimental.data.upload_samples(
+        resp = data.upload_samples(
             samples,
             allow_duplicates=False,
             timeout_sec=TIMEOUT,
@@ -60,7 +59,7 @@ class TestDataUpload(unittest.TestCase):
         # Try uploading samples
         try:
             # Upload samples
-            resp = ei.experimental.data.upload_samples(
+            resp = data.upload_samples(
                 samples,
                 allow_duplicates=False,
                 api_key=original_key,
@@ -77,7 +76,7 @@ class TestDataUpload(unittest.TestCase):
         finally:
             ei.API_KEY = original_key
             for sample in samples:
-                ei.experimental.data.delete_samples_by_filename(
+                data.delete_samples_by_filename(
                     filename=os.path.splitext(sample.filename)[0],
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -101,7 +100,7 @@ class TestDataUpload(unittest.TestCase):
 
         # Upload garbage data and check response
         try:
-            resp = ei.experimental.data.upload_samples(
+            resp = data.upload_samples(
                 samples, allow_duplicates=False, timeout_sec=TIMEOUT
             )
             self.assertEqual(len(resp.successes), 0)
@@ -118,7 +117,7 @@ class TestDataUpload(unittest.TestCase):
             raise e
         finally:
             for sample in dataset:
-                ei.experimental.data.delete_samples_by_filename(
+                data.delete_samples_by_filename(
                     filename=os.path.splitext(sample["filename"])[0],
                     category=sample["category"],
                     timeout_sec=TIMEOUT,
@@ -130,7 +129,7 @@ class TestDataUpload(unittest.TestCase):
 
         # Upload garbage data and check response
         try:
-            resp = ei.experimental.data.upload_samples(
+            resp = data.upload_samples(
                 samples, allow_duplicates=False, timeout_sec=TIMEOUT
             )
             self.assertEqual(len(resp.successes), 0)
@@ -146,7 +145,7 @@ class TestDataUpload(unittest.TestCase):
         except Exception as e:
             raise e
         finally:
-            resp = ei.experimental.data.delete_all_samples(
+            resp = data.delete_all_samples(
                 timeout_sec=TIMEOUT,
             )
             if resp is None:
@@ -163,7 +162,7 @@ class TestDataUpload(unittest.TestCase):
                 # Make sure there are no files in the project that match the filename
                 for sample in samples:
                     filename = os.path.splitext(sample.filename)[0]
-                    infos = ei.experimental.data.get_sample_ids(
+                    infos = data.get_sample_ids(
                         filename=filename,
                         category=sample.category,
                         timeout_sec=TIMEOUT,
@@ -171,7 +170,7 @@ class TestDataUpload(unittest.TestCase):
                     self.assertEqual(len(infos), 0)
 
                 # Upload samples
-                resp = ei.experimental.data.upload_samples(
+                resp = data.upload_samples(
                     samples,
                     allow_duplicates=False,
                     show_progress=True,
@@ -187,7 +186,7 @@ class TestDataUpload(unittest.TestCase):
                 # Verify that the files are in the project
                 for sample in samples:
                     filename = os.path.splitext(sample.filename)[0]
-                    infos = ei.experimental.data.get_sample_ids(
+                    infos = data.get_sample_ids(
                         filename=filename,
                         category=sample.category,
                         timeout_sec=TIMEOUT,
@@ -198,7 +197,7 @@ class TestDataUpload(unittest.TestCase):
             except Exception as e:
                 raise e
             finally:
-                resp = ei.experimental.data.delete_all_samples(
+                resp = data.delete_all_samples(
                     timeout_sec=TIMEOUT,
                 )
                 if resp is None:
@@ -212,7 +211,7 @@ class TestDataUpload(unittest.TestCase):
         try:
             for sample in samples:
                 filename = os.path.splitext(sample.filename)[0]
-                infos = ei.experimental.data.get_sample_ids(
+                infos = data.get_sample_ids(
                     filename=filename,
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -222,7 +221,7 @@ class TestDataUpload(unittest.TestCase):
             raise e
         finally:
             for sample in samples:
-                ei.experimental.data.delete_samples_by_filename(
+                data.delete_samples_by_filename(
                     filename=os.path.splitext(sample.filename)[0],
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -236,7 +235,7 @@ class TestDataUpload(unittest.TestCase):
             # Check responses
             try:
                 # Upload samples
-                resp = ei.experimental.data.upload_samples(
+                resp = data.upload_samples(
                     samples, allow_duplicates=True, timeout_sec=TIMEOUT
                 )
 
@@ -249,7 +248,7 @@ class TestDataUpload(unittest.TestCase):
             # Raise any exceptions and delete files from project
             except Exception as e:
                 for sample in samples:
-                    ei.experimental.data.delete_samples_by_filename(
+                    data.delete_samples_by_filename(
                         filename=os.path.splitext(sample.filename)[0],
                         category=sample.category,
                         timeout_sec=TIMEOUT,
@@ -260,14 +259,14 @@ class TestDataUpload(unittest.TestCase):
         try:
             for sample in samples:
                 filename = os.path.splitext(sample.filename)[0]
-                infos = ei.experimental.data.get_sample_ids(
+                infos = data.get_sample_ids(
                     filename=filename,
                     timeout_sec=TIMEOUT,
                 )
                 self.assertEqual(len(infos), 2)
         except Exception as e:
             for sample in sample:
-                ei.experimental.data.delete_samples_by_filename(
+                data.delete_samples_by_filename(
                     filename=os.path.splitext(sample.filename)[0],
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -278,7 +277,7 @@ class TestDataUpload(unittest.TestCase):
         try:
             # Upload samples without duplicates this time (should prevent uploading)
             samples = util.create_dataset_images()
-            resp = ei.experimental.data.upload_samples(
+            resp = data.upload_samples(
                 samples, allow_duplicates=False, timeout_sec=TIMEOUT
             )
 
@@ -294,7 +293,7 @@ class TestDataUpload(unittest.TestCase):
             raise e
         finally:
             for sample in samples:
-                ei.experimental.data.delete_samples_by_filename(
+                data.delete_samples_by_filename(
                     filename=os.path.splitext(sample.filename)[0],
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -302,7 +301,7 @@ class TestDataUpload(unittest.TestCase):
 
     def test_get_filename_with_bad_id(self):
         # Try an ID that does not exist
-        ret_filename = ei.experimental.data.get_filename_by_id(1)
+        ret_filename = data.get_filename_by_id(1)
         self.assertIsNone(ret_filename)
 
     def test_get_filename_with_good_id(self):
@@ -314,7 +313,7 @@ class TestDataUpload(unittest.TestCase):
             # Make sure there are no files in the project that match the filename
             for sample in samples:
                 filename = os.path.splitext(sample.filename)[0]
-                infos = ei.experimental.data.get_sample_ids(
+                infos = data.get_sample_ids(
                     filename=filename,
                     category=sample.category,
                     timeout_sec=TIMEOUT,
@@ -322,7 +321,7 @@ class TestDataUpload(unittest.TestCase):
                 self.assertEqual(len(infos), 0)
 
             # Upload samples
-            resp = ei.experimental.data.upload_samples(
+            resp = data.upload_samples(
                 samples, allow_duplicates=False, timeout_sec=TIMEOUT
             )
 
@@ -335,14 +334,12 @@ class TestDataUpload(unittest.TestCase):
             # Verify the returned filename is the same as the one given
             for sample in samples:
                 filename = os.path.splitext(sample.filename)[0]
-                infos = ei.experimental.data.get_sample_ids(
+                infos = data.get_sample_ids(
                     filename=filename,
                     timeout_sec=TIMEOUT,
                 )
                 self.assertEqual(len(infos), 1)
-                ret_filename = ei.experimental.data.get_filename_by_id(
-                    infos[0].sample_id
-                )
+                ret_filename = data.get_filename_by_id(infos[0].sample_id)
                 self.assertEqual(ret_filename, filename)
 
         # Raise any exceptions, always delete samples from project
@@ -350,7 +347,7 @@ class TestDataUpload(unittest.TestCase):
             raise e
         finally:
             for category in ei.util.DATA_CATEGORIES:
-                resp = ei.experimental.data.delete_all_samples(
+                resp = data.delete_all_samples(
                     category=category,
                     timeout_sec=TIMEOUT,
                 )
