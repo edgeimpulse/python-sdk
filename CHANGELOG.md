@@ -4,6 +4,10 @@ Description of notable changes to the [Edge Impulse Python SDK](https://pypi.org
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.19] - 2025-02-20
+
+- Relicense to 3-Clause BSD Clear
+
 ## [1.0.18] - 2024-11-20
 
 - Fix internal version setting

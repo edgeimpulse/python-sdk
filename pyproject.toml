@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "edgeimpulse"
-version = "1.0.18"
+version = "1.0.19"
 description = "Python SDK for Edge Impulse."
 authors = ["EdgeImpulse Inc. <hello@edgeimpulse.com>"]
 license = "BSD-3-Clause-Clear"
